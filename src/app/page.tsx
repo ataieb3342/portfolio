@@ -75,42 +75,23 @@ const data: FullData = {
     }
 };
 
-// --- Définition des variantes d'animation ---
-
-// 1. Transition de Page (Section complète)
+// --- Définition des variantes d'animation (Inchangées) ---
 const pageVariants: Variants = {
-  // Le Fade Out est rapide et sort sans mouvement
-  hidden: { 
-    opacity: 0, 
-    transition: { 
-      duration: 0.3, // Plus court pour la sortie
-      ease: "easeOut" 
-    } 
-  },
-  // Le Fade In est plus long et prêt à commencer l'animation du contenu
-  visible: { 
-    opacity: 1, 
-    transition: { 
-      duration: 0.5, // Plus long pour l'entrée
-      ease: "easeIn" 
-    } 
-  },
+  hidden: { opacity: 0, transition: { duration: 0.3, ease: "easeOut" } },
+  visible: { opacity: 1, transition: { duration: 0.5, ease: "easeIn" } },
 };
 
-// 2. Conteneur pour le Staggering (utilisé pour Hero, Impacts, Skills)
-// Déclenche l'animation des enfants après un petit délai pour laisser la page s'installer
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      delayChildren: 0.4, // Délai après l'apparition de la page
+      delayChildren: 0.4,
       staggerChildren: 0.1,
     },
   },
 };
 
-// 3. Animation des Éléments (Titres, cartes, liens)
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { 
@@ -123,34 +104,52 @@ const itemVariants: Variants = {
   },
 };
 
-// 4. Animation pour les éléments centraux qui ne sont pas stagger (comme ExperienceBox)
 const centerBlockVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
     visible: {
         opacity: 1,
         scale: 1,
         transition: {
-            delay: 0.4, // Délai après l'apparition de la page
+            delay: 0.4,
             duration: 0.7,
             ease: "easeOut"
         }
     }
 };
 
+
+// --- HOOK POUR LE RESPONSIVE ---
+const useMediaQuery = (query: string) => {
+    const [matches, setMatches] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const media = window.matchMedia(query);
+        const updateMatches = () => setMatches(media.matches);
+
+        updateMatches();
+        media.addEventListener('change', updateMatches);
+        
+        return () => media.removeEventListener('change', updateMatches);
+    }, [query]);
+
+    return matches;
+};
+
 // --- Hook de Logique de Défilement ---
 interface UseFullPageScrollProps {
     totalSections: number;
     delay?: number; 
-    initialIndex?: number;
+    isFullPageMode: boolean; 
 }
 
-const useFullPageScroll = ({ totalSections, delay = 1000, initialIndex = 0 }: UseFullPageScrollProps) => {
-    const [activeIndex, setActiveIndex] = useState(initialIndex);
-    const [isScrolling, setIsScrolling] = useState(false);
+const useFullPageScroll = ({ totalSections, delay = 1000, isFullPageMode }: UseFullPageScrollProps) => {
+    const [activeIndex, setActiveIndex] = useState(0); 
+    const [isScrolling, setIsScrolling] = useState(false); 
 
     const handleScroll = useCallback((event: WheelEvent) => {
-        // Bloque le scroll si une transition est en cours (anti-rebond)
-        if (isScrolling) return;
+        if (!isFullPageMode || isScrolling) return; 
 
         const direction = event.deltaY > 0 ? 1 : -1;
         let nextIndex = activeIndex + direction;
@@ -170,69 +169,124 @@ const useFullPageScroll = ({ totalSections, delay = 1000, initialIndex = 0 }: Us
             }, delay);
         }
 
-    }, [activeIndex, isScrolling, totalSections, delay]);
+    }, [activeIndex, isScrolling, totalSections, delay, isFullPageMode]); 
 
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        window.addEventListener('wheel', handleScroll);
+        if (isFullPageMode) {
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('wheel', handleScroll);
+        } else {
+            document.body.style.overflow = 'auto';
+        }
 
         return () => {
             document.body.style.overflow = 'auto';
             window.removeEventListener('wheel', handleScroll);
         };
-    }, [handleScroll]);
+    }, [handleScroll, isFullPageMode]);
 
-    return { activeIndex, setActiveIndex };
+    return { activeIndex: isFullPageMode ? activeIndex : 0, setActiveIndex };
 };
 
-// --- Composants de section (Mise à jour des animations internes) ---
+// --- Composant wrapper pour les sections ---
+interface SectionWrapperProps {
+    children: React.ReactNode;
+    isFullPageMode: boolean;
+    className?: string;
+}
+
+const SectionWrapper: React.FC<SectionWrapperProps> = ({ children, isFullPageMode, className = '' }) => {
+    let baseClasses = `px-6 py-20`; 
+
+    if (isFullPageMode) {
+        baseClasses = `${baseClasses} min-h-screen flex items-center`;
+        return (
+            <motion.section 
+                className={`${baseClasses} ${className}`} 
+                initial="hidden" 
+                animate="visible" 
+                variants={pageVariants}
+            >
+                {children}
+            </motion.section>
+        );
+    }
+
+    return (
+        <section className={`${baseClasses} ${className}`}>
+            {children}
+        </section>
+    );
+};
+
 
 // Hero Section
-const HeroSection: React.FC = () => (
-    <motion.section 
-        className="pt-32 pb-24 px-6 bg-gray-900 overflow-hidden min-h-screen flex items-center"
-        initial="hidden"
-        animate="visible"
-        variants={pageVariants}
-    >
+const HeroSection: React.FC<{isFullPageMode: boolean}> = ({ isFullPageMode }) => (
+    <SectionWrapper isFullPageMode={isFullPageMode} className="bg-gray-900 overflow-hidden pt-32 pb-24">
       <div className="container mx-auto max-w-6xl text-white">
         <div className="flex flex-col md:flex-row items-center gap-16">
+          
+          {/* Partie Gauche (Texte et Boutons) */}
           <motion.div 
             className="flex-1"
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
+            initial={isFullPageMode ? { x: -100, opacity: 0 } : false} 
+            animate={isFullPageMode ? { x: 0, opacity: 1 } : {}}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            {/* Tous les enfants utilisent les variantes itemVariants */}
-            <motion.div variants={itemVariants} className="inline-block mb-4">
+            <motion.div variants={isFullPageMode ? itemVariants : {}} className="inline-block mb-8 md:mb-4">
               <span className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                 Disponible • En recherche active
               </span>
             </motion.div>
-            <motion.h1 variants={itemVariants} className="text-6xl md:text-7xl font-extrabold mb-4 leading-tight">
+            
+            {/* Image de profil pour mobile/tablette (visible sous md) */}
+            <div className="md:hidden flex justify-center mb-8">
+                <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
+                    className="w-40 h-40 border-4 border-blue-500 rounded-full flex items-center justify-center shadow-lg overflow-hidden bg-gray-700"
+                >
+                    <Image 
+                        src="/profil.jpg" 
+                        width={160} 
+                        height={160} 
+                        alt={data.name} 
+                        className="object-cover w-full h-full"
+                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "https://placehold.co/160x160/1f2937/ffffff?text=Adam+Taïeb";
+                            e.currentTarget.className = "object-contain w-full h-full p-6";
+                        }}
+                    />
+                </motion.div>
+            </div>
+            {/* Fin Image mobile */}
+
+            <motion.h1 variants={isFullPageMode ? itemVariants : {}} className="text-5xl md:text-7xl font-extrabold mb-4 leading-tight">
               {data.name}
             </motion.h1>
-            <motion.p variants={itemVariants} className="text-3xl text-blue-300 font-light mb-6">
+            <motion.p variants={isFullPageMode ? itemVariants : {}} className="text-2xl md:text-3xl text-blue-300 font-light mb-6">
               {data.title}
             </motion.p>
-            <motion.p variants={itemVariants} className="text-xl text-gray-300 leading-relaxed mb-10 max-w-xl">
+            <motion.p variants={isFullPageMode ? itemVariants : {}} className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10 max-w-xl">
               {data.profile}
             </motion.p>
             <motion.div 
               className="flex flex-wrap gap-4"
-              variants={containerVariants} // Utilise containerVariants pour stagger les boutons
-              initial="hidden"
-              animate="visible"
+              variants={isFullPageMode ? containerVariants : {}}
+              initial={isFullPageMode ? "hidden" : false}
+              animate={isFullPageMode ? "visible" : {}}
             >
               <motion.a 
-                variants={itemVariants}
+                variants={isFullPageMode ? itemVariants : {}}
                 href={`mailto:${data.contact.email}`} 
                 className="bg-blue-600 text-white px-10 py-4 rounded-xl hover:bg-blue-700 transition font-bold shadow-2xl shadow-blue-500/50"
               >
                 Me contacter
               </motion.a>
               <motion.a 
-                variants={itemVariants}
+                variants={isFullPageMode ? itemVariants : {}}
                 href="cv.pdf" 
                 className="border-2 border-gray-600 text-gray-300 px-10 py-4 rounded-xl hover:bg-gray-800 hover:border-blue-500 transition font-medium"
               >
@@ -241,11 +295,12 @@ const HeroSection: React.FC = () => (
             </motion.div>
           </motion.div>
           
+          {/* Image de profil pour Bureau (masquée sous md) */}
           <motion.div 
-            className="relative hidden md:block"
-            initial={{ scale: 0.5, opacity: 0, rotate: 10 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            transition={{ delay: 0.7, duration: 0.8, type: "spring", stiffness: 100 }} // Délai plus long
+            className="relative hidden md:block" // Reste masqué sur mobile
+            initial={isFullPageMode ? { scale: 0.5, opacity: 0, rotate: 10 } : false}
+            animate={isFullPageMode ? { scale: 1, opacity: 1, rotate: 0 } : {}}
+            transition={{ delay: 0.7, duration: 0.8, type: "spring", stiffness: 100 }}
           >
             <div className="w-96 h-96 border-4 border-blue-500 rounded-full flex items-center justify-center shadow-2xl shadow-blue-500/30 overflow-hidden bg-gray-700">
                 <Image 
@@ -264,138 +319,126 @@ const HeroSection: React.FC = () => (
           </motion.div>
         </div>
       </div>
-    </motion.section>
+    </SectionWrapper>
 );
 
 // Experience Highlight Section
-const ExperienceHighlight: React.FC = () => (
-    <motion.section 
-        className="py-20 px-6 bg-gray-50 min-h-screen flex items-center"
-        initial="hidden"
-        animate="visible"
-        variants={pageVariants}
-    >
+const ExperienceHighlight: React.FC<{isFullPageMode: boolean}> = ({ isFullPageMode }) => (
+    <SectionWrapper isFullPageMode={isFullPageMode} className="bg-gray-800 text-gray-200">
       <div className="container mx-auto max-w-6xl">
         <motion.h2 
-            variants={itemVariants} 
-            className="text-4xl font-bold text-center mb-12 text-gray-900"
+            variants={isFullPageMode ? itemVariants : {}} 
+            initial={isFullPageMode ? "hidden" : false}
+            animate={isFullPageMode ? "visible" : {}}
+            className="text-4xl font-bold text-center mb-12 text-white"
         >
             Expérience Clé
         </motion.h2>
         <motion.div 
-          className="bg-white rounded-3xl shadow-2xl border border-blue-100 p-10 md:p-16 transform transition-transform duration-500"
-          variants={centerBlockVariants} // Utilise la variante de bloc central
-          initial="hidden"
-          animate="visible"
+          // Fonds ajusté pour le dark mode
+          className="bg-gray-900 rounded-3xl shadow-2xl border border-gray-700 p-10 md:p-16 transform transition-transform duration-500"
+          variants={isFullPageMode ? centerBlockVariants : {}}
+          initial={isFullPageMode ? "hidden" : false}
+          animate={isFullPageMode ? "visible" : {}}
         >
-          {/* Les éléments internes peuvent utiliser des itemVariants, mais appliqués directement */}
           <motion.div 
-            variants={containerVariants}
+            variants={isFullPageMode ? containerVariants : {}}
             className="flex items-start gap-4 mb-8"
-            initial="hidden"
-            animate="visible"
+            initial={isFullPageMode ? "hidden" : false}
+            animate={isFullPageMode ? "visible" : {}}
           >
-            <motion.div variants={itemVariants} className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
+            <motion.div variants={isFullPageMode ? itemVariants : {}} className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
               ACTUEL
             </motion.div>
             <motion.div>
-              <motion.h3 variants={itemVariants} className="text-3xl font-extrabold text-slate-900">{data.experience.title}</motion.h3>
-              <motion.p variants={itemVariants} className="text-xl text-blue-600 font-medium">{data.experience.company} • {data.experience.period}</motion.p>
+              <motion.h3 variants={isFullPageMode ? itemVariants : {}} className="text-3xl font-extrabold text-white">{data.experience.title}</motion.h3>
+              <motion.p variants={isFullPageMode ? itemVariants : {}} className="text-xl text-blue-400 font-medium">{data.experience.company} • {data.experience.period}</motion.p>
             </motion.div>
           </motion.div>
           
           <motion.div 
-            className="grid md:grid-cols-2 gap-10 border-t border-slate-200 pt-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+            className="grid md:grid-cols-2 gap-10 border-t border-gray-700 pt-8"
+            variants={isFullPageMode ? containerVariants : {}}
+            initial={isFullPageMode ? "hidden" : false}
+            animate={isFullPageMode ? "visible" : {}}
           >
-            <motion.div variants={itemVariants}>
-              <h4 className="font-bold text-xl text-slate-900 mb-4 flex items-center gap-3">
-                <span className="text-3xl text-blue-600">⚡</span> Applications métier full-stack
+            <motion.div variants={isFullPageMode ? itemVariants : {}}>
+              <h4 className="font-bold text-xl text-white mb-4 flex items-center gap-3">
+                <span className="text-3xl text-blue-400">⚡</span> Applications métier full-stack
               </h4>
-              <p className="text-slate-700 leading-relaxed">
+              <p className="text-gray-400 leading-relaxed">
                 {data.experience.appHighlights}
               </p>
             </motion.div>
             
-            <motion.div variants={itemVariants}>
-              <h4 className="font-bold text-xl text-slate-900 mb-4 flex items-center gap-3">
-                <span className="text-3xl text-blue-600">📊</span> Data & MLOps
+            <motion.div variants={isFullPageMode ? itemVariants : {}}>
+              <h4 className="font-bold text-xl text-white mb-4 flex items-center gap-3">
+                <span className="text-3xl text-blue-400">📊</span> Data & MLOps
               </h4>
-              <p className="text-slate-700 leading-relaxed">
+              <p className="text-gray-400 leading-relaxed">
                 {data.experience.dataHighlights}
               </p>
             </motion.div>
           </motion.div>
         </motion.div>
       </div>
-    </motion.section>
+    </SectionWrapper>
 );
 
 // Approche & Impact Section
-const ApprocheImpact: React.FC = () => (
-    <motion.section 
-        className="py-20 px-6 bg-white min-h-screen flex items-center"
-        initial="hidden"
-        animate="visible"
-        variants={pageVariants}
-    >
+const ApprocheImpact: React.FC<{isFullPageMode: boolean}> = ({ isFullPageMode }) => (
+    <SectionWrapper isFullPageMode={isFullPageMode} className="bg-gray-900 text-gray-200">
       <div className="container mx-auto max-w-6xl">
-        <motion.h2 variants={itemVariants} className="text-4xl font-bold text-center mb-4 text-slate-900">Approche & Impact</motion.h2>
-        <motion.p variants={itemVariants} className="text-xl text-slate-600 text-center mb-16 max-w-3xl mx-auto">
+        <motion.h2 variants={isFullPageMode ? itemVariants : {}} initial={isFullPageMode ? "hidden" : false} animate={isFullPageMode ? "visible" : {}} className="text-4xl font-bold text-center mb-4 text-white">Approche & Impact</motion.h2>
+        <motion.p variants={isFullPageMode ? itemVariants : {}} initial={isFullPageMode ? "hidden" : false} animate={isFullPageMode ? "visible" : {}} className="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto">
           Ma valeur ajoutée : transformer un besoin métier en solution complète et opérationnelle.
         </motion.p>
         
         <motion.div 
           className="grid md:grid-cols-3 gap-8"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
+          initial={isFullPageMode ? "hidden" : false}
+          animate={isFullPageMode ? "visible" : {}}
+          variants={isFullPageMode ? containerVariants : {}}
         >
           {data.impacts.map((impact, index) => (
             <motion.div 
               key={index}
-              variants={itemVariants}
-              className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl border-2 border-blue-100 shadow-lg"
+              variants={isFullPageMode ? itemVariants : {}}
+              // Cartes ajustées pour le dark mode
+              className="bg-gray-800 p-8 rounded-2xl border-2 border-blue-600/30 shadow-xl"
             >
               <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-blue-500/30">
                 <span className="text-3xl">{impact.icon}</span>
               </div>
-              <h3 className="font-bold text-2xl mb-3 text-slate-900">{impact.title}</h3>
-              <p className="text-slate-700 leading-relaxed">
+              <h3 className="font-bold text-2xl mb-3 text-white">{impact.title}</h3>
+              <p className="text-gray-400 leading-relaxed">
                 {impact.description}
               </p>
             </motion.div>
           ))}
         </motion.div>
       </div>
-    </motion.section>
+    </SectionWrapper>
 );
   
 // Compétences Section
-const SkillsSection: React.FC = () => (
-    <motion.section 
-        className="py-20 px-6 bg-gray-50 min-h-screen flex items-center"
-        initial="hidden"
-        animate="visible"
-        variants={pageVariants}
-    >
+const SkillsSection: React.FC<{isFullPageMode: boolean}> = ({ isFullPageMode }) => (
+    <SectionWrapper isFullPageMode={isFullPageMode} className="bg-gray-800 text-gray-200">
       <div className="container mx-auto max-w-6xl">
-        <motion.h2 variants={itemVariants} className="text-4xl font-bold text-center mb-16 text-slate-900">Stack Technique Complète</motion.h2>
+        <motion.h2 variants={isFullPageMode ? itemVariants : {}} initial={isFullPageMode ? "hidden" : false} animate={isFullPageMode ? "visible" : {}} className="text-4xl font-bold text-center mb-16 text-white">Stack Technique Complète</motion.h2>
         
         <motion.div 
           className="grid md:grid-cols-3 gap-8"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
+          initial={isFullPageMode ? "hidden" : false}
+          animate={isFullPageMode ? "visible" : {}}
+          variants={isFullPageMode ? containerVariants : {}}
         >
-          {/* Data & ML */}
-          <motion.div variants={itemVariants} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl">
-            <h3 className="font-extrabold text-2xl mb-5 text-blue-600 border-b pb-3 border-blue-100">Data & ML</h3>
+          {/* Cartes ajustées pour le dark mode */}
+          <motion.div variants={isFullPageMode ? itemVariants : {}} className="bg-gray-900 p-8 rounded-2xl border border-gray-700 shadow-xl">
+            <h3 className="font-extrabold text-2xl mb-5 text-blue-400 border-b pb-3 border-gray-700">Data & ML</h3>
             <div className="flex flex-wrap gap-3">
               {data.skills.data.map((skill: string) => (
-                <span key={skill} className="bg-blue-100 text-blue-800 px-4 py-1.5 rounded-full text-sm font-medium">
+                <span key={skill} className="bg-gray-700 text-blue-300 px-4 py-1.5 rounded-full text-sm font-medium">
                   {skill}
                 </span>
               ))}
@@ -403,11 +446,11 @@ const SkillsSection: React.FC = () => (
           </motion.div>
           
           {/* Développement */}
-          <motion.div variants={itemVariants} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl">
-            <h3 className="font-extrabold text-2xl mb-5 text-blue-600 border-b pb-3 border-blue-100">Développement</h3>
+          <motion.div variants={isFullPageMode ? itemVariants : {}} className="bg-gray-900 p-8 rounded-2xl border border-gray-700 shadow-xl">
+            <h3 className="font-extrabold text-2xl mb-5 text-blue-400 border-b pb-3 border-gray-700">Développement</h3>
             <div className="flex flex-wrap gap-3">
               {data.skills.dev.map((skill: string) => (
-                <span key={skill} className="bg-blue-100 text-blue-800 px-4 py-1.5 rounded-full text-sm font-medium">
+                <span key={skill} className="bg-gray-700 text-blue-300 px-4 py-1.5 rounded-full text-sm font-medium">
                   {skill}
                 </span>
               ))}
@@ -415,11 +458,11 @@ const SkillsSection: React.FC = () => (
           </motion.div>
           
           {/* Outils & DevOps */}
-          <motion.div variants={itemVariants} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl">
-            <h3 className="font-extrabold text-2xl mb-5 text-blue-600 border-b pb-3 border-blue-100">Outils & DevOps</h3>
+          <motion.div variants={isFullPageMode ? itemVariants : {}} className="bg-gray-900 p-8 rounded-2xl border border-gray-700 shadow-xl">
+            <h3 className="font-extrabold text-2xl mb-5 text-blue-400 border-b pb-3 border-gray-700">Outils & DevOps</h3>
             <div className="flex flex-wrap gap-3">
               {data.skills.tools.map((skill: string) => (
-                <span key={skill} className="bg-blue-100 text-blue-800 px-4 py-1.5 rounded-full text-sm font-medium">
+                <span key={skill} className="bg-gray-700 text-blue-300 px-4 py-1.5 rounded-full text-sm font-medium">
                   {skill}
                 </span>
               ))}
@@ -427,50 +470,45 @@ const SkillsSection: React.FC = () => (
           </motion.div>
         </motion.div>
       </div>
-    </motion.section>
+    </SectionWrapper>
 );
 
 // Contact Section
-const ContactSection: React.FC = () => (
-    <motion.section 
-        id="contact" 
-        className="py-24 px-6 bg-gradient-to-tr from-gray-900 to-gray-800 min-h-screen flex items-center"
-        initial="hidden"
-        animate="visible"
-        variants={pageVariants}
-    >
+const ContactSection: React.FC<{isFullPageMode: boolean}> = ({ isFullPageMode }) => (
+    <SectionWrapper isFullPageMode={isFullPageMode} className="bg-gradient-to-tr from-gray-900 to-gray-950">
       <div className="container mx-auto max-w-4xl text-center">
-        <motion.h2 variants={itemVariants} className="text-5xl font-extrabold mb-6 text-white">Discutons de votre projet</motion.h2>
-        <motion.p variants={itemVariants} className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+        <motion.h2 variants={isFullPageMode ? itemVariants : {}} initial={isFullPageMode ? "hidden" : false} animate={isFullPageMode ? "visible" : {}} className="text-5xl font-extrabold mb-6 text-white">Discutons de votre projet</motion.h2>
+        <motion.p variants={isFullPageMode ? itemVariants : {}} initial={isFullPageMode ? "hidden" : false} animate={isFullPageMode ? "visible" : {}} className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
           Vous cherchez un profil polyvalent capable de prendre en charge des projets 
           de bout en bout ? Contactez-moi.
         </motion.p>
         
         <motion.div 
             className="flex flex-wrap justify-center gap-6 mb-8"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
+            initial={isFullPageMode ? "hidden" : false}
+            animate={isFullPageMode ? "visible" : {}}
+            variants={isFullPageMode ? containerVariants : {}}
         >
           <motion.a 
-            variants={itemVariants}
+            variants={isFullPageMode ? itemVariants : {}}
             href={`mailto:${data.contact.email}`} 
             className="bg-blue-500 text-white px-8 py-4 rounded-xl hover:bg-blue-600 transition font-bold shadow-2xl shadow-blue-500/50 inline-flex items-center gap-3 text-lg"
           >
             <span>📧</span> {data.contact.email}
           </motion.a>
+          {/* Le bouton blanc reste, mais le texte est noir et le fond est blanc/gris clair */}
           <motion.a 
-            variants={itemVariants}
+            variants={isFullPageMode ? itemVariants : {}}
             href={`tel:${data.contact.phone.replace(/[^0-9+]/g, '')}`} 
-            className="bg-white text-gray-900 px-8 py-4 rounded-xl hover:bg-gray-100 transition font-bold shadow-2xl inline-flex items-center gap-3 text-lg"
+            className="bg-gray-200 text-gray-900 px-8 py-4 rounded-xl hover:bg-gray-300 transition font-bold shadow-2xl inline-flex items-center gap-3 text-lg"
           >
             <span>📱</span> {data.contact.phone}
           </motion.a>
         </motion.div>
         
-        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="flex justify-center gap-6 mt-10">
+        <motion.div variants={isFullPageMode ? containerVariants : {}} initial={isFullPageMode ? "hidden" : false} animate={isFullPageMode ? "visible" : {}} className="flex justify-center gap-6 mt-10">
           <motion.a 
-            variants={itemVariants}
+            variants={isFullPageMode ? itemVariants : {}}
             href={data.contact.linkedin} 
             target="_blank"
             rel="noopener noreferrer"
@@ -480,7 +518,7 @@ const ContactSection: React.FC = () => (
           </motion.a>
           <span className="text-gray-600">•</span>
           <motion.a 
-            variants={itemVariants}
+            variants={isFullPageMode ? itemVariants : {}}
             href={data.contact.github} 
             target="_blank"
             rel="noopener noreferrer"
@@ -490,7 +528,7 @@ const ContactSection: React.FC = () => (
           </motion.a>
           <span className="text-gray-600">•</span>
           <motion.a 
-            variants={itemVariants}
+            variants={isFullPageMode ? itemVariants : {}}
             href={data.contact.portfolio} 
             target="_blank"
             rel="noopener noreferrer"
@@ -500,53 +538,69 @@ const ContactSection: React.FC = () => (
           </motion.a>
         </motion.div>
       </div>
-    </motion.section>
+    </SectionWrapper>
 );
 
 
 // --- Composant principal Conteneur ---
 const Home: React.FC = () => {
+    const isFullPageMode = useMediaQuery('(min-width: 768px)');
+
     const sections = [
-        <HeroSection key="hero" />,
-        <ExperienceHighlight key="experience" />,
-        <ApprocheImpact key="impacts" />,
-        <SkillsSection key="skills" />,
-        <ContactSection key="contact" />,
+        <HeroSection key="hero" isFullPageMode={isFullPageMode} />,
+        <ExperienceHighlight key="experience" isFullPageMode={isFullPageMode} />,
+        <ApprocheImpact key="impacts" isFullPageMode={isFullPageMode} />,
+        <SkillsSection key="skills" isFullPageMode={isFullPageMode} />,
+        <ContactSection key="contact" isFullPageMode={isFullPageMode} />,
     ];
 
-    const { activeIndex, setActiveIndex } = useFullPageScroll({ totalSections: sections.length });
-    const CurrentSection = sections[activeIndex];
+    const { activeIndex, setActiveIndex } = useFullPageScroll({ 
+        totalSections: sections.length, 
+        isFullPageMode
+    });
+    
+    const contentToRender = isFullPageMode ? sections[activeIndex] : sections;
 
+    // Le fond principal est sombre
+    const containerClass = isFullPageMode ? "relative h-screen w-screen overflow-hidden bg-gray-900" : "min-h-screen bg-gray-900";
+    
     return (
-        <div className="relative h-screen w-screen overflow-hidden bg-white">
+        <div className={containerClass}>
             
-            {/* AnimatePresence gère la transition de l'ancienne section vers la nouvelle */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={activeIndex} 
-                    className="absolute inset-0 w-full h-full"
-                >
-                    {CurrentSection}
-                </motion.div>
-            </AnimatePresence>
+            {isFullPageMode ? (
+                <AnimatePresence mode="wait">
+                    <div 
+                        key={activeIndex} 
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        {contentToRender}
+                    </div>
+                </AnimatePresence>
+            ) : (
+                contentToRender
+            )}
+
             
-            {/* Navigation latérale (Points d'ancrage) */}
-            <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
-                {sections.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setActiveIndex(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                            index === activeIndex ? 'bg-blue-600 w-4 h-4' : 'bg-gray-400 hover:bg-gray-500'
-                        }`}
-                        aria-label={`Aller à la section ${index + 1}`}
-                    />
-                ))}
-            </div>
+            {/* Navigation latérale : Points d'ancrage FullPage */}
+            {isFullPageMode && (
+                <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
+                    {sections.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setActiveIndex(index)}
+                            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                                index === activeIndex ? 'bg-blue-600 w-4 h-4' : 'bg-gray-400 hover:bg-gray-500'
+                            }`}
+                            aria-label={`Aller à la section ${index + 1}`}
+                        />
+                    ))}
+                </div>
+            )}
             
-            <footer className="absolute bottom-0 w-full py-2 px-6 bg-gray-900 text-center border-t border-gray-700 z-40">
+            {/* Footer */}
+            <footer className={isFullPageMode ? "absolute bottom-0 w-full py-2 px-6 bg-gray-950 text-center border-t border-gray-800 z-40" : "py-8 px-6 bg-gray-950 text-center border-t border-gray-800"}>
                 <p className="text-gray-500 text-sm">
-                    © 2024 {data.name} • {data.title}
+                    © 2025 {data.name} • {data.title}
                 </p>
             </footer>
         </div>
