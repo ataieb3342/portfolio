@@ -22,7 +22,7 @@ export const ProjectsSection: React.FC = () => {
                         transition={{ duration: 0.5 }}
                         className="text-4xl md:text-5xl font-bold text-center mb-6 text-white"
                     >
-                        Projets Phares
+                        Projets Récents
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -31,7 +31,7 @@ export const ProjectsSection: React.FC = () => {
                         transition={{ duration: 0.5, delay: 0.1 }}
                         className="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto"
                     >
-                        Découvrez mes réalisations les plus significatives en développement full-stack et data engineering
+                        Découvrez mes réalisations récentes en développement full-stack & data engineering
                     </motion.p>
 
                     <motion.div
