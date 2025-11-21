@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio - Adam Taïeb
 
-## Getting Started
+Portfolio professionnel présentant mon parcours d'ingénieur Full-Stack & Data, mes projets et mes compétences techniques.
 
-First, run the development server:
+**En ligne :** [ataieb-dev.fr](https://www.ataieb-dev.fr)
+
+## À propos
+
+Ingénieur polyvalent spécialisé dans la conception de solutions complètes, de la data à l'application. Actuellement Ingénieur Full-Stack & Data au Crédit Agricole Franche-Comté.
+
+## Stack Technique
+
+- **Frontend :** Next.js 16, React 19, TypeScript, Tailwind CSS 4, Framer Motion
+- **Backend & Data :** Python, PHP, SQL Server, Machine Learning, TensorFlow
+- **Outils :** Git, Docker, Vercel Analytics
+
+## Projets Présentés
+
+### Parcours 360° (CAFC)
+Interface décisionnelle full-stack pour conseillers bancaires (React + TypeScript + PHP + SQL Server).
+- 100+ utilisateurs quotidiens
+- Architecture : Teradata → SQL Server → API PHP → Frontend React
+
+### VH Besançon Alumni
+Plateforme complète avec blog, annuaire et forum (Next.js + Sanity CMS).
+- En production sur vh-besancon-alumni.fr
+- Architecture headless CMS avec déploiement Vercel
+
+### ML API Immobilière
+API de prédiction avec modèle TensorFlow déployé sur Hugging Face Spaces (FastAPI + Docker).
+- Entraînement sur 300 000+ transactions
+- Architecture microservices
+
+## Développement Local
 
 ```bash
+# Installation
+npm install
+
+# Serveur de développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Contact
 
-To learn more about Next.js, take a look at the following resources:
+- **Email :** contact@ataieb-dev.fr
+- **LinkedIn :** [linkedin.com/in/ataieb3342](https://linkedin.com/in/ataieb3342)
+- **GitHub :** [github.com/ataieb3342](https://github.com/ataieb3342)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2025 Adam Taïeb • Ingénieur Data & Développement Full-Stack

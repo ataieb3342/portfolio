@@ -20,7 +20,7 @@ export const ProjectsSection: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="text-4xl md:text-5xl font-bold text-center mb-6 text-white"
+                        className="text-4xl font-bold text-center mb-6 text-white"
                     >
                         Projets Récents
                     </motion.h2>
@@ -31,7 +31,7 @@ export const ProjectsSection: React.FC = () => {
                         transition={{ duration: 0.5, delay: 0.1 }}
                         className="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto"
                     >
-                        Découvrez mes réalisations récentes en développement full-stack & data engineering
+                        Découvrez mes réalisations récentes en développement full-stack et data engineering
                     </motion.p>
 
                     <motion.div
