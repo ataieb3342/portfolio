@@ -7,9 +7,10 @@ import React, { useState } from 'react';
 interface ProjectGalleryProps {
   screenshots: string[];
   projectTitle: string;
+  iframeUrl?: string;
 }
 
-export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ screenshots, projectTitle }) => {
+export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ screenshots, projectTitle, iframeUrl }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const nextImage = () => {
@@ -19,6 +20,28 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ screenshots, pro
     const prevImage = () => {
         setCurrentIndex((prev) => (prev - 1 + screenshots.length) % screenshots.length);
     };
+
+    // Si iframeUrl est fourni, afficher l'iframe au lieu des screenshots
+    if (iframeUrl) {
+        return (
+            <div className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl bg-gray-950 border border-gray-700">
+                <iframe
+                    src={iframeUrl}
+                    title={projectTitle}
+                    className="w-full h-full border-0"
+                    allowFullScreen
+                    loading="lazy"
+                />
+                <div className="absolute top-3 right-3 bg-blue-600/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                    </span>
+                    Projet interactif
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl bg-gray-950 border border-gray-700">

@@ -68,7 +68,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                         <div className="p-6 md:p-8 space-y-8">
                             {/* Galerie d'images en pleine largeur */}
                             <div className="w-full">
-                                <ProjectGallery screenshots={project.screenshots} projectTitle={project.title} />
+                                <ProjectGallery
+                                    screenshots={project.screenshots}
+                                    projectTitle={project.title}
+                                    iframeUrl={project.iframeUrl}
+                                />
                             </div>
 
                             {/* Contenu principal */}

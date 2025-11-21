@@ -44,6 +44,7 @@ export interface ProjectData {
   technicalDetails?: TechnicalDetail[];
   disclaimer?: string;
   architectureFlow?: string;
+  iframeUrl?: string; // URL pour afficher le projet dans une iframe interactive
 }
 
 export interface FullData {
