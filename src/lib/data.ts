@@ -101,37 +101,37 @@ export const data: FullData = {
             disclaimer: "Plateforme accessible en ligne sur vh-besancon-alumni.fr"
         },
         {
-    id: "ml-dashboard",
-    title: "API de Prédiction Immobilière - FastAPI & TensorFlow",
-    shortTitle: "ML API Immobilière",
-    description: "API de machine learning déployée sur Hugging Face Spaces, servant un modèle TensorFlow entraîné sur 300 000+ transactions immobilières. Architecture microservices avec frontend Next.js et backend FastAPI pour des prédictions temps réel.",
-    technos: ['FastAPI', 'TensorFlow', 'Hugging Face', 'Docker', 'Next.js', 'TypeScript', 'Python', 'Machine Learning', 'REST API'],
-    screenshots: [
-        "/ml-dashboard/architecture.svg", // Diagramme architecture
-    ],
-    thumbnail: "/ml-dashboard/hf-logo.svg", // Logo HF
-    category: "Machine Learning & DevOps",
-    iframeUrl: "/projects/ml-dashboard",
-    technicalDetails: [
-        {
-            title: "Architecture Microservices",
-            content: "Backend FastAPI conteneurisé avec Docker, déployé sur Hugging Face Spaces. Frontend Next.js hébergé sur Vercel. Séparation claire des responsabilités : API dédiée au ML, frontend à l'UX. Communication via REST API."
-        },
-        {
-            title: "FastAPI & TensorFlow en Production",
-            content: "API haute performance avec documentation automatique Swagger/OpenAPI. Modèle TensorFlow chargé au démarrage via tf.saved_model. Endpoint /predict avec validation Pydantic. Gestion CORS pour les requêtes cross-origin."
-        },
-        {
-            title: "Déploiement Hugging Face Spaces",
-            content: "Infrastructure Dockerisée avec build automatisé. Configuration via requirements.txt et Dockerfile. Logs en temps réel et scaling automatique. URL publique avec SSL intégré."
-        },
-        {
-            title: "Pipeline ML Industriel",
-            content: "Entraînement sur données data.gouv.fr → Export SavedModel → Déploiement API → Intégration frontend. Normalisation des features conservée côté serveur. Statistiques de training intégrées à l'API."
+            id: "ml-dashboard",
+            title: "API de Prédiction Immobilière - FastAPI & TensorFlow",
+            shortTitle: "ML API Immobilière",
+            description: "API de machine learning déployée sur Hugging Face Spaces, servant un modèle TensorFlow entraîné sur 300 000+ transactions immobilières. Architecture microservices avec frontend Next.js et backend FastAPI pour des prédictions temps réel.",
+            technos: ['FastAPI', 'TensorFlow', 'Hugging Face', 'Docker', 'Next.js', 'TypeScript', 'Python', 'Machine Learning', 'REST API'],
+            screenshots: [
+                "/ml-dashboard/architecture.svg", // Diagramme architecture
+            ],
+            thumbnail: "/ml-dashboard/hf-logo.svg", // Logo HF
+            category: "Machine Learning & DevOps",
+            iframeUrl: "/projects/ml-dashboard",
+            technicalDetails: [
+                {
+                    title: "Architecture Microservices",
+                    content: "Backend FastAPI conteneurisé avec Docker, déployé sur Hugging Face Spaces. Frontend Next.js hébergé sur Vercel. Séparation claire des responsabilités : API dédiée au ML, frontend à l'UX. Communication via REST API."
+                },
+                {
+                    title: "FastAPI & TensorFlow en Production",
+                    content: "API haute performance avec documentation automatique Swagger/OpenAPI. Modèle TensorFlow chargé au démarrage via tf.saved_model. Endpoint /predict avec validation Pydantic. Gestion CORS pour les requêtes cross-origin."
+                },
+                {
+                    title: "Déploiement Hugging Face Spaces",
+                    content: "Infrastructure Dockerisée avec build automatisé. Configuration via requirements.txt et Dockerfile. Logs en temps réel et scaling automatique. URL publique avec SSL intégré."
+                },
+                {
+                    title: "Pipeline ML Industriel",
+                    content: "Entraînement sur données data.gouv.fr → Export SavedModel → Déploiement API → Intégration frontend. Normalisation des features conservée côté serveur. Statistiques de training intégrées à l'API."
+                }
+            ],
+            architectureFlow: "🔄 Architecture : Data.gouv.fr → Python Training → TensorFlow SavedModel → FastAPI (HF Spaces) → Next.js (Vercel) → Client",
+            disclaimer: "Modèle démonstration - Prédictions à titre éducatif. Stack 100% production-ready.",
         }
-    ],
-    architectureFlow: "🔄 Architecture : Data.gouv.fr → Python Training → TensorFlow SavedModel → FastAPI (HF Spaces) → Next.js (Vercel) → Client",
-    disclaimer: "Modèle démonstration - Prédictions à titre éducatif. Stack 100% production-ready.",
-}
     ]
 };
