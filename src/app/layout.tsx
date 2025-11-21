@@ -16,10 +16,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Adam Taïeb - Ingénieur Data & Développement Full-Stack",
   description: "Portfolio d'Adam Taïeb - Ingénieur Data & Full-Stack. Spécialisé en React, Python, Machine Learning et architecture d'applications data-driven.",
-  keywords: "ingénieur data, développement full-stack, React, Python, Machine Learning, portfolio", 
-  icons: {
-    icon: "/favicon.ico",  // ← LA BONNE METHODE NEXT.JS
-  },
+  keywords: "ingénieur data, développement full-stack, React, Python, Machine Learning, portfolio",
+  // favicon.ico et apple-icon.png sont auto-détectés depuis src/app/
 };
 
 export default function RootLayout({
