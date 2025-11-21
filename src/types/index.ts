@@ -26,6 +26,11 @@ export interface SkillsData {
   tools: string[];
 }
 
+export interface TechnicalDetail {
+  title: string;
+  content: string;
+}
+
 export interface ProjectData {
   id: string;
   title: string;
@@ -36,6 +41,9 @@ export interface ProjectData {
   thumbnail: string;
   category: string;
   link?: string;
+  technicalDetails?: TechnicalDetail[];
+  disclaimer?: string;
+  architectureFlow?: string;
 }
 
 export interface FullData {

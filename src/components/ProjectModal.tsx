@@ -84,7 +84,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                                 </div>
 
                                 {/* Architecture technique détaillée */}
-                                {project.id === 'p360' && (
+                                {project.technicalDetails && project.technicalDetails.length > 0 && (
                                     <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50">
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                                             <span className="text-blue-400">🏗️</span>
@@ -92,62 +92,38 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                                         </h3>
 
                                         <div className="space-y-4">
-                                            <div>
-                                                <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
-                                                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                                                    Frontend (Export statique Next.js)
-                                                </h4>
-                                                <p className="text-gray-300 text-sm leading-relaxed ml-4">
-                                                    Application React compilée en <code className="bg-gray-900 px-2 py-0.5 rounded text-blue-300">export static</code> via Next.js,
-                                                    déployée sur un serveur Apache. Choix technique imposé par des contraintes legacy :
-                                                    pas de SSR (Server-Side Rendering), uniquement du rendu côté client.
-                                                </p>
-                                            </div>
+                                            {project.technicalDetails.map((detail, index) => (
+                                                <div key={index}>
+                                                    <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
+                                                        <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                                                        {detail.title}
+                                                    </h4>
+                                                    <p className="text-gray-300 text-sm leading-relaxed ml-4">
+                                                        {detail.content}
+                                                    </p>
+                                                </div>
+                                            ))}
 
-                                            <div>
-                                                <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
-                                                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                                                    Backend (Classes PHP + SQL Server)
-                                                </h4>
-                                                <p className="text-gray-300 text-sm leading-relaxed ml-4">
-                                                    Classes PHP métier qui requêtent directement un <strong>SQL Server</strong>.
-                                                    Ces classes exposent des APIs REST consommées par le frontend.
-                                                    Le SQL Server joue le rôle de datamart décisionnel.
-                                                </p>
-                                            </div>
-
-                                            <div>
-                                                <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
-                                                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                                                    Flux de données (Teradata → SQL Server)
-                                                </h4>
-                                                <p className="text-gray-300 text-sm leading-relaxed ml-4">
-                                                    Le SQL Server est alimenté quotidiennement à <strong>4h du matin</strong> depuis
-                                                    un <strong>Teradata</strong> (entrepôt de données principal).
-                                                    Cette synchronisation est orchestrée via des <strong>procédures stockées SQL</strong> qui 
-                                                    assurent la fraîcheur des données pour les conseillers.
-                                                </p>
-                                            </div>
-
-                                            <div className="mt-4 pt-4 border-t border-gray-700">
-                                                <p className="text-gray-400 text-xs italic">
-                                                    🔄 Schéma : Teradata (source) → SQL Server (datamart) → PHP (API) → React (UI)
-                                                </p>
-                                            </div>
+                                            {project.architectureFlow && (
+                                                <div className="mt-4 pt-4 border-t border-gray-700">
+                                                    <p className="text-gray-400 text-xs italic">
+                                                        {project.architectureFlow}
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
 
-                                {/* Disclaimer données simulées */}
-                                {project.id === 'p360' && (
+                                {/* Disclaimer */}
+                                {project.disclaimer && (
                                     <div className="bg-blue-900/20 border border-blue-700/30 rounded-lg p-4">
                                         <p className="text-blue-300 text-sm flex items-start gap-2">
                                             <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             <span>
-                                                <strong>Note de confidentialité :</strong> Les données affichées dans les captures d&apos;écran sont entièrement simulées
-                                                pour des raisons de confidentialité bancaire. L&apos;interface et les fonctionnalités présentées sont authentiques.
+                                                <strong>Note :</strong> {project.disclaimer}
                                             </span>
                                         </p>
                                     </div>
