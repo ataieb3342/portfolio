@@ -91,43 +91,73 @@ export const HeroSection: React.FC = () => (
             className="flex flex-wrap gap-4" 
             variants={staggerContainer}
           >
+            {/* Bouton Email - Version Premium */}
             <motion.a
               variants={fadeIn}
               href={`mailto:${data.contact.email}`}
-              className="group bg-gradient-to-r from-blue-600 to-blue-500 text-white px-10 py-4 rounded-xl hover:from-blue-500 hover:to-blue-400 transition-all duration-300 font-bold shadow-lg shadow-blue-500/25 flex items-center gap-2"
+              className="group relative bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 text-white px-12 py-5 rounded-2xl font-bold shadow-2xl shadow-blue-500/40 overflow-hidden flex items-center gap-3 border border-blue-400/30"
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 10px 30px -10px rgba(59, 130, 246, 0.5)"
+                y: -2,
+                boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.5)"
               }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.98, y: 0 }}
             >
-              <motion.span
-                animate={{ x: [0, 2, 0] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                📧
-              </motion.span>
-              Me contacter
+              {/* Effets de lumière */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-300 to-transparent opacity-50" />
+              
+              <div className="relative z-10 flex items-center gap-4">
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="p-2 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </motion.div>
+                <div className="text-left">
+                  <div className="text-lg font-bold">Me contacter</div>
+                  <div className="text-blue-100 text-sm font-normal opacity-80">Réponse sous 24h</div>
+                </div>
+              </div>
             </motion.a>
-            
+
+            {/* Bouton CV - Version Premium */}
             <motion.a
-                variants={fadeIn}
-                href="/cv.pdf"
-                download={`CV_${data.name.replace(' ', '_')}.pdf`}
-                className="group border-2 border-gray-600 text-gray-300 px-10 py-4 rounded-xl hover:border-blue-400 hover:bg-gray-800/50 transition-all duration-300 font-medium flex items-center gap-2 backdrop-blur-sm"
-                whileHover={{ 
-                  scale: 1.05,
-                  borderColor: "#60a5fa"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-              <motion.span
-                animate={{ y: [0, -2, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                📄
-              </motion.span>
-              Télécharger mon CV
+              variants={fadeIn}
+              href="/cv.pdf"
+              download={`CV_${data.name.replace(' ', '_')}.pdf`}
+              className="group relative bg-gradient-to-br from-gray-800 to-gray-900 text-gray-300 px-12 py-5 rounded-2xl font-semibold shadow-2xl border border-gray-600/50 overflow-hidden flex items-center gap-3 hover:border-blue-400/50 transition-all duration-300"
+              whileHover={{ 
+                scale: 1.05,
+                y: -2,
+                boxShadow: "0 20px 40px -10px rgba(59, 130, 246, 0.3)",
+                background: "linear-gradient(135deg, #1f2937 0%, #374151 100%)"
+              }}
+              whileTap={{ scale: 0.98, y: 0 }}
+            >
+              {/* Effet de surbrillance au hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative z-10 flex items-center gap-4">
+                <motion.div
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="p-2 bg-gray-700/50 rounded-xl group-hover:bg-blue-500/20 transition-colors duration-300 border border-gray-600/50 group-hover:border-blue-400/30"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </motion.div>
+                <div className="text-left">
+                  <div className="text-lg font-bold group-hover:text-white transition-colors">Télécharger mon CV</div>
+                  <div className="text-gray-400 text-sm font-normal">PDF - {new Date().getFullYear()}</div>
+                </div>
+              </div>
             </motion.a>
           </motion.div>
         </motion.div>
