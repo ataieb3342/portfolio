@@ -12,8 +12,8 @@ export const data: FullData = {
       dataHighlights: "Industrialisation de modèles de scoring • Pipelines données pour segmentation client • Datamart centralisé (15 tables), +50% d'efficacité analytique"
     },
     impacts: [
-      { icon: "🚀", title: "Autonomie & Leadership", description: "3 projets menés de la conception au déploiement en production" },
-      { icon: "📈", title: "Impact Métier", description: "Solutions utilisées par 100+ conseillers quotidiennement" },
+      { icon: "🚀", title: "Autonomie & Leadership", description: "Pilotage end-to-end de projets stratégiques data et full-stack en autonomie complète" },
+      { icon: "📈", title: "Impact Métier", description: "Impact direct sur les décisions commerciales de 100+ conseillers via outils décisionnels et analytics" },
       { icon: "🤝", title: "Approche Collaborative", description: "Synergie avec les équipes métier et techniques pour aligner data, APIs et interfaces" },
     ],
     skills: {
