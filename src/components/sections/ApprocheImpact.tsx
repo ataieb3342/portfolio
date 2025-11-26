@@ -6,7 +6,7 @@ import { data } from '@/lib/data';
 import { fadeIn, staggerContainer } from '@/lib/animations';
 
 export const ApprocheImpact: React.FC = () => (
-    <section className="px-6 py-20 bg-gray-800 text-gray-200">
+    <section className="px-6 py-20 bg-gray-900 text-gray-200">
       <div className="container mx-auto max-w-6xl">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}

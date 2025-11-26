@@ -13,7 +13,7 @@ export const ProjectsSection: React.FC = () => {
 
     return (
         <>
-            <section className="px-6 py-20 bg-gray-900 text-gray-200">
+            <section className="px-6 py-20 bg-gray-800 text-gray-200">
                 <div className="container mx-auto max-w-7xl">
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
@@ -45,9 +45,9 @@ export const ProjectsSection: React.FC = () => {
                             <motion.div
                                 key={project.id}
                                 variants={fadeIn}
-                                className="group bg-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-blue-500 transition cursor-pointer shadow-xl"
+                                className="group bg-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-blue-500/20"
                                 onClick={() => setSelectedProject(project)}
-                                whileHover={{ y: -8 }}
+                                whileHover={{ y: -10, scale: 1.02 }}
                             >
                                 <div className="relative h-64 overflow-hidden bg-gray-950">
                                     <Image
@@ -61,6 +61,16 @@ export const ProjectsSection: React.FC = () => {
                                         }}
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+
+                                    {/* Icône d'œil au centre au hover */}
+                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div className="bg-blue-600 rounded-full p-4 shadow-2xl transform group-hover:scale-110 transition-transform">
+                                            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                    </div>
 
                                     <div className="absolute top-4 left-4">
                                         <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase shadow-lg">
@@ -90,9 +100,13 @@ export const ProjectsSection: React.FC = () => {
                                         )}
                                     </div>
 
-                                    <div className="flex items-center text-blue-400 font-semibold group-hover:text-blue-300 transition-colors">
+                                    <div className="w-full mt-2 flex items-center justify-center gap-2 bg-blue-600 group-hover:bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-md group-hover:shadow-lg group-hover:shadow-blue-500/50">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
                                         <span>Voir les détails</span>
-                                        <svg className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                         </svg>
                                     </div>

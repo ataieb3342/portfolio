@@ -21,6 +21,34 @@ export const data: FullData = {
       dev: ['React', 'JavaScript', 'PHP', 'C#', 'ASP.NET', 'APIs REST', 'Architecture logicielle'],
       tools: ['Git', 'Docker', 'SQL Server', 'MySQL', 'Apache', 'Systèmes distribués'],
     },
+    whatISeek: {
+      title: "Ce que je recherche",
+      subtitle: "Un environnement où technique et métier se rencontrent, où je peux :",
+      criteria: [
+        "Comprendre un vrai problème métier et concevoir une solution complète",
+        "Avoir de l'autonomie sur mes sujets, du besoin à la livraison",
+        "Travailler avec une équipe exigeante mais bienveillante",
+        "Apprendre chaque jour et partager en retour"
+      ],
+      motivators: {
+        title: "Mes carburants :",
+        items: [
+          "La complexité à simplifier",
+          "Les systèmes legacy à moderniser",
+          "La data à valoriser en produit"
+        ]
+      },
+      limits: {
+        title: "Mes limites :",
+        items: [
+          "Le micro-management",
+          "Les projets sans vision",
+          "La technique détachée du métier"
+        ]
+      },
+      closingStatement: "Si vous cherchez quelqu'un qui pense produit autant que code, qui aime architecturer autant qu'implémenter, et pour qui livrer rime avec impact — parlons-en.",
+      shortVersion: "Je ne cherche pas un poste, mais un problème complexe à résoudre. Un environnement où l'autonomie est réelle, la technique sert le métier, et où je peux concevoir et livrer des solutions de bout en bout — de la data à l'interface."
+    },
     contact: {
       phone: "+33 7.69.21.42.26",
       email: "contact@ataieb-dev.fr",

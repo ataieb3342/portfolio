@@ -26,6 +26,22 @@ export interface SkillsData {
   tools: string[];
 }
 
+export interface WhatISeekData {
+  title: string;
+  subtitle: string;
+  criteria: string[];
+  motivators: {
+    title: string;
+    items: string[];
+  };
+  limits: {
+    title: string;
+    items: string[];
+  };
+  closingStatement: string;
+  shortVersion: string;
+}
+
 export interface TechnicalDetail {
   title: string;
   content: string;
@@ -54,6 +70,7 @@ export interface FullData {
   experience: ExperienceData;
   impacts: ImpactData[];
   skills: SkillsData;
+  whatISeek: WhatISeekData;
   contact: ContactData;
   projects: ProjectData[];
 }
