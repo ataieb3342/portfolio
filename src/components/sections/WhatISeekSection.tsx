@@ -6,7 +6,7 @@ import { data } from '@/lib/data';
 import { fadeIn, staggerContainer } from '@/lib/animations';
 
 export const WhatISeekSection: React.FC = () => (
-  <section className="relative px-6 py-20 bg-gradient-to-br from-gray-900 via-blue-900/20 to-gray-900 overflow-hidden">
+  <section className="relative px-6 py-20 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 overflow-hidden">
     {/* Background Elements */}
     <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:40px_40px]" />
     <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />

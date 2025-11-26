@@ -14,8 +14,8 @@ const Home: React.FC = () => {
         <div className="min-h-screen bg-gray-900">
             <HeroSection />
             <ExperienceHighlight />
-            <ApprocheImpact />
             <ProjectsSection />
+            <ApprocheImpact />
             <SkillsSection />
             <WhatISeekSection />
 
