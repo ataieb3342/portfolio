@@ -29,52 +29,62 @@ export const WhatISeekSection: React.FC = () => (
         </p>
       </motion.div>
 
-      {/* Compact Grid: Criteria + Motivators/Limits */}
+      {/* Main Content Grid */}
       <motion.div
-        className="grid md:grid-cols-3 gap-6 mb-12"
+        className="grid lg:grid-cols-2 gap-8 mb-16"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
       >
         {/* Left: Criteria */}
-        <motion.div variants={fadeIn} className="md:col-span-2 space-y-3">
-          <h3 className="text-lg font-bold text-white mb-4">{data.whatISeek.subtitle}</h3>
-          {data.whatISeek.criteria.map((criterion, index) => (
-            <div key={index} className="flex items-start gap-3 text-gray-200">
-              <span className="text-blue-400 font-bold mt-0.5">→</span>
-              <span className="flex-1 leading-snug">{criterion}</span>
-            </div>
-          ))}
+        <motion.div
+          variants={fadeIn}
+          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:border-blue-500/30 transition-all duration-300"
+        >
+          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+            <span className="text-blue-400">💼</span>
+            {data.whatISeek.subtitle}
+          </h3>
+          <div className="space-y-4">
+            {data.whatISeek.criteria.map((criterion, index) => (
+              <div key={index} className="flex items-start gap-4 group">
+                <span className="text-blue-400 font-bold mt-1 group-hover:scale-110 transition-transform">→</span>
+                <span className="flex-1 text-gray-200 leading-relaxed">{criterion}</span>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
-        {/* Right: Motivators & Limits stacked */}
-        <motion.div variants={fadeIn} className="space-y-6">
+        {/* Right: Motivators & Limits Grid */}
+        <motion.div variants={fadeIn} className="grid gap-6">
           {/* Motivators */}
-          <div>
-            <h3 className="text-sm font-bold text-green-400 mb-2 uppercase tracking-wider">
+          <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/5 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 hover:border-green-500/40 transition-all duration-300">
+            <h3 className="text-lg font-bold text-green-400 mb-4 flex items-center gap-2">
+              <span>⚡</span>
               {data.whatISeek.motivators.title}
             </h3>
-            <ul className="space-y-1.5">
+            <ul className="space-y-3">
               {data.whatISeek.motivators.items.map((item, index) => (
-                <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
-                  <span className="text-green-400">✓</span>
-                  <span>{item}</span>
+                <li key={index} className="text-gray-200 flex items-start gap-3 group">
+                  <span className="text-green-400 font-bold group-hover:scale-110 transition-transform">✓</span>
+                  <span className="flex-1">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Limits */}
-          <div>
-            <h3 className="text-sm font-bold text-red-400 mb-2 uppercase tracking-wider">
+          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/5 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-6 hover:border-blue-500/40 transition-all duration-300">
+            <h3 className="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2">
+              <span>🎯</span>
               {data.whatISeek.limits.title}
             </h3>
-            <ul className="space-y-1.5">
+            <ul className="space-y-3">
               {data.whatISeek.limits.items.map((item, index) => (
-                <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
-                  <span className="text-red-400">✗</span>
-                  <span>{item}</span>
+                <li key={index} className="text-gray-200 flex items-start gap-3 group">
+                  <span className="text-blue-400 font-bold group-hover:scale-110 transition-transform">✓</span>
+                  <span className="flex-1">{item}</span>
                 </li>
               ))}
             </ul>

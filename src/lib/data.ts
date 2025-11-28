@@ -31,19 +31,19 @@ export const data: FullData = {
         "Apprendre chaque jour et partager en retour"
       ],
       motivators: {
-        title: "Mes carburants :",
+        title: "Ce qui me motive :",
         items: [
-          "La complexité à simplifier",
-          "Les systèmes legacy à moderniser",
-          "La data à valoriser en produit"
+          "Simplifier des problèmes complexes",
+          "Moderniser des architectures existantes",
+          "Transformer la donnée en valeur métier"
         ]
       },
       limits: {
-        title: "Mes limites :",
+        title: "J'apprécie particulièrement :",
         items: [
-          "Le micro-management",
-          "Les projets sans vision",
-          "La technique détachée du métier"
+          "L'autonomie et la confiance",
+          "Une vision claire et partagée",
+          "Une tech au service du métier"
         ]
       },
       closingStatement: "Si vous cherchez quelqu'un qui pense produit autant que code, qui aime architecturer autant qu'implémenter, et pour qui livrer rime avec impact — parlons-en.",
