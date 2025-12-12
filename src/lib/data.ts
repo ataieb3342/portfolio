@@ -116,10 +116,10 @@ export const data: FullData = {
         },
         {
             id: "vhalumni",
-            title: "VH Besançon Alumni - Plateforme Alumni",
+            title: "VH Besançon Alumni - Plateforme Alumni Full-Stack Enterprise",
             shortTitle: "VH Besançon Alumni",
-            description: "Plateforme complète pour l'association des anciens élèves de VH Besançon. Intègre un blog, un annuaire interactif, un forum d'annonces, et un espace témoignages pour faciliter la mise en réseau entre anciens élèves, nouveaux étudiants et personnel.",
-            technos: ['Next.js', 'TypeScript', 'Sanity CMS', 'Vercel', 'OVH'],
+            description: "Plateforme full-stack complète pour l'association des anciens élèves de VH Besançon. Intègre blog, annuaire interactif, forum d'annonces, témoignages, et système d'authentification sécurisé avec workflow de validation admin. Architecture testée (192 tests) et monitorée en production avec double pipeline CI/CD.",
+            technos: ['Next.js 14', 'TypeScript', 'React 19', 'NextAuth v5', 'Sanity CMS', 'Tailwind CSS', 'Zod', 'Vitest', 'Playwright', 'Sentry', 'Nodemailer', 'Google Drive API', 'GitHub Actions', 'Vercel', 'OVH'],
             screenshots: [
                 "/vhalumni/1.png",
                 "/vhalumni/2.png",
@@ -130,26 +130,61 @@ export const data: FullData = {
             thumbnail: "/vhalumni/vhalumni.png",
             category: "Full-Stack",
             link: "#",
-            technicalDetails: [
+            metrics: {
+                users: "Membres VH Besançon",
+                activeUsers: "Production",
+                status: "27 API endpoints • 192 tests • ~2500 lignes backend"
+            },
+            keyFeatures: [
                 {
-                    title: "Frontend (Next.js avec App Router)",
-                    content: "Application React construite avec Next.js 14+ utilisant l'App Router pour une navigation optimale. Rendu côté serveur (SSR) et génération statique (SSG) pour des performances maximales et un SEO optimisé. Interface responsive adaptée mobile-first."
+                    title: "🔐 Authentification multi-provider sécurisée",
+                    content: "NextAuth v5 avec OAuth et credentials. Workflow de validation admin pour nouveaux membres. Hashing bcrypt, CSRF protection, rate limiting sur endpoints sensibles. Gestion de sessions avec Edge Middleware."
                 },
                 {
-                    title: "CMS Headless (Sanity.io)",
-                    content: "Sanity CMS comme back-office pour la gestion de contenu. Studio personnalisé permettant aux administrateurs de gérer facilement le blog, l'annuaire des membres, les annonces et les témoignages. Schémas de données structurés avec validation."
+                    title: "📝 Gestion de contenu headless",
+                    content: "Sanity CMS avec Studio personnalisé. Schémas structurés pour blog, annuaire, annonces, témoignages. Webhooks temps réel pour synchronisation. Permissions granulaires et validation admin."
                 },
                 {
-                    title: "Déploiement et Infrastructure",
-                    content: "Déploiement continu sur Vercel avec intégration GitHub (push to deploy). Nom de domaine personnalisé géré via OVH avec configuration DNS. CDN mondial pour une latence minimale. Preview deployments automatiques pour chaque pull request."
+                    title: "✅ Suite de tests complète (192 tests)",
+                    content: "Tests unitaires (Vitest) sur validations, utils, emails, rate-limiting, API routes. Tests d'intégration sur parcours utilisateur complet. Tests E2E (Playwright) sur workflows critiques. Code coverage avec V8."
                 },
                 {
-                    title: "Fonctionnalités Principales",
-                    content: "Blog avec système de catégories et tags • Annuaire interactif avec recherche et filtres • Forum d'annonces (emplois, événements) • Espace témoignages d'anciens élèves • Système de profils membres • Newsletter et notifications."
+                    title: "🔄 Double Pipeline CI/CD",
+                    content: "Vercel : tests unitaires (192 tests) + build Next.js rapide (~1-2 min) sur chaque commit/PR. GitHub Actions : tests unitaires avec coverage + tests E2E Playwright + rapports détaillés (~3-4 min). Quality gate systématique avant déploiement."
+                },
+                {
+                    title: "📊 Monitoring & Analytics en production",
+                    content: "Sentry APM intégré (client/server/edge) pour tracking des erreurs. Logging structuré avec correlation IDs. Web Vitals monitoring. Dashboard analytics avec Recharts. Lighthouse score >90."
                 }
             ],
-            architectureFlow: "🔄 Schéma : Sanity CMS (contenu) → Next.js (SSR/SSG) → Vercel (CDN) → OVH (DNS)",
-            disclaimer: "Plateforme accessible en ligne sur vh-besancon-alumni.fr"
+            technicalDetails: [
+                {
+                    title: "Backend & API (27+ endpoints REST)",
+                    content: "Architecture API Routes Next.js (~2500 lignes). Validation robuste avec Zod sur tous les endpoints. Rate limiting pour protection contre les abus. Webhooks Sanity pour synchronisation temps réel. CRON jobs automatisés (newsletter quotidienne, vérification alumni hebdomadaire)."
+                },
+                {
+                    title: "Frontend SSR/SSG Hybride",
+                    content: "Next.js 14 avec App Router. SSR/SSG selon le type de contenu. Middleware Edge personnalisé gérant l'authentification, redirections et traçabilité des requêtes. Interface responsive mobile-first avec Tailwind CSS 4."
+                },
+                {
+                    title: "Sécurité & Robustesse",
+                    content: "NextAuth v5 multi-provider. Hashing bcrypt pour mots de passe. CSRF protection native Next.js. Rate limiting sur endpoints sensibles (login, register, forgot-password). Validation stricte Zod côté client et serveur. Middleware de sécurité avec gestion de sessions."
+                },
+                {
+                    title: "Tests & Qualité (192 tests)",
+                    content: "Tests unitaires (Vitest) : validations, utils, emails, rate-limiting, logger, API routes. Tests d'intégration : parcours utilisateur complet (inscription → validation → création d'annonce). Tests E2E (Playwright) : workflows critiques avec screenshots on failure. Code coverage V8 avec rapports automatiques."
+                },
+                {
+                    title: "Intégrations externes",
+                    content: "Google Drive API pour synchronisation automatique de données newsletter. Nodemailer pour notifications (bienvenue, newsletter, réinitialisation MDP, validation admin). Upload et traitement d'images avec crop interactif (react-easy-crop)."
+                },
+                {
+                    title: "Infrastructure & CI/CD (Double Pipeline)",
+                    content: "Pipeline Vercel : 192 tests unitaires + build Next.js rapide (~1-2 min) sur chaque commit/PR avec déploiement automatique. Pipeline GitHub Actions : tests unitaires avec coverage + tests E2E Playwright + rapports détaillés (~3-4 min) pour validation complète. Preview deployments sur chaque PR. CDN mondial et Edge Functions. DNS personnalisé OVH (vh-besancon-alumni.fr). Disponibilité 99.9% (Vercel SLA)."
+                }
+            ],
+            architectureFlow: "🔄 Architecture : Utilisateur → Middleware Edge (auth/logging) → API Routes → Validation Zod → Sanity CMS ←→ Webhooks → Next.js (revalidation) → Vercel Edge (CDN) → DNS OVH → Sentry (monitoring)",
+            disclaimer: "Plateforme en production sur vh-besancon-alumni.fr. Solution complète sécurisée, testée et monitorée (192 tests, double pipeline CI/CD, Sentry APM, Web Vitals). Autonomie complète : de la conception à la mise en production."
         },
         {
             id: "ml-dashboard",
