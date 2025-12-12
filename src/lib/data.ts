@@ -130,11 +130,6 @@ export const data: FullData = {
             thumbnail: "/vhalumni/vhalumni.png",
             category: "Full-Stack",
             link: "#",
-            metrics: {
-                users: "Membres VH Besançon",
-                activeUsers: "Production",
-                status: "27 API endpoints • 192 tests • ~2500 lignes backend"
-            },
             keyFeatures: [
                 {
                     title: "🔐 Authentification multi-provider sécurisée",
