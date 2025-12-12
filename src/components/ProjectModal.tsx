@@ -8,9 +8,11 @@ import { ProjectGallery } from './ProjectGallery';
 interface ProjectModalProps {
     project: ProjectData | null;
     onClose: () => void;
+    allProjects?: ProjectData[];
+    onProjectClick?: (project: ProjectData) => void;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, allProjects, onProjectClick }) => {
     useEffect(() => {
         if (project) {
             document.body.style.overflow = 'hidden';
@@ -67,13 +69,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                     <div className="overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
                         <div className="p-6 md:p-8 space-y-8">
                             {/* Galerie d'images en pleine largeur */}
-                            <div className="w-full">
-                                <ProjectGallery
-                                    screenshots={project.screenshots}
-                                    projectTitle={project.title}
-                                    iframeUrl={project.iframeUrl}
-                                />
-                            </div>
+                            {project.screenshots.length > 0 && (
+                                <div className="w-full">
+                                    <ProjectGallery
+                                        screenshots={project.screenshots}
+                                        projectTitle={project.title}
+                                        iframeUrl={project.iframeUrl}
+                                    />
+                                </div>
+                            )}
 
                             {/* Contenu principal */}
                             <div className="space-y-6 max-w-5xl mx-auto">
@@ -94,7 +98,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                                             <span className="text-blue-400">📊</span>
                                             Métriques d'impact
                                         </h3>
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                             {project.metrics.users && (
                                                 <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
                                                     <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Utilisateurs</p>
@@ -105,6 +109,24 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                                                 <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
                                                     <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Récurrents</p>
                                                     <p className="text-green-300 text-lg font-bold">{project.metrics.activeUsers}</p>
+                                                </div>
+                                            )}
+                                            {project.metrics.scope && (
+                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
+                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Périmètre</p>
+                                                    <p className="text-blue-300 text-lg font-bold">{project.metrics.scope}</p>
+                                                </div>
+                                            )}
+                                            {project.metrics.team && (
+                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
+                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Équipe</p>
+                                                    <p className="text-green-300 text-lg font-bold">{project.metrics.team}</p>
+                                                </div>
+                                            )}
+                                            {project.metrics.impact && (
+                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
+                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Impact</p>
+                                                    <p className="text-purple-300 text-lg font-bold">{project.metrics.impact}</p>
                                                 </div>
                                             )}
                                             {project.metrics.status && (
@@ -172,6 +194,53 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                                                     </p>
                                                 </div>
                                             )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Projets liés */}
+                                {project.relatedProjects && project.relatedProjects.length > 0 && allProjects && onProjectClick && (
+                                    <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-700/30 rounded-xl p-6">
+                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                            <span className="text-purple-400">🔗</span>
+                                            Projets liés
+                                        </h3>
+                                        <div className="grid grid-cols-1 gap-4">
+                                            {project.relatedProjects.map((relatedId) => {
+                                                const relatedProject = allProjects.find((p) => p.id === relatedId);
+                                                if (!relatedProject) return null;
+                                                return (
+                                                    <button
+                                                        key={relatedId}
+                                                        onClick={() => onProjectClick(relatedProject)}
+                                                        className="bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 hover:border-purple-500 rounded-lg p-4 transition-all duration-300 text-left group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="shrink-0 w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center text-purple-400 group-hover:bg-purple-600/30 transition-colors">
+                                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-center gap-2 mb-1">
+                                                                    <span className="text-xs font-bold uppercase tracking-wide text-purple-400">
+                                                                        {relatedProject.category}
+                                                                    </span>
+                                                                </div>
+                                                                <h4 className="font-semibold text-white group-hover:text-purple-300 transition-colors mb-1">
+                                                                    {relatedProject.shortTitle}
+                                                                </h4>
+                                                                <p className="text-gray-400 text-sm line-clamp-2">
+                                                                    {relatedProject.description}
+                                                                </p>
+                                                            </div>
+                                                            <svg className="w-5 h-5 text-gray-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 )}

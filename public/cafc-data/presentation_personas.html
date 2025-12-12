@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mieux Cibler, Mieux Performer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s ease-in-out;
+            padding: 2rem;
+            background: white;
+            margin: 0;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #2980b9;
+            margin-bottom: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .content {
+            max-width: 1000px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .content-center {
+            text-align: center;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .comparison-item.before {
+            border-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .comparison-item.after {
+            border-color: #27ae60;
+            background: #f2fdf5;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-card:nth-child(1) { border-top-color: #3498db; }
+        .profile-card:nth-child(2) { border-top-color: #e74c3c; }
+        .profile-card:nth-child(3) { border-top-color: #f39c12; }
+
+        .profile-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+        }
+
+        .message-box {
+            background: #ecf0f1;
+            padding: 1rem;
+            border-radius: 6px;
+            font-style: italic;
+            margin: 1rem 0;
+            border-left: 3px solid #3498db;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #bdc3c7;
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 auto 1rem;
+        }
+
+        .step:nth-child(1) .step-number { background: #3498db; }
+        .step:nth-child(2) .step-number { background: #f39c12; }
+        .step:nth-child(3) .step-number { background: #27ae60; }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-item {
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .benefit-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            z-index: 1000;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #bdc3c7;
+            z-index: 1;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #3498db;
+            z-index: 2;
+            position: relative;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote {
+            font-size: 1.3rem;
+            font-style: italic;
+            text-align: center;
+            color: #2c3e50;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-styled li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #ecf0f1;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .list-styled li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .intro-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .intro-slide h1 {
+            color: white;
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-slide .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.6rem;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .data-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .data-number {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .lever-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .lever-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .lever-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lever-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .roi-box {
+            background: #2c3e50;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .workshop-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .workshop-step {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid;
+        }
+
+        .workshop-step:nth-child(1) { border-top-color: #3498db; }
+        .workshop-step:nth-child(2) { border-top-color: #f39c12; }
+        .workshop-step:nth-child(3) { border-top-color: #27ae60; }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .step-emoji {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .step-duration {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .badge-analyze { background: #3498db; }
+        .badge-test { background: #f39c12; }
+        .badge-capitalize { background: #27ae60; }
+
+        .method-highlight {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .method-highlight.analyze { border-left-color: #3498db; }
+        .method-highlight.test { border-left-color: #f39c12; }
+        .method-highlight.capitalize { border-left-color: #27ae60; }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .result-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .result-metric {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #27ae60;
+            margin: 0.5rem 0;
+        }
+
+        .kpi-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .kpi-item {
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .action-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateX(5px);
+        }
+
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .action-timeline {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide.active .content > * {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .slide.active .content > *:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .slide.active .content > *:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .slide.active .content > *:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.6rem; }
+            .comparison { grid-template-columns: 1fr; }
+            .profile-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .timeline { flex-direction: column; }
+            .timeline::before { display: none; }
+            .lever-grid { grid-template-columns: 1fr; }
+            .workshop-steps { grid-template-columns: 1fr; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .step::after { display: none; }
+        }
+
+        /* Styles additionnels pour la slide 3 visuelle */
+
+.problem-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 15px;
+}
+
+.flow-step {
+    flex: 1;
+    text-align: center;
+}
+
+.flow-step h4 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.flow-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.current-approach {
+    background: #fdf2f2;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 2px solid #e74c3c;
+}
+
+.reality-check {
+    background: #f2fdf5;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 2px solid #27ae60;
+}
+
+.unified-message {
+    margin-top: 1rem;
+}
+
+.message-bubble {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 4px solid #e74c3c;
+}
+
+.message-bubble strong {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.target-desc {
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2rem;
+}
+
+.flow-arrow span {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.arrow-line {
+    width: 2px;
+    height: 40px;
+    background: #bdc3c7;
+    position: relative;
+}
+
+.arrow-line::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: -4px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #bdc3c7;
+}
+
+.personas-mini {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.persona-card {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    min-width: 140px;
+    border-top: 3px solid;
+}
+
+.persona-card.marie {
+    border-top-color: #3498db;
+}
+
+.persona-card.thomas {
+    border-top-color: #f39c12;
+}
+
+.persona-card.robert {
+    border-top-color: #9b59b6;
+}
+
+.persona-avatar {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.persona-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.persona-motivation {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.persona-emotion {
+    font-size: 1.2rem;
+}
+
+.problem-highlight {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.problem-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.problem-text {
+    font-size: 1.2rem;
+    color: #856404;
+    text-align: center;
+    font-weight: 500;
+}
+
+.quote-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+.quote-icon {
+    font-size: 2.5rem;
+    margin-right: 1.5rem;
+}
+
+.quote-text {
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Responsive pour la slide 3 */
+@media (max-width: 768px) {
+    .problem-flow {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .flow-arrow {
+        transform: rotate(90deg);
+        margin: 1rem 0;
+    }
+    
+    .personas-mini {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .persona-card {
+        min-width: 200px;
+    }
+    
+    .problem-highlight {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .problem-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .quote-visual {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .quote-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Titre -->
+        <div class="slide active intro-slide">
+            <div class="content content-center">
+                <h1>MIEUX CIBLER<br>MIEUX PERFORMER</h1>
+                <p class="subtitle">Une évolution de notre approche marketing</p>
+                <br><br>
+                <p style="font-size: 1.2rem; opacity: 0.8;">Équipes Marketing, Data, Comm</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Point de départ - Vision Data -->
+        <div class="slide">
+            <div class="content content-center">
+                <h2>POINT DE DÉPART</h2>
+                <div class="highlight">
+                    <h3>Ce qu'on vient de construire ensemble à la Data</h3>
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                        Notre nouvelle vision client basée sur les comportements réels
+                    </p>
+                </div>
+                
+                <div class="data-grid">
+                    <div class="data-card">
+                        <div class="data-number">👥</div>
+                        <div><strong>Profil socio-démo</strong><br>Âge, situation familiale, revenus, logement</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-number">💳</div>
+                        <div><strong>Comportements de dépense</strong><br>5 catégories (essentiel, mobilité, lifestyle...)</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-number">📱</div>
+                        <div><strong>Maturité digitale</strong><br>Autonomie et usages des services</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-number">🏦</div>
+                        <div><strong>Relation bancaire</strong><br>Détention produits, patrimoine et segmentation de Potentiel</div>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    "Pour la première fois, on a une vision complète de nos clients.<br>
+                    Et si on s'en servait pour personnaliser ?"
+                </div>
+            </div>
+        </div>
+
+<!-- Slide 3: Le constat - Version visuelle -->
+<div class="slide">
+    <div class="content">
+        <h2>LE CONSTAT QU'ON FAIT TOUS</h2>
+        <h3>Quand on regarde nos campagnes...</h3>
+        
+        <!-- Schéma du problème -->
+        <div class="problem-flow">
+            <div class="flow-step current-approach">
+                <div class="flow-icon">🎯</div>
+                <h4>Notre approche actuelle</h4>
+                <div class="unified-message">
+                    <div class="message-bubble">
+                        <strong>"Épargne Plus 3,2% - Profitez-en"</strong>
+                        <div class="target-desc">→ Clients 30-55 ans avec capacité d'épargne</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">
+                <span>📤</span>
+                <div class="arrow-line"></div>
+            </div>
+            
+            <div class="flow-step reality-check">
+                <div class="flow-icon">👥</div>
+                <h4>La réalité de nos clients</h4>
+                <div class="personas-mini">
+                    <div class="persona-card marie">
+                        <div class="persona-avatar">👩‍👧‍👦</div>
+                        <div class="persona-name">Marie, 35 ans</div>
+                        <div class="persona-motivation">"Pour l'avenir des enfants"</div>
+                        <div class="persona-emotion">🎓</div>
+                    </div>
+                    
+                    <div class="persona-card thomas">
+                        <div class="persona-avatar">👨‍💼</div>
+                        <div class="persona-name">Thomas, 28 ans</div>
+                        <div class="persona-motivation">"En attendant mon projet"</div>
+                        <div class="persona-emotion">🚗</div>
+                    </div>
+                    
+                    <div class="persona-card robert">
+                        <div class="persona-avatar">👨‍🦳</div>
+                        <div class="persona-name">Robert, 52 ans</div>
+                        <div class="persona-motivation">"Diversifier mon patrimoine"</div>
+                        <div class="persona-emotion">🏠</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote finale -->
+        <div class="quote-visual">
+            <div class="quote-icon">💡</div>
+            <div class="quote-text">
+                Si chacun a des besoins différents,<br>
+                pourquoi on leur parle tous pareil ?
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Slide 4: L'évidence -->
+        <div class="slide">
+            <div class="content">
+                <h2>L'ÉVIDENCE</h2>
+                <h3>On a des clients différents dans nos cibles</h3>
+                
+                <div class="highlight">
+                    <h4>Les données qu'on a déjà nous le montrent :</h4>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">👥</div>
+                            <div class="stat-label">Âges différents<br>→ besoins différents</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">🏠</div>
+                            <div class="stat-label">Situations familiales<br>→ projets différents</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">💳</div>
+                            <div class="stat-label">Habitudes de dépense<br>→ rapport à l'argent différent</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">📱</div>
+                            <div class="stat-label">Comportements digitaux<br>→ façons de communiquer différentes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    Si on sait qu'ils sont différents, pourquoi on leur parle pareil ?
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Le sujet -->
+        <div class="slide">
+            <div class="content content-center">
+                <h2>LE SUJET</h2>
+                <h3>Adapter nos messages aux profils comportementaux</h3>
+                
+                <div class="highlight">
+                    <p style="font-size: 1.3rem; text-align: center;">
+                        <strong>Au lieu de :</strong> 1 cible → 1 message<br>
+                        <strong>On fait :</strong> 1 cible → 2-3 profils = 2-3 messages adaptés
+                    </p>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <div class="profile-title">👨‍👩‍👧‍👦 Les Familles</div>
+                        <div class="profile-subtitle">35-45 ans, enfants</div>
+                        <div class="message-box">
+                            "Préparez sereinement l'avenir de vos enfants"
+                        </div>
+                        <p>Focus sur la sécurité et les projets familiaux</p>
+                    </div>
+                    <div class="profile-card">
+                        <div class="profile-title">🚀 Les Ambitieux</div>
+                        <div class="profile-subtitle">25-35 ans, urbains</div>
+                        <div class="message-box">
+                            "Faites fructifier votre épargne dès maintenant"
+                        </div>
+                        <p>Focus sur la performance et l'optimisation</p>
+                    </div>
+                    <div class="profile-card">
+                        <div class="profile-title">🏖️ Les Patrimoniaux</div>
+                        <div class="profile-subtitle">50+, capital établi</div>
+                        <div class="message-box">
+                            "Diversifiez intelligemment votre patrimoine"
+                        </div>
+                        <p>Focus sur la diversification et la transmission</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Principe - Pas partout -->
+        <div class="slide">
+            <div class="content content-center">
+                <h2>D'ABORD : ON NE LE FAIT PAS PARTOUT</h2>
+                
+                <div class="highlight">
+                    <h3>💡 PRINCIPE : SIMPLICITÉ ET ROI</h3>
+                    <p>On subdivise SEULEMENT si ça rapporte plus que ça coûte.<br>
+                    <strong>Objectif :</strong> 2-3 profils max, messages différenciés, performance mesurée.</p>
+                </div>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-title">✅ Quand c'est utile</div>
+                        <ul>
+                            <li>Cible large (&gt;10 000)</li>
+                            <li>Enjeu business important</li>
+                            <li>Produit avec plusieurs bénéfices possibles</li>
+                            <li>Historique de performance moyenne</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-title">❌ Quand on ne le fait pas</div>
+                        <ul>
+                            <li>Petites cibles très homogènes</li>
+                            <li>Messages institutionnels (vote, AG...)</li>
+                            <li>Campagnes déjà très performantes</li>
+                            <li>Urgences ou communications réglementaires</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Slide 7: La méthode en 3 étapes -->
+        <div class="slide">
+            <div class="content">
+                <h2>LA MÉTHODE EN 3 ÉTAPES</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>ANALYSER</h4>
+                        <p style="color: #7f8c8d; font-size: 0.9rem;">Identifier les profils</p>
+                        <ul style="font-size: 0.95rem; margin-top: 0.5rem;">
+                            <li>Segmenter la cible</li>
+                            <li>Comprendre les motivations</li>
+                            <li>Définir 2-3 profils types</li>
+                        </ul>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>TESTER</h4>
+                        <p style="color: #7f8c8d; font-size: 0.9rem;">Adapter et mesurer</p>
+                        <ul style="font-size: 0.95rem; margin-top: 0.5rem;">
+                            <li>Créer les variantes</li>
+                            <li>Lancer les campagnes</li>
+                            <li>Mesurer les résultats</li>
+                        </ul>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>CAPITALISER</h4>
+                        <p style="color: #7f8c8d; font-size: 0.9rem;">Apprendre et réutiliser</p>
+                        <ul style="font-size: 0.95rem; margin-top: 0.5rem;">
+                            <li>Analyser les performances</li>
+                            <li>Documenter les insights</li>
+                            <li>Enrichir notre base</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    L'objectif : construire progressivement une bibliothèque<br>
+                    de ce qui fonctionne avec chaque profil
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: ÉTAPE 1 - ANALYSER -->
+        <div class="slide">
+            <div class="content">
+                <h2><span class="step-badge badge-analyze">ÉTAPE 1</span> ANALYSER ENSEMBLE</h2>
+                <h3>Comment on identifie les profils comportementaux</h3>
+                
+                <div class="method-highlight analyze">
+                    <p style="font-size: 1.1rem; margin-bottom: 0;">
+                        <strong>🎯 Objectif :</strong> Transformer une cible marketing en 2-3 profils comportementaux distincts
+                    </p>
+                </div>
+
+                <div class="workshop-steps">
+                    <div class="workshop-step">
+                        <div class="step-header">
+                            <div class="step-emoji">🔍</div>
+                            <div>
+                                <div class="step-title">VOS INTUITIONS</div>
+                                <div class="step-duration">(15 min)</div>
+                            </div>
+                        </div>
+                        <p>"Spontanément, notre client type assurance auto, il ressemble à quoi ?"</p>
+                        <ul style="margin-top: 1rem; padding-left: 1rem;">
+                            <li>Brainstorming libre sur les motivations</li>
+                            <li>Pas de données, que de l'expérience terrain</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="workshop-step">
+                        <div class="step-header">
+                            <div class="step-emoji">📊</div>
+                            <div>
+                                <div class="step-title">CONFRONTATION AUX DONNÉES</div>
+                                <div class="step-duration">(30 min)</div>
+                            </div>
+                        </div>
+                        <p>On vous montre 3-4 "prismes" sur votre cible :</p>
+                        <ul style="margin-top: 1rem; padding-left: 1rem;">
+                            <li>Comportement digital (App vs Agence)</li>
+                            <li>Habitudes financières (Épargnant vs Dépensier)</li>
+                            <li>Relation client (Nouveau vs Fidèle)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="workshop-step">
+                        <div class="step-header">
+                            <div class="step-emoji">🎯</div>
+                            <div>
+                                <div class="step-title">CONSTRUCTION COLLECTIVE</div>
+                                <div class="step-duration">(15 min)</div>
+                            </div>
+                        </div>
+                        <p>Ensemble, on définit 2-3 profils et leurs motivations.</p>
+                        <div style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px;">
+                            <strong>Livrable :</strong> Une fiche par profil avec ses caractéristiques et son angle de communication privilégié
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: ÉTAPE 2 - TESTER -->
+        <div class="slide">
+            <div class="content">
+                <h2><span class="step-badge badge-test">ÉTAPE 2</span> TESTER ET ADAPTER</h2>
+                <h3>Les leviers de personnalisation qu'on active</h3>
+                
+                <div class="method-highlight test">
+                    <p style="font-size: 1.1rem; margin-bottom: 0;">
+                        <strong>🚀 Objectif :</strong> Créer et tester des variantes adaptées à chaque profil
+                    </p>
+                </div>
+
+                <div class="lever-grid">
+                    <div class="lever-card" style="border-left-color: #f39c12;">
+                        <div class="lever-icon">🎯</div>
+                        <div class="lever-title">LE TON ET L'ÉMOTION</div>
+                        <ul>
+                            <li>Rationnel ("3,2% garantis") vs Émotionnel ("Pour vos projets")</li>
+                            <li>Urgent ("Offre limitée") vs Sécurisant ("À votre rythme")</li>
+                            <li>Expertise ("Optimisez") vs Simplicité ("C'est facile")</li>
+                        </ul>
+                    </div>
+                    <div class="lever-card" style="border-left-color: #f39c12;">
+                        <div class="lever-icon">📝</div>
+                        <div class="lever-title">L'ANGLE D'ATTAQUE</div>
+                        <ul>
+                            <li>Bénéfice produit vs Solution problème</li>
+                            <li>Gain immédiat vs Vision long terme</li>
+                            <li>Individuel vs Famille/Proches</li>
+                        </ul>
+                    </div>
+                    <div class="lever-card" style="border-left-color: #f39c12;">
+                        <div class="lever-icon">📱</div>
+                        <div class="lever-title">LE FORMAT ET LE CANAL</div>
+                        <ul>
+                            <li>Email détaillé vs SMS direct</li>
+                            <li>Visuel vs Textuel</li>
+                            <li>Call-to-action app vs rdv conseiller</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roi-box" style="background: #f39c12;">
+                    <h3>📊 TEST A/B SYSTÉMATIQUE</h3>
+                    <p>Chaque variante est mesurée : taux d'ouverture, taux de clic, conversion.<br>
+                    On apprend en temps réel ce qui fonctionne avec chaque profil.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: ÉTAPE 3 - CAPITALISER -->
+        <div class="slide">
+            <div class="content">
+                <h2><span class="step-badge badge-capitalize">ÉTAPE 3</span> CAPITALISER</h2>
+                <div class="workshop-steps">
+                    <div class="workshop-step">
+                        <div class="step-header">
+                            <div class="step-emoji">📊</div>
+                            <div>
+                                <div class="step-title">DÉBRIEF PERFORMANCE</div>
+                                <div class="step-duration">(15 min par campagne)</div>
+                            </div>
+                        </div>
+                        <p>On analyse ensemble ce qui a marché :</p>
+                        <ul style="margin-top: 1rem; padding-left: 1rem;">
+                            <li>Quel profil a le mieux réagi ?</li>
+                            <li>Quel message a été le plus efficace ?</li>
+                            <li>Y a-t-il eu des surprises ?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="workshop-step">
+                        <div class="step-header">
+                            <div class="step-emoji">📝</div>
+                            <div>
+                                <div class="step-title">FORMALISATION</div>
+                                <div class="step-duration">(Documentation)</div>
+                            </div>
+                        </div>
+                        <p>On enrichit nos fiches profils :</p>
+                        <ul style="margin-top: 1rem; padding-left: 1rem;">
+                            <li>Ton et registre qui fonctionnent</li>
+                            <li>Angles d'attaque efficaces</li>
+                            <li>Canaux préférés par profil</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="workshop-step">
+                        <div class="step-header">
+                            <div class="step-emoji">🔄</div>
+                            <div>
+                                <div class="step-title">RÉAPPLICATION</div>
+                                <div class="step-duration">(Campagnes suivantes)</div>
+                            </div>
+                        </div>
+                        <p>On réutilise nos apprentissages :</p>
+                        <ul style="margin-top: 1rem; padding-left: 1rem;">
+                            <li>Templates par profil</li>
+                            <li>Bonnes pratiques par segment</li>
+                            <li>Éviter les erreurs déjà testées</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="quote">
+                    L'objectif n'est pas de faire du sur-mesure pour chaque client,<br>
+                    mais de mieux comprendre nos clients pour mieux leur parler
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Impact attendu -->
+        <div class="slide">
+            <div class="content content-center">
+                <h2>L'IMPACT ATTENDU</h2>
+                <h3>Pourquoi ça vaut le coup de s'y mettre</h3>
+
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-title">🎯 Pour le Business</div>
+                        <ul>
+                            <li>Meilleur ROI des campagnes</li>
+                            <li>Acquisition plus qualifiée</li>
+                            <li>Cross-sell plus efficace</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-title">😊 Pour les Clients</div>
+                        <ul>
+                            <li>Messages plus pertinents</li>
+                            <li>Moins de sollicitations inutiles</li>
+                            <li>Offres qui correspondent vraiment</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-title">💡 Pour les Équipes</div>
+                        <ul>
+                            <li>Meilleure compréhension clients</li>
+                            <li>Créativité stimulée</li>
+                            <li>Apprentissage continu</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-title">🚀 Pour l'Entreprise</div>
+                        <ul>
+                            <li>Avantage concurrentiel</li>
+                            <li>Image moderne et attentive</li>
+                            <li>Capital connaissance client</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Échange ouvert -->
+        <div class="slide">
+            <div class="content content-center">
+                
+                <div class="quote" style="font-size: 2rem; margin: 3rem 0;">
+                    <h2>ET MAINTENANT...</h2>
+                    <h4>Partageons nos idées 💬</h4>
+                </div>
+
+                <div class="highlight">
+                    <p style="font-size: 1.3rem; text-align: center;">
+                        <strong>Ce que vous en pensez...</strong><br>
+                        <strong>Comment on pourrait s'y prendre...</strong><br>
+                        <strong>Ce qui vous inspire ou vous interroge...</strong>
+                    </p>
+                </div>
+
+                <div style="margin-top: 4rem; font-size: 1.2rem; color: #7f8c8d; text-align: center;">
+                    C'est ensemble qu'on va définir la suite
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Précédent</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Suivant →</button>
+    </div>
+
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">13</span>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i === index) {
+                    slide.classList.add('active');
+                } else if (i < index) {
+                    slide.classList.add('prev');
+                }
+            });
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Navigation au clavier
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                currentSlideIndex = 0;
+                showSlide(currentSlideIndex);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                currentSlideIndex = totalSlides - 1;
+                showSlide(currentSlideIndex);
+            }
+        });
+
+        // Navigation tactile
+        let startX = null;
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            if (startX === null) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    changeSlide(1); // Swipe left = next
+                } else {
+                    changeSlide(-1); // Swipe right = previous
+                }
+            }
+            startX = null;
+        });
+
+        // Initialiser
+        showSlide(0);
+    </script>
+</body>
+</html>

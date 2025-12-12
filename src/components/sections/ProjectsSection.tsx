@@ -7,6 +7,7 @@ import { ProjectData } from '@/types';
 import { data } from '@/lib/data';
 import { fadeIn, staggerContainer } from '@/lib/animations';
 import { ProjectModal } from '../ProjectModal';
+import { StrategyProjectModal } from '../StrategyProjectModal';
 
 export const ProjectsSection: React.FC = () => {
     const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
@@ -117,7 +118,22 @@ export const ProjectsSection: React.FC = () => {
                 </div>
             </section>
 
-            <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+            {/* Utiliser StrategyProjectModal pour les projets avec documents stratégiques, sinon ProjectModal */}
+            {selectedProject?.strategyDocuments && selectedProject.strategyDocuments.length > 0 ? (
+                <StrategyProjectModal
+                    project={selectedProject}
+                    onClose={() => setSelectedProject(null)}
+                    allProjects={data.projects}
+                    onProjectClick={(project) => setSelectedProject(project)}
+                />
+            ) : (
+                <ProjectModal
+                    project={selectedProject}
+                    onClose={() => setSelectedProject(null)}
+                    allProjects={data.projects}
+                    onProjectClick={(project) => setSelectedProject(project)}
+                />
+            )}
         </>
     );
 };

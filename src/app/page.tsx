@@ -7,6 +7,7 @@ import { ExperienceHighlight } from '@/components/sections/ExperienceHighlight';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { ApprocheImpact } from '@/components/sections/ApprocheImpact';
 import { SkillsSection } from '@/components/sections/SkillsSection';
+import { EducationSection } from '@/components/sections/EducationSection';
 import { WhatISeekSection } from '@/components/sections/WhatISeekSection';
 
 const Home: React.FC = () => {
@@ -17,6 +18,7 @@ const Home: React.FC = () => {
             <ProjectsSection />
             <ApprocheImpact />
             <SkillsSection />
+            <EducationSection />
             <WhatISeekSection />
 
             <footer className="py-8 px-6 bg-gray-950 text-center border-t border-gray-800">

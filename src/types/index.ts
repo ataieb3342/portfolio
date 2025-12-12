@@ -51,11 +51,21 @@ export interface ProjectMetrics {
   users?: string;
   activeUsers?: string;
   status?: string;
+  scope?: string;
+  team?: string;
+  impact?: string;
 }
 
 export interface KeyFeature {
   title: string;
   content: string;
+}
+
+export interface StrategyDocument {
+  type: 'pdf' | 'html' | 'link';
+  title: string;
+  url: string;
+  description?: string;
 }
 
 export interface ProjectData {
@@ -74,6 +84,22 @@ export interface ProjectData {
   disclaimer?: string;
   architectureFlow?: string;
   iframeUrl?: string; // URL pour afficher le projet dans une iframe interactive
+  strategyDocuments?: StrategyDocument[]; // Documents stratégiques (PDF, HTML, etc.)
+  relatedProjects?: string[]; // IDs des projets liés
+}
+
+export interface EducationData {
+  degree: string;
+  school: string;
+  period: string;
+  details?: string;
+}
+
+export interface TestimonialData {
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
 }
 
 export interface FullData {
@@ -81,6 +107,8 @@ export interface FullData {
   title: string;
   profile: string;
   experience: ExperienceData;
+  education: EducationData[];
+  testimonial?: TestimonialData;
   impacts: ImpactData[];
   skills: SkillsData;
   whatISeek: WhatISeekData;

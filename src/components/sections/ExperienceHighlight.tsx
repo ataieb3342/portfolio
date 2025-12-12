@@ -63,6 +63,32 @@ export const ExperienceHighlight: React.FC = () => (
               </p>
             </motion.div>
           </motion.div>
+
+          {/* Testimonial */}
+          {data.testimonial && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-10 pt-8 border-t border-gray-700"
+            >
+              <div className="relative bg-gradient-to-br from-blue-900/20 to-blue-800/10 border-l-4 border-blue-500 rounded-r-2xl p-6">
+                <svg className="absolute top-4 left-4 w-8 h-8 text-blue-500/20" fill="currentColor" viewBox="0 0 32 32">
+                  <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14H8c0-1.1.9-2 2-2h2V8h-2zm14 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2h2V8h-2z"/>
+                </svg>
+                <blockquote className="relative z-10 ml-6">
+                  <p className="text-gray-300 leading-relaxed italic mb-4">
+                    "{data.testimonial.quote}"
+                  </p>
+                  <footer className="text-sm">
+                    <div className="font-semibold text-blue-400">{data.testimonial.author}</div>
+                    <div className="text-gray-500">{data.testimonial.role} • {data.testimonial.company}</div>
+                  </footer>
+                </blockquote>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>

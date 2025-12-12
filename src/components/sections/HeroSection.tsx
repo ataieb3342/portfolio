@@ -30,7 +30,7 @@ export const HeroSection: React.FC = () => (
           >
             <span className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg shadow-blue-500/25 flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-ping" />
-              Disponible • En recherche active
+              Disponible • Full-Stack Engineer (Junior/Mid)
             </span>
           </motion.div>
 

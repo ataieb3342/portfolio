@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Adam Taïeb - Ingénieur Data & Développement Full-Stack",
-  description: "Portfolio d'Adam Taïeb - Ingénieur Data & Full-Stack. Spécialisé en React, Python, Machine Learning et architecture d'applications data-driven.",
-  keywords: "ingénieur data, développement full-stack, React, Python, Machine Learning, portfolio",
+  title: "Adam Taïeb - Data Engineer & Product Leader",
+  description: "Portfolio d'Adam Taïeb - Data Engineer & Product Leader. De la stratégie à l'exécution : solutions data complètes qui transforment les organisations.",
+  keywords: "data engineer, product leader, stratégie data, React, Python, Machine Learning, portfolio",
   // favicon.ico et apple-icon.png sont auto-détectés depuis src/app/
 };
 
