@@ -3,11 +3,11 @@ import { FullData } from '@/types';
 export const data: FullData = {
     name: "Adam Taïeb",
     title: "Full-Stack Engineer • Spécialisé Data & ML",
-    profile: "Junior engineer (2 ans d'alternance) qui livre end-to-end : pipeline ML industrialisé (Spark) en production, interface utilisée par 400+ conseillers, plateforme complète testée (192 tests). Du modèle ML à l'interface utilisateur, je conçois et déploie des solutions robustes.",
+    profile: "Full-stack & data, je build des solutions avec un impact réel. 3 ans d'expérience : pipeline ML en prod, interface 400+ users, plateforme associative complète. Pas juste exécutant : je propose, je livre, je fais adopter.",
     experience: {
-      title: "Data Engineer & Product Lead",
+      title: "Ingénieur Full-Stack & Data",
       company: "Crédit Agricole Franche-Comté",
-      period: "Sept 2023 - Présent",
+      period: "Sept 2023 - Janv 2025",
       appHighlights: "Stratégie data-driven déployée auprès de 50+ collaborateurs • Transformation organisationnelle Marketing • Interfaces décisionnelles pour 400+ utilisateurs (React/PHP/SQL Server)",
       dataHighlights: "Pipeline ML industrialisé (Spark) pour segmentation stratégique • Modèles de scoring en production • Datamart centralisé (15 tables), +50% d'efficacité analytique"
     },
@@ -26,14 +26,14 @@ export const data: FullData = {
       }
     ],
     testimonial: {
-      quote: "Adam a réalisé une excellente alternance avec des apports concrets et pertinents. L'évolution au cours des deux années a été réelle avec une prise de hauteur et une compréhension de l'impact de l'accompagnement métier dans la réussite technique. Fait preuve d'énergie et de conviction pour défendre ses projets.",
-      author: "Maître d'apprentissage",
-      role: "Responsable Data & Innovation",
-      company: "Crédit Agricole Franche-Comté"
+        quote: "Adam a réalisé une excellente alternance avec des apports concrets et pertinents. L'évolution au cours des deux années a été réelle avec une prise de hauteur et une compréhension de l'impact de l'accompagnement métier dans la réussite technique. Fait preuve d'énergie et de conviction pour défendre ses projets.",
+        author: "Maître d'apprentissage",
+        role: "Responsable Data & Web Development • Service Marketing",
+        company: ''
     },
     impacts: [
-      { icon: "🚀", title: "Autonomie End-to-End", description: "Capacité à livrer des solutions complètes seul : du modèle ML (Spark) aux APIs (REST) jusqu'à l'interface (React). 3 projets menés de A à Z en production." },
-      { icon: "📊", title: "Impact Métier Mesurable", description: "Solutions utilisées quotidiennement par 400+ conseillers. Pipeline ML en production pour segmentation stratégique. Plateforme alumni avec 192 tests et double CI/CD." },
+      { icon: "🚀", title: "Autonomie End-to-End", description: "Capacité à livrer des solutions complètes en autonomie : du modèle ML (Spark) aux APIs (REST) jusqu'à l'interface (React). 3 projets menés de A à Z en production." },
+      { icon: "📊", title: "Impact Métier Mesurable", description: "Solutions utilisées quotidiennement par 400+ conseillers. Pipeline ML en production pour segmentation stratégique. Plateforme alumni avec 200+ tests et double CI/CD." },
       { icon: "⚡", title: "Polyvalence Technique", description: "Stack large pour un junior : Data/ML (Python, Spark, SQL), Full-Stack (React, PHP, Next.js), DevOps (Docker, CI/CD). Adaptation rapide à des environnements legacy complexes." },
     ],
     skills: {
@@ -57,7 +57,7 @@ export const data: FullData = {
         title: "",
         items: []
       },
-      closingStatement: "Si vous cherchez un junior autonome qui code, ship, et apprend vite — parlons-en.",
+      closingStatement: "Junior autonome, ownership end-to-end. Parlons-en.",
       shortVersion: "Je cherche un premier poste de Full-Stack Engineer (avec composante Data/ML) dans une scale-up ou équipe produit qui valorise l'autonomie, l'apprentissage rapide, et l'impact mesurable."
     },
     contact: {
@@ -211,7 +211,7 @@ export const data: FullData = {
             id: "vhalumni",
             title: "VH Besançon Alumni - Plateforme Associative Full-Stack (Projet Personnel)",
             shortTitle: "VH Besançon Alumni",
-            description: "Plateforme full-stack complète développée en bénévolat pour l'association des anciens élèves de VH Besançon. Blog, annuaire interactif, forum d'annonces, témoignages, authentification sécurisée (NextAuth v5) avec validation admin. Architecture testée (192 tests unitaires + E2E), double pipeline CI/CD (Vercel + GitHub Actions), monitoring Sentry en production. Stack: Next.js 14, React 19, Sanity CMS, TypeScript.",
+            description: "Plateforme full-stack complète développée en bénévolat pour l'association des anciens élèves de VH Besançon. Blog, annuaire interactif, forum d'annonces, témoignages, authentification sécurisée (NextAuth v5) avec validation admin. Architecture testée (200+ tests unitaires + E2E), double pipeline CI/CD (Vercel + GitHub Actions), monitoring Sentry en production. Stack: Next.js 14, React 19, Sanity CMS, TypeScript.",
             technos: ['Next.js 14', 'TypeScript', 'React 19', 'NextAuth v5', 'Sanity CMS', 'Tailwind CSS', 'Zod', 'Vitest', 'Playwright', 'Sentry', 'Nodemailer', 'Google Drive API', 'GitHub Actions', 'Vercel', 'OVH'],
             screenshots: [
                 "/vhalumni/1.png",
@@ -233,12 +233,12 @@ export const data: FullData = {
                     content: "Sanity CMS avec Studio personnalisé. Schémas structurés pour blog, annuaire, annonces, témoignages. Webhooks temps réel pour synchronisation. Permissions granulaires et validation admin."
                 },
                 {
-                    title: "✅ Suite de tests complète (192 tests)",
+                    title: "✅ Suite de tests complète (200+ tests)",
                     content: "Tests unitaires (Vitest) sur validations, utils, emails, rate-limiting, API routes. Tests d'intégration sur parcours utilisateur complet. Tests E2E (Playwright) sur workflows critiques. Code coverage avec V8."
                 },
                 {
                     title: "🔄 Double Pipeline CI/CD",
-                    content: "Vercel : tests unitaires (192 tests) + build Next.js rapide (~1-2 min) sur chaque commit/PR. GitHub Actions : tests unitaires avec coverage + tests E2E Playwright + rapports détaillés (~3-4 min). Quality gate systématique avant déploiement."
+                    content: "Vercel : tests unitaires (200+ tests) + build Next.js rapide (~1-2 min) sur chaque commit/PR. GitHub Actions : tests unitaires avec coverage + tests E2E Playwright + rapports détaillés (~3-4 min). Quality gate systématique avant déploiement."
                 },
                 {
                     title: "📊 Monitoring & Analytics en production",
@@ -259,7 +259,7 @@ export const data: FullData = {
                     content: "NextAuth v5 multi-provider. Hashing bcrypt pour mots de passe. CSRF protection native Next.js. Rate limiting sur endpoints sensibles (login, register, forgot-password). Validation stricte Zod côté client et serveur. Middleware de sécurité avec gestion de sessions."
                 },
                 {
-                    title: "Tests & Qualité (192 tests)",
+                    title: "Tests & Qualité (200+ tests)",
                     content: "Tests unitaires (Vitest) : validations, utils, emails, rate-limiting, logger, API routes. Tests d'intégration : parcours utilisateur complet (inscription → validation → création d'annonce). Tests E2E (Playwright) : workflows critiques avec screenshots on failure. Code coverage V8 avec rapports automatiques."
                 },
                 {
@@ -268,11 +268,11 @@ export const data: FullData = {
                 },
                 {
                     title: "Infrastructure & CI/CD (Double Pipeline)",
-                    content: "Pipeline Vercel : 192 tests unitaires + build Next.js rapide (~1-2 min) sur chaque commit/PR avec déploiement automatique. Pipeline GitHub Actions : tests unitaires avec coverage + tests E2E Playwright + rapports détaillés (~3-4 min) pour validation complète. Preview deployments sur chaque PR. CDN mondial et Edge Functions. DNS personnalisé OVH (vh-besancon-alumni.fr). Disponibilité 99.9% (Vercel SLA)."
+                    content: "Pipeline Vercel : 200+ tests unitaires + build Next.js rapide (~1-2 min) sur chaque commit/PR avec déploiement automatique. Pipeline GitHub Actions : tests unitaires avec coverage + tests E2E Playwright + rapports détaillés (~3-4 min) pour validation complète. Preview deployments sur chaque PR. CDN mondial et Edge Functions. DNS personnalisé OVH (vh-besancon-alumni.fr). Disponibilité 99.9% (Vercel SLA)."
                 }
             ],
             architectureFlow: "🔄 Architecture : Utilisateur → Middleware Edge (auth/logging) → API Routes → Validation Zod → Sanity CMS ←→ Webhooks → Next.js (revalidation) → Vercel Edge (CDN) → DNS OVH → Sentry (monitoring)",
-            disclaimer: "Plateforme en production sur vh-besancon-alumni.fr. Solution complète sécurisée, testée et monitorée (192 tests, double pipeline CI/CD, Sentry APM, Web Vitals). Autonomie complète : de la conception à la mise en production."
+            disclaimer: "Plateforme en production sur vh-besancon-alumni.fr. Solution complète sécurisée, testée et monitorée (200+ tests, double pipeline CI/CD, Sentry APM, Web Vitals). Autonomie complète : de la conception à la mise en production."
         }
     ]
 };

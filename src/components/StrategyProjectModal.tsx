@@ -50,11 +50,6 @@ export const StrategyProjectModal: React.FC<StrategyProjectModalProps> = ({ proj
                                 <span className="inline-flex items-center bg-gradient-to-r from-purple-600/30 to-blue-600/30 text-purple-300 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-purple-500/30">
                                     {project.category}
                                 </span>
-                                {project.metrics?.status && (
-                                    <span className="inline-flex items-center bg-green-600/20 text-green-300 px-3 py-1 rounded-full text-xs font-semibold border border-green-500/30">
-                                        ✓ {project.metrics.status}
-                                    </span>
-                                )}
                             </div>
                             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-2">
                                 {project.title}

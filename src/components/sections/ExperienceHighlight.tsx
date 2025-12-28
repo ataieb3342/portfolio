@@ -79,11 +79,11 @@ export const ExperienceHighlight: React.FC = () => (
                 </svg>
                 <blockquote className="relative z-10 ml-6">
                   <p className="text-gray-300 leading-relaxed italic mb-4">
-                    "{data.testimonial.quote}"
+                    &quot;{data.testimonial.quote}&quot;
                   </p>
                   <footer className="text-sm">
                     <div className="font-semibold text-blue-400">{data.testimonial.author}</div>
-                    <div className="text-gray-500">{data.testimonial.role} • {data.testimonial.company}</div>
+                    <div className="text-gray-500">{data.testimonial.role}</div>
                   </footer>
                 </blockquote>
               </div>
