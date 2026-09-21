@@ -1,3 +1,5 @@
+import type { IconName } from '@/components/ui/Icon';
+
 export interface ContactData {
   phone: string;
   email: string;
@@ -6,16 +8,32 @@ export interface ContactData {
   github: string;
 }
 
+/** Un volet du poste : un intitulé, une icône et son descriptif. */
+export interface ExperienceAxis {
+  icon: IconName;
+  label: string;
+  body: string;
+}
+
 export interface ExperienceData {
+  id: string;
   title: string;
   company: string;
   period: string;
-  appHighlights: string;
-  dataHighlights: string;
+  /** Type de contrat, affiché en étiquette. */
+  contract: string;
+  /** Une phrase de cadrage sous l'intitulé. */
+  summary: string;
+  axes: ExperienceAxis[];
+  /** Faits marquants listés sous les volets. */
+  highlights?: string[];
+  /** Identifiant du témoignage rattaché, le cas échéant. */
+  testimonial?: TestimonialData;
 }
 
 export interface ImpactData {
-  icon: string;
+  /** Clé du jeu d'icônes — voir `src/components/ui/Icon.tsx`. */
+  icon: IconName;
   title: string;
   description: string;
 }
@@ -30,16 +48,7 @@ export interface WhatISeekData {
   title: string;
   subtitle: string;
   criteria: string[];
-  motivators: {
-    title: string;
-    items: string[];
-  };
-  limits: {
-    title: string;
-    items: string[];
-  };
   closingStatement: string;
-  shortVersion: string;
 }
 
 export interface TechnicalDetail {
@@ -106,9 +115,8 @@ export interface FullData {
   name: string;
   title: string;
   profile: string;
-  experience: ExperienceData;
+  experiences: ExperienceData[];
   education: EducationData[];
-  testimonial?: TestimonialData;
   impacts: ImpactData[];
   skills: SkillsData;
   whatISeek: WhatISeekData;

@@ -1,268 +1,339 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import React, { useEffect } from 'react';
-import { ProjectData } from '@/types';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import type { ProjectData, ProjectMetrics } from '@/types';
 import { ProjectGallery } from './ProjectGallery';
+import { Icon, type IconName } from './ui/Icon';
 
 interface ProjectModalProps {
-    project: ProjectData | null;
-    onClose: () => void;
-    allProjects?: ProjectData[];
-    onProjectClick?: (project: ProjectData) => void;
+  project: ProjectData | null;
+  onClose: () => void;
+  allProjects?: ProjectData[];
+  onProjectChange?: (project: ProjectData) => void;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, allProjects, onProjectClick }) => {
-    useEffect(() => {
-        if (project) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, [project]);
+/** Libellés des métriques, dans l'ordre d'affichage. */
+const METRIC_LABELS: [keyof ProjectMetrics, string][] = [
+  ['scope', 'Périmètre'],
+  ['users', 'Utilisateurs'],
+  ['activeUsers', 'Récurrents'],
+  ['team', 'Équipe'],
+  ['impact', 'Impact'],
+  ['status', 'Statut'],
+];
 
-    if (!project) return null;
+const DOC_ICONS: Record<string, IconName> = { pdf: 'doc', html: 'globe', link: 'link' };
 
-    return (
-        <AnimatePresence>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+export const ProjectModal: React.FC<ProjectModalProps> = ({
+  project,
+  onClose,
+  allProjects,
+  onProjectChange,
+}) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const restoreFocusTo = useRef<HTMLElement | null>(null);
+  const reduced = useReducedMotion();
+
+  // Référence toujours à jour, pour garder l'effet ci-dessous dépendant du
+  // seul `project` : `onClose` change d'identité à chaque rendu du parent.
+  const closeRef = useRef(onClose);
+  useEffect(() => {
+    closeRef.current = onClose;
+  });
+
+  /*
+   * Clavier, verrou de scroll et focus.
+   *
+   * L'écoute est posée sur `window` : un handler React sur le conteneur ne
+   * reçoit Échap que si le focus se trouve déjà dans la modale.
+   */
+  useEffect(() => {
+    if (!project) return;
+
+    restoreFocusTo.current = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const raf = requestAnimationFrame(() => {
+      panelRef.current?.querySelector<HTMLElement>('[data-autofocus]')?.focus();
+    });
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeRef.current();
+        return;
+      }
+      if (event.key !== 'Tab' || !panelRef.current) return;
+
+      // Maintient le focus à l'intérieur de la modale.
+      const items = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => el.offsetParent !== null
+      );
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+      const current = document.activeElement;
+
+      if (!panelRef.current.contains(current)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (event.shiftKey && current === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && current === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      restoreFocusTo.current?.focus?.();
+    };
+  }, [project]);
+
+  const metrics = project?.metrics
+    ? METRIC_LABELS.filter(([key]) => project.metrics?.[key]).map(
+        ([key, label]) => [label, project.metrics![key]!] as const
+      )
+    : [];
+
+  const related =
+    project?.relatedProjects && allProjects
+      ? project.relatedProjects
+          .map((id) => allProjects.find((p) => p.id === id))
+          .filter((p): p is ProjectData => Boolean(p))
+      : [];
+
+  return (
+    <AnimatePresence>
+      {project && (
+        <motion.div
+          key="overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+          className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden bg-bg/92 p-4 backdrop-blur-sm sm:p-6"
+        >
+          <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-titre"
+            initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }}
+            animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-surface flex max-h-[92svh] w-full max-w-4xl flex-col overflow-hidden border border-[color:var(--rule-strong)]"
+          >
+            {/* En-tête */}
+            <header className="rule-b flex shrink-0 items-start justify-between gap-4 px-6 py-6 md:px-10">
+              <div className="min-w-0">
+                <p className="note mb-3">{project.category}</p>
+                <h2 id="modal-titre" className="text-h3 text-balance">
+                  {project.title}
+                </h2>
+              </div>
+              <button
+                type="button"
+                data-autofocus
                 onClick={onClose}
-            >
-                <motion.div
-                    initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                    animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 w-full max-w-7xl max-h-[95vh] overflow-hidden flex flex-col"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    {/* Header */}
-                    <div className="sticky top-0 bg-gray-900/98 backdrop-blur-md border-b border-gray-700/50 px-6 py-4 flex justify-between items-start z-20 shrink-0">
-                        <div className="flex-1 min-w-0 pr-4">
-                            <div className="flex items-center gap-3 mb-2">
-                                <span className="inline-flex items-center bg-blue-600/20 text-blue-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-                                    {project.category}
-                                </span>
-                            </div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-white truncate">{project.title}</h2>
-                        </div>
-                        <button
-                            onClick={onClose}
-                            className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800/80 rounded-lg shrink-0"
-                            aria-label="Fermer"
+                aria-label="Fermer"
+                className="text-muted hover:text-accent-soft shrink-0 transition-colors"
+              >
+                <Icon name="close" className="h-5 w-5" />
+              </button>
+            </header>
+
+            {/* Corps */}
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+              <div className="space-y-12 px-6 py-9 md:px-10 md:py-12">
+                {project.screenshots.length > 0 && (
+                  <ProjectGallery
+                    screenshots={project.screenshots}
+                    projectTitle={project.shortTitle}
+                    iframeUrl={project.iframeUrl}
+                  />
+                )}
+
+                {/* Documents joints */}
+                {project.strategyDocuments && project.strategyDocuments.length > 0 && (
+                  <section>
+                    <h3 className="note mb-6">Documentation</h3>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {project.strategyDocuments.map((doc) => (
+                        <a
+                          key={doc.url}
+                          href={doc.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group rule-t hover:border-accent/60 flex flex-col pt-6 transition-colors"
                         >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                          <span className="text-accent">
+                            <Icon name={DOC_ICONS[doc.type] ?? 'doc'} className="h-5 w-5" />
+                          </span>
+                          <h4 className="text-fg mt-4 display text-xl text-balance">{doc.title}</h4>
+                          {doc.description && (
+                            <p className="text-muted mt-2 text-sm leading-relaxed">
+                              {doc.description}
+                            </p>
+                          )}
+                          <span className="note text-accent mt-auto flex items-center gap-2 pt-5">
+                            Ouvrir
+                            <Icon
+                              name="arrowUpRight"
+                              className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            />
+                          </span>
+                        </a>
+                      ))}
                     </div>
+                  </section>
+                )}
 
-                    {/* Contenu scrollable */}
-                    <div className="overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
-                        <div className="p-6 md:p-8 space-y-8">
-                            {/* Galerie d'images en pleine largeur */}
-                            {project.screenshots.length > 0 && (
-                                <div className="w-full">
-                                    <ProjectGallery
-                                        screenshots={project.screenshots}
-                                        projectTitle={project.title}
-                                        iframeUrl={project.iframeUrl}
-                                    />
-                                </div>
-                            )}
+                {/* Présentation */}
+                <section>
+                  <h3 className="note mb-5">Le projet</h3>
+                  <p className="text-muted leading-relaxed">{project.description}</p>
+                </section>
 
-                            {/* Contenu principal */}
-                            <div className="space-y-6 max-w-5xl mx-auto">
-                                <div>
-                                    <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                                        <span className="text-blue-400">📋</span>
-                                        Description du projet
-                                    </h3>
-                                    <p className="text-gray-300 leading-relaxed text-base">
-                                        {project.description}
-                                    </p>
-                                </div>
-
-                                {/* Métriques (si présentes) */}
-                                {project.metrics && (
-                                    <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 rounded-xl p-5">
-                                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                            <span className="text-blue-400">📊</span>
-                                            Métriques d'impact
-                                        </h3>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            {project.metrics.users && (
-                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
-                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Utilisateurs</p>
-                                                    <p className="text-blue-300 text-lg font-bold">{project.metrics.users}</p>
-                                                </div>
-                                            )}
-                                            {project.metrics.activeUsers && (
-                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
-                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Récurrents</p>
-                                                    <p className="text-green-300 text-lg font-bold">{project.metrics.activeUsers}</p>
-                                                </div>
-                                            )}
-                                            {project.metrics.scope && (
-                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
-                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Périmètre</p>
-                                                    <p className="text-blue-300 text-lg font-bold">{project.metrics.scope}</p>
-                                                </div>
-                                            )}
-                                            {project.metrics.team && (
-                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
-                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Équipe</p>
-                                                    <p className="text-green-300 text-lg font-bold">{project.metrics.team}</p>
-                                                </div>
-                                            )}
-                                            {project.metrics.impact && (
-                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
-                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Impact</p>
-                                                    <p className="text-purple-300 text-lg font-bold">{project.metrics.impact}</p>
-                                                </div>
-                                            )}
-                                            {project.metrics.status && (
-                                                <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
-                                                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">Statut</p>
-                                                    <p className="text-purple-300 text-lg font-bold">{project.metrics.status}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Fonctionnalités clés (si présentes) */}
-                                {project.keyFeatures && project.keyFeatures.length > 0 && (
-                                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50">
-                                        <h3 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
-                                            <span className="text-blue-400">✨</span>
-                                            Fonctionnalités clés
-                                        </h3>
-                                        <div className="space-y-4">
-                                            {project.keyFeatures.map((feature, index) => (
-                                                <div key={index} className="flex gap-3">
-                                                    <div className="shrink-0 w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-400 font-bold text-sm">
-                                                        {index + 1}
-                                                    </div>
-                                                    <div className="flex-1">
-                                                        <h4 className="font-semibold text-blue-300 mb-1">
-                                                            {feature.title}
-                                                        </h4>
-                                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                                            {feature.content}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Architecture technique détaillée */}
-                                {project.technicalDetails && project.technicalDetails.length > 0 && (
-                                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50">
-                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                            <span className="text-blue-400">🏗️</span>
-                                            Architecture technique
-                                        </h3>
-
-                                        <div className="space-y-4">
-                                            {project.technicalDetails.map((detail, index) => (
-                                                <div key={index}>
-                                                    <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
-                                                        <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                                                        {detail.title}
-                                                    </h4>
-                                                    <p className="text-gray-300 text-sm leading-relaxed ml-4">
-                                                        {detail.content}
-                                                    </p>
-                                                </div>
-                                            ))}
-
-                                            {project.architectureFlow && (
-                                                <div className="mt-4 pt-4 border-t border-gray-700">
-                                                    <p className="text-gray-400 text-xs italic">
-                                                        {project.architectureFlow}
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Projets liés */}
-                                {project.relatedProjects && project.relatedProjects.length > 0 && allProjects && onProjectClick && (
-                                    <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-700/30 rounded-xl p-6">
-                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                            <span className="text-purple-400">🔗</span>
-                                            Projets liés
-                                        </h3>
-                                        <div className="grid grid-cols-1 gap-4">
-                                            {project.relatedProjects.map((relatedId) => {
-                                                const relatedProject = allProjects.find((p) => p.id === relatedId);
-                                                if (!relatedProject) return null;
-                                                return (
-                                                    <button
-                                                        key={relatedId}
-                                                        onClick={() => onProjectClick(relatedProject)}
-                                                        className="bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 hover:border-purple-500 rounded-lg p-4 transition-all duration-300 text-left group"
-                                                    >
-                                                        <div className="flex items-start gap-4">
-                                                            <div className="shrink-0 w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center text-purple-400 group-hover:bg-purple-600/30 transition-colors">
-                                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                                </svg>
-                                                            </div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-center gap-2 mb-1">
-                                                                    <span className="text-xs font-bold uppercase tracking-wide text-purple-400">
-                                                                        {relatedProject.category}
-                                                                    </span>
-                                                                </div>
-                                                                <h4 className="font-semibold text-white group-hover:text-purple-300 transition-colors mb-1">
-                                                                    {relatedProject.shortTitle}
-                                                                </h4>
-                                                                <p className="text-gray-400 text-sm line-clamp-2">
-                                                                    {relatedProject.description}
-                                                                </p>
-                                                            </div>
-                                                            <svg className="w-5 h-5 text-gray-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Disclaimer */}
-                                {project.disclaimer && (
-                                    <div className="bg-blue-900/20 border border-blue-700/30 rounded-lg p-4">
-                                        <p className="text-blue-300 text-sm flex items-start gap-2">
-                                            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span>
-                                                <strong>Note :</strong> {project.disclaimer}
-                                            </span>
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
+                {/* Métriques */}
+                {metrics.length > 0 && (
+                  <section>
+                    <h3 className="note mb-6">Impact</h3>
+                    <dl className="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {metrics.map(([label, value]) => (
+                        <div key={label} className="rule-t pt-4">
+                          <dt className="note">
+                            {label}
+                          </dt>
+                          <dd className="text-fg mt-2 display text-xl">{value}</dd>
                         </div>
+                      ))}
+                    </dl>
+                  </section>
+                )}
+
+                {/* Points clés */}
+                {project.keyFeatures && project.keyFeatures.length > 0 && (
+                  <section>
+                    <h3 className="note mb-6">Points clés</h3>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {project.keyFeatures.map((feature, index) => (
+                        <article
+                          key={feature.title}
+                          className="rule-t pt-6"
+                        >
+                          <div className="flex items-baseline gap-3">
+                            <span className="folio">
+                              {String(index + 1).padStart(2, '0')}
+                            </span>
+                            <h4 className="text-fg display text-xl text-balance">{feature.title}</h4>
+                          </div>
+                          <p className="text-muted mt-3 text-sm leading-relaxed">
+                            {feature.content}
+                          </p>
+                        </article>
+                      ))}
                     </div>
-                </motion.div>
-            </motion.div>
-        </AnimatePresence>
-    );
+                  </section>
+                )}
+
+                {/* Détails techniques */}
+                {project.technicalDetails && project.technicalDetails.length > 0 && (
+                  <section>
+                    <h3 className="note mb-6">Architecture & méthodologie</h3>
+                    <div className="space-y-7">
+                      {project.technicalDetails.map((detail) => (
+                        <div key={detail.title} className="rule-t pt-5">
+                          <h4 className="note text-fg">{detail.title}</h4>
+                          <p className="text-muted mt-2 text-sm leading-relaxed">
+                            {detail.content}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {project.architectureFlow && (
+                      <p className="text-faint bg-bg mt-8 p-5 font-mono text-xs leading-relaxed">
+                        {project.architectureFlow}
+                      </p>
+                    )}
+                  </section>
+                )}
+
+                {/* Technologies */}
+                {project.technos.length > 0 && (
+                  <section>
+                    <h3 className="note mb-6">Technologies</h3>
+                    <ul className="flex flex-wrap items-baseline">
+                      {project.technos.map((techno) => (
+                        <li key={techno}>
+                          <span className="tag">{techno}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
+
+                {/* Projets liés */}
+                {related.length > 0 && onProjectChange && (
+                  <section>
+                    <h3 className="note mb-6">Projet lié</h3>
+                    <div className="space-y-3">
+                      {related.map((linked) => (
+                        <button
+                          key={linked.id}
+                          type="button"
+                          onClick={() => onProjectChange(linked)}
+                          className="group rule-t hover:border-accent/60 flex w-full items-center gap-5 pt-5 text-left transition-colors"
+                        >
+                          <span className="text-accent shrink-0">
+                            <Icon name="link" className="h-5 w-5" />
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="note block">
+                              {linked.category}
+                            </span>
+                            <span className="text-fg group-hover:text-accent-soft mt-1.5 block display text-xl transition-colors">
+                              {linked.shortTitle}
+                            </span>
+                          </span>
+                          <Icon
+                            name="arrowRight"
+                            className="text-accent h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* Mention */}
+                {project.disclaimer && (
+                  <p className="text-muted border-accent/50 flex items-start gap-3 border-l-2 pl-5 text-sm leading-relaxed">
+                    <Icon name="info" className="text-accent mt-0.5 h-4.5 w-4.5 shrink-0" />
+                    <span>{project.disclaimer}</span>
+                  </p>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 };

@@ -1,53 +1,81 @@
-# Portfolio - Adam Taïeb
+# Portfolio — Adam Taïeb
 
-Portfolio professionnel présentant mon parcours d'ingénieur Full-Stack & Data, mes projets et mes compétences techniques.
+Portfolio d'ingénieur Full-Stack & Data : parcours, projets et stack technique.
 
 **En ligne :** [ataieb-dev.fr](https://www.ataieb-dev.fr)
 
-## À propos
+## Stack
 
-Ingénieur polyvalent spécialisé dans la conception de solutions complètes, de la data à l'application. Actuellement Ingénieur Full-Stack & Data au Crédit Agricole Franche-Comté.
+- **Framework :** Next.js 16 (App Router, React Compiler), React 19, TypeScript
+- **Style :** Tailwind CSS 4 — design system par tokens CSS dans `src/app/globals.css`
+- **Typographie :** Instrument Serif (titres), Geist Sans (corps), Geist Mono (notes)
+- **Animation :** Framer Motion, avec prise en charge de `prefers-reduced-motion`
+- **Analytics :** Vercel Analytics
 
-## Stack Technique
+## Architecture
 
-- **Frontend :** Next.js 16, React 19, TypeScript, Tailwind CSS 4, Framer Motion
-- **Backend & Data :** Python, PHP, SQL Server, Machine Learning, TensorFlow
-- **Outils :** Git, Docker, Vercel Analytics
+```
+src/
+├── app/
+│   ├── layout.tsx           # Métadonnées, JSON-LD Person, nav, pied de page
+│   ├── page.tsx             # Composition des sections (composant serveur)
+│   ├── globals.css          # Tokens, échelle typographique fluide, utilitaires
+│   ├── opengraph-image.tsx  # Aperçu social généré au build
+│   ├── robots.ts / sitemap.ts
+├── components/
+│   ├── Nav.tsx              # En-tête fixe, section active, progression de lecture
+│   ├── Footer.tsx
+│   ├── ProjectGrid.tsx      # Sommaire des projets + modale
+│   ├── ProjectModal.tsx     # Modale unifiée (captures ou documents)
+│   ├── ProjectGallery.tsx   # Carrousel navigable au clavier
+│   ├── sections/            # Une section par fichier
+│   └── ui/                  # Section, Reveal, Icon
+├── lib/
+│   ├── data.ts              # Tout le contenu éditorial (expériences, projets…)
+│   ├── site.ts              # URL canonique, navigation
+│   └── animations.ts        # Variants Framer Motion partagés
+└── types/index.ts
+```
 
-## Projets Présentés
+**Parti pris graphique :** le site est composé comme une revue technique imprimée.
+Une grille asymétrique (`.editorial`) pose une colonne de marge en mono — numéro de
+section, dates, mentions — face à une colonne de texte. Les blocs sont séparés par
+des filets 1px, pas par des cartes. Palette encre chaude / crème / terracotta, un
+seul accent, un grain de papier en surimpression.
 
-### Parcours 360° (CAFC)
-Interface décisionnelle full-stack pour conseillers bancaires (React + TypeScript + PHP + SQL Server).
-- 100+ utilisateurs quotidiens
-- Architecture : Teradata → SQL Server → API PHP → Frontend React
+**Principe technique :** les sections sont des composants serveur. La seule frontière
+client est `Reveal`, qui déclenche les animations à l'entrée dans le viewport — plus
+le sommaire des projets, qui porte l'état de sélection.
 
-### VH Besançon Alumni
-Plateforme complète avec blog, annuaire et forum (Next.js + Sanity CMS).
-- En production sur vh-besancon-alumni.fr
-- Architecture headless CMS avec déploiement Vercel
+## Modifier le contenu
 
-### ML API Immobilière
-API de prédiction avec modèle TensorFlow déployé sur Hugging Face Spaces (FastAPI + Docker).
-- Entraînement sur 300 000+ transactions
-- Architecture microservices
+Tout le texte vit dans [`src/lib/data.ts`](src/lib/data.ts) : profil, chiffres clés,
+expériences, projets, compétences, formation, contact. Aucun contenu n'est codé en
+dur dans les composants.
 
-## Développement Local
+Les icônes des blocs « Approche » se choisissent parmi les clés de
+[`src/components/ui/Icon.tsx`](src/components/ui/Icon.tsx).
+
+## Développement
 
 ```bash
-# Installation
 npm install
-
-# Serveur de développement
 npm run dev
 ```
 
-Ouvrir [http://localhost:3000](http://localhost:3000)
+Ouvrir [http://localhost:3000](http://localhost:3000).
 
 ## Build
 
 ```bash
 npm run build
 npm start
+```
+
+## Vérifications
+
+```bash
+npx tsc --noEmit && npx eslint src --max-warnings=0
 ```
 
 ## Contact
@@ -58,4 +86,4 @@ npm start
 
 ---
 
-© 2025 Adam Taïeb • Ingénieur Data & Développement Full-Stack
+© 2026 Adam Taïeb
