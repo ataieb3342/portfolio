@@ -255,11 +255,63 @@
 }
 
 /* ============================================================
+   Apparition au défilement
+
+   Le défaut est « visible » : sans JavaScript, aucun de ces blocs n'est
+   masqué. `data-js` n'est posé sur <html> que par le script en ligne du
+   layout, et retiré par son filet de sécurité si l'application ne prend
+   jamais la main. Voir components/ui/Reveal.tsx.
+   ============================================================ */
+[data-reveal],
+[data-reveal-item] {
+  transition:
+    opacity 0.65s var(--ease-expo),
+    transform 0.65s var(--ease-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html[data-js] [data-reveal]:not([data-shown]),
+html[data-js] [data-reveal-group]:not([data-shown]) [data-reveal-item] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/*
+ * Cadence du groupe. Le rang se lit sur l'élément lui-même plutôt que sur un
+ * sélecteur d'enfant direct : un `RevealItem` est souvent imbriqué dans la
+ * liste que le groupe enveloppe, pas posé juste dessous.
+ */
+[data-reveal-item]:nth-child(1) {
+  --reveal-delay: 40ms;
+}
+[data-reveal-item]:nth-child(2) {
+  --reveal-delay: 120ms;
+}
+[data-reveal-item]:nth-child(3) {
+  --reveal-delay: 200ms;
+}
+[data-reveal-item]:nth-child(4) {
+  --reveal-delay: 280ms;
+}
+[data-reveal-item]:nth-child(5) {
+  --reveal-delay: 360ms;
+}
+[data-reveal-item]:nth-child(n + 6) {
+  --reveal-delay: 440ms;
+}
+
+/* ============================================================
    Mouvement réduit
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  /* Rien n'attend le JavaScript pour s'afficher. */
+  html[data-js] [data-reveal]:not([data-shown]),
+  html[data-js] [data-reveal-group]:not([data-shown]) [data-reveal-item] {
+    opacity: 1;
+    transform: none;
   }
   *,
   *::before,

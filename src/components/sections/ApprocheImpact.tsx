@@ -14,14 +14,16 @@ export const ApprocheImpact: React.FC = () => (
     <RevealGroup>
       <ol className="space-y-12">
         {data.impacts.map((impact, index) => (
-          <RevealItem key={impact.title}>
-            <li className="rule-t grid gap-4 pt-7 md:grid-cols-[3.5rem_minmax(0,1fr)] md:gap-8">
-              <span className="folio pt-1">{String(index + 1).padStart(2, '0')}</span>
-              <div>
-                <h3 className="text-h3">{impact.title}</h3>
-                <p className="text-muted mt-3 max-w-2xl leading-relaxed">{impact.description}</p>
-              </div>
-            </li>
+          <RevealItem
+            as="li"
+            key={impact.title}
+            className="rule-t grid gap-4 pt-7 md:grid-cols-[3.5rem_minmax(0,1fr)] md:gap-8"
+          >
+            <span className="folio pt-1">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 className="text-h3">{impact.title}</h3>
+              <p className="text-muted mt-3 max-w-2xl leading-relaxed">{impact.description}</p>
+            </div>
           </RevealItem>
         ))}
       </ol>

@@ -106,9 +106,30 @@ const personJsonLd = {
   knowsAbout: [...data.skills.data, ...data.skills.dev, ...data.skills.tools],
 };
 
+/**
+ * Autorise l'état masqué des blocs révélés au défilement.
+ *
+ * En ligne et synchrone : il s'exécute avant le premier rendu, donc sans
+ * clignotement, et il n'existe pas s'il n'y a pas de JavaScript — c'est
+ * précisément ce qui garde la page lisible dans ce cas. Le minuteur est le
+ * filet de sécurité du cas intermédiaire : scripts actifs mais bundle jamais
+ * arrivé. Voir components/ui/Reveal.tsx.
+ */
+const revealBootstrap = `(function(){var d=document.documentElement;d.setAttribute('data-js','');
+setTimeout(function(){if(!window.__reveal)d.removeAttribute('data-js')},2500)})()`;
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable}`}>
+    // `data-js` est posé par le script ci-dessous avant l'hydratation : React
+    // verrait sinon un attribut qu'il n'a pas rendu côté serveur.
+    <html
+      lang="fr"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: revealBootstrap }} />
+      </head>
       <body className="grain antialiased">
         <a
           href="#contenu"

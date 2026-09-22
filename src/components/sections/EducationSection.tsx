@@ -14,17 +14,19 @@ export const EducationSection: React.FC = () => (
     <RevealGroup>
       <ol className="space-y-10">
         {data.education.map((edu) => (
-          <RevealItem key={edu.degree}>
-            <li className="rule-t grid gap-3 pt-7 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-10">
-              <p className="note pt-1.5">{edu.period}</p>
-              <div>
-                <h3 className="text-h3 text-balance">{edu.degree}</h3>
-                <p className="text-accent-soft mt-2">{edu.school}</p>
-                {edu.details && (
-                  <p className="text-muted mt-4 max-w-2xl text-sm leading-relaxed">{edu.details}</p>
-                )}
-              </div>
-            </li>
+          <RevealItem
+            as="li"
+            key={edu.degree}
+            className="rule-t grid gap-3 pt-7 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-10"
+          >
+            <p className="note pt-1.5">{edu.period}</p>
+            <div>
+              <h3 className="text-h3 text-balance">{edu.degree}</h3>
+              <p className="text-accent-soft mt-2">{edu.school}</p>
+              {edu.details && (
+                <p className="text-muted mt-4 max-w-2xl text-sm leading-relaxed">{edu.details}</p>
+              )}
+            </div>
           </RevealItem>
         ))}
       </ol>

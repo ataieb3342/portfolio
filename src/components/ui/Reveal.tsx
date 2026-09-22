@@ -1,90 +1,140 @@
 'use client';
 
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import React from 'react';
-import { fadeUp, stagger, viewportOnce } from '@/lib/animations';
+import React, { useEffect, useRef } from 'react';
+
+/**
+ * Apparition au défilement, en amélioration progressive.
+ *
+ * Le rendu serveur est *visible* : l'état masqué n'est appliqué que si
+ * `data-js` est posé sur `<html>` par le script en ligne du layout. Sans
+ * JavaScript — ou si le bundle n'arrive jamais — la page reste lisible.
+ *
+ * Le déclenchement n'utilise pas `IntersectionObserver` : à seuil non nul,
+ * un défilement rapide ou un saut d'ancre peut passer d'« entièrement sous
+ * l'écran » à « entièrement au-dessus » entre deux échantillonnages, et
+ * l'élément n'est alors jamais révélé. On balaie donc les positions à chaque
+ * trame utile : tout ce qui est passé sous la ligne de flottaison est révélé,
+ * y compris ce qui est déjà remonté hors écran.
+ */
+
+/** Fraction de la hauteur d'écran sous laquelle un élément se révèle. */
+const TRIGGER = 0.88;
+
+const pending = new Set<HTMLElement>();
+let frame = 0;
+let listening = false;
+
+function reveal(el: HTMLElement) {
+  el.setAttribute('data-shown', '');
+  pending.delete(el);
+}
+
+function sweep() {
+  frame = 0;
+
+  // Toutes les lectures d'abord, toutes les écritures ensuite : on évite de
+  // forcer un recalcul de style entre chaque élément.
+  const limit = window.innerHeight * TRIGGER;
+  const due: HTMLElement[] = [];
+  pending.forEach((el) => {
+    if (el.getBoundingClientRect().top < limit) due.push(el);
+  });
+  due.forEach(reveal);
+
+  if (pending.size === 0) stopListening();
+}
+
+function schedule() {
+  if (frame === 0) frame = requestAnimationFrame(sweep);
+}
+
+function startListening() {
+  if (listening) return;
+  listening = true;
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+}
+
+function stopListening() {
+  if (!listening) return;
+  listening = false;
+  window.removeEventListener('scroll', schedule);
+  window.removeEventListener('resize', schedule);
+}
+
+function register(el: HTMLElement) {
+  // Signale au script en ligne que le filet de sécurité n'a plus lieu d'être.
+  (window as unknown as { __reveal?: boolean }).__reveal = true;
+  pending.add(el);
+  startListening();
+  schedule();
+}
+
+function unregister(el: HTMLElement) {
+  pending.delete(el);
+  if (pending.size === 0) stopListening();
+}
+
+function useRevealed<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    register(el);
+    return () => unregister(el);
+  }, []);
+
+  return ref;
+}
 
 type Props = {
   children: React.ReactNode;
   className?: string;
-  variants?: Variants;
-  /** Retard supplémentaire, en secondes. */
-  delay?: number;
   id?: string;
 };
 
+/** Bloc révélé pour lui-même. */
+export const Reveal: React.FC<Props> = ({ children, className, id }) => {
+  const ref = useRevealed<HTMLDivElement>();
+
+  return (
+    <div ref={ref} id={id} className={className} data-reveal>
+      {children}
+    </div>
+  );
+};
+
 /**
- * Révèle son contenu à l'entrée dans le viewport.
+ * Conteneur qui cadence l'apparition de ses `RevealItem`.
  *
- * C'est la seule frontière client de la page : les sections restent des
- * composants serveur et passent leur markup ici via `children`.
- * Si l'utilisateur a demandé moins d'animations, on rend un simple `div`.
+ * C'est le groupe qui est observé, pas chaque enfant : ils entrent donc
+ * ensemble, décalés par le `--reveal-delay` que la feuille de style dérive
+ * de leur rang.
  */
-export const Reveal: React.FC<Props> = ({ children, className, variants = fadeUp, delay = 0, id }) => {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return (
-      <div id={id} className={className}>
-        {children}
-      </div>
-    );
-  }
+export const RevealGroup: React.FC<Props> = ({ children, className, id }) => {
+  const ref = useRevealed<HTMLDivElement>();
 
   return (
-    <motion.div
-      id={id}
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewportOnce}
-      variants={variants}
-      transition={{ delay }}
-    >
+    <div ref={ref} id={id} className={className} data-reveal-group>
       {children}
-    </motion.div>
+    </div>
   );
 };
 
-/** Conteneur qui cadence l'apparition de ses `RevealItem`. */
-export const RevealGroup: React.FC<Props> = ({ children, className, variants = stagger, id }) => {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return (
-      <div id={id} className={className}>
-        {children}
-      </div>
-    );
-  }
-
-  return (
-    <motion.div
-      id={id}
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewportOnce}
-      variants={variants}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-/** Élément animé par le `RevealGroup` parent. */
-export const RevealItem: React.FC<{
+type ItemProps = {
   children: React.ReactNode;
   className?: string;
-  variants?: Variants;
-}> = ({ children, className, variants = fadeUp }) => {
-  const reduced = useReducedMotion();
-
-  if (reduced) return <div className={className}>{children}</div>;
-
-  return (
-    <motion.div className={className} variants={variants}>
-      {children}
-    </motion.div>
-  );
+  /**
+   * Élément rendu. À renseigner dans une liste : un `div` posé directement
+   * sous `ol` ou `ul` est invalide et casse le comptage des lecteurs d'écran.
+   */
+  as?: 'div' | 'li';
 };
+
+/** Élément cadencé par le `RevealGroup` parent. */
+export const RevealItem: React.FC<ItemProps> = ({ children, className, as: Tag = 'div' }) => (
+  <Tag className={className} data-reveal-item>
+    {children}
+  </Tag>
+);

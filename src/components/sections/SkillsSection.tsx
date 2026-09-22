@@ -20,20 +20,21 @@ export const SkillsSection: React.FC = () => (
     <RevealGroup>
       <dl className="space-y-10">
         {groups.map((group) => (
-          <RevealItem key={group.key}>
-            <div className="rule-t grid gap-3 pt-7 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-10">
-              <div>
-                <dt className="text-fg text-lg">{group.label}</dt>
-                <p className="note mt-1.5 normal-case">{group.note}</p>
-              </div>
-              <dd className="flex flex-wrap items-baseline">
-                {data.skills[group.key].map((skill) => (
-                  <span key={skill} className="tag">
-                    {skill}
-                  </span>
-                ))}
-              </dd>
+          <RevealItem
+            key={group.key}
+            className="rule-t grid gap-3 pt-7 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-10"
+          >
+            <div>
+              <dt className="text-fg text-lg">{group.label}</dt>
+              <p className="note mt-1.5 normal-case">{group.note}</p>
             </div>
+            <dd className="flex flex-wrap items-baseline">
+              {data.skills[group.key].map((skill) => (
+                <span key={skill} className="tag">
+                  {skill}
+                </span>
+              ))}
+            </dd>
           </RevealItem>
         ))}
       </dl>

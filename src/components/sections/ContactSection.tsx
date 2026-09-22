@@ -21,11 +21,9 @@ export const ContactSection: React.FC = () => (
         <RevealGroup className="mt-10">
           <ol className="grid gap-4 md:grid-cols-3">
             {data.whatISeek.criteria.map((criterion, index) => (
-              <RevealItem key={criterion} className="h-full">
-                <li className="block h-full p-5">
-                  <span className="folio">{String(index + 1).padStart(2, '0')}</span>
-                  <p className="text-fg mt-3 leading-snug">{criterion}</p>
-                </li>
+              <RevealItem as="li" key={criterion} className="block h-full p-5">
+                <span className="folio">{String(index + 1).padStart(2, '0')}</span>
+                <p className="text-fg mt-3 leading-snug">{criterion}</p>
               </RevealItem>
             ))}
           </ol>
