@@ -41,12 +41,12 @@ export const data: FullData = {
           {
             icon: "code",
             label: "Applications métier full-stack",
-            body: "Stratégie data-driven déployée auprès de 50+ collaborateurs • Transformation organisationnelle Marketing • Interfaces décisionnelles ouvertes à 400 conseillers (React/PHP/SQL Server)"
+            body: "Interfaces décisionnelles ouvertes à 400 conseillers, en React sur un back PHP et SQL Server. En parallèle, l'accompagnement d'une cinquantaine de collaborateurs du Marketing vers des décisions appuyées sur la donnée."
           },
           {
             icon: "chart",
             label: "Data & MLOps",
-            body: "Pipeline ML industrialisé (Spark) pour segmentation stratégique • Modèles de scoring en production • Datamart centralisé (15 tables), +50% d'efficacité analytique"
+            body: "Pipeline de segmentation client industrialisé sous Spark, modèles de scoring passés en production, et un datamart centralisé de quinze tables pour les analyses du service."
           }
         ],
         testimonial: {
@@ -72,9 +72,9 @@ export const data: FullData = {
       }
     ],
     impacts: [
-      { icon: "bolt", title: "Autonomie End-to-End", description: "Capacité à livrer des solutions complètes en autonomie : du modèle ML (Spark) aux APIs (REST) jusqu'à l'interface (React). 3 projets menés de A à Z en production." },
-      { icon: "chart", title: "Impact Métier Mesurable", description: "400 conseillers ont accès à l'interface décisionnelle, une centaine s'en servent régulièrement. Pipeline ML en production pour segmentation stratégique. Plateforme alumni avec 200+ tests et double CI/CD." },
-      { icon: "layers", title: "Polyvalence Technique", description: "Un périmètre large : Data/ML (Python, Spark, SQL), Full-Stack (React, PHP, Next.js), DevOps (Docker, CI/CD). Adaptation rapide à des environnements legacy complexes." },
+      { icon: "bolt", title: "Du modèle à l'écran, sans relais", description: "Du pipeline Spark aux APIs REST jusqu'à l'interface React : trois projets tenus d'un bout à l'autre, jusqu'en production." },
+      { icon: "chart", title: "L'usage plutôt que la livraison", description: "400 conseillers ont accès à l'interface décisionnelle, une centaine s'en servent régulièrement. Le pipeline de segmentation tourne en production, et la plateforme alumni est couverte par plus de 200 tests et deux chaînes d'intégration." },
+      { icon: "layers", title: "À l'aise dans l'existant", description: "Data et ML en Python, Spark et SQL ; full-stack en React, PHP et Next.js ; Docker et intégration continue pour déployer. Les systèmes hérités ne me rebutent pas, j'y passe l'essentiel de mon temps." },
     ],
     skills: {
       data: ['Python', 'SQL', 'ETL', 'Machine Learning', 'Spark/Hadoop', 'Vertica', 'Semarchy xDI', 'Datawarehouse & datamart', 'Migration SAS', 'Segmentation client'],
@@ -101,18 +101,18 @@ export const data: FullData = {
     projects: [
         {
             id: "strategie-data",
-            title: "Pipeline ML & Transformation Data-Driven (Alternance CAFC)",
+            title: "Pipeline de segmentation et conduite du changement (alternance CAFC)",
             shortTitle: "Stratégie Data (CAFC)",
-            description: "Contribution à la transformation data du marketing bancaire pendant mon alternance. (1) Développement du pipeline ML (Spark) de segmentation client avec 4 segments stratégiques exposés aux outils métier. (2) Participation aux workshops data avec 50+ collaborateurs Marketing/Comm pour faire adopter une approche data-driven. Projet mené sur 2 ans avec impact réel sur l'organisation.",
-            technos: ['Data Strategy', 'Segmentation Client', 'Change Management', 'Workshop Animation', 'Product Thinking', 'Spark', 'ML Pipeline', 'Scoring', 'Big Data'],
+            description: "Contribution à la transformation data du marketing bancaire pendant l'alternance. D'un côté le pipeline Spark de segmentation client, avec quatre segments exposés aux outils métier. De l'autre les ateliers qui ont fait adopter la démarche à une cinquantaine de personnes du Marketing et de la Communication. Deux ans au contact du métier.",
+            technos: ['Spark', 'Machine Learning', 'Segmentation client', 'Scoring', 'Animation d\'ateliers', 'Conduite du changement'],
             screenshots: [],
             thumbnail: "/cafc-data/figure-segmentation.svg",
-            category: "Data Strategy & Leadership",
+            category: "Stratégie data",
             strategyDocuments: [
                 {
                     type: 'pdf',
                     title: 'Documentation Vulgarisée - Segmentation de Potentiel Dynamique',
-                    url: '/cafc-data/documentation-vulgarisée.pdf',
+                    url: '/cafc-data/documentation-vulgarisee.pdf',
                     description: 'Documentation détaillée du modèle de segmentation : scores MIRE & PNB, 4 segments stratégiques, et méthodologie d\'opérationnalisation'
                 },
                 {
@@ -180,7 +180,7 @@ export const data: FullData = {
             id: "p360",
             title: "Parcours 360° - Interface Décisionnelle Full-Stack (Alternance CAFC)",
             shortTitle: "Parcours 360° (CAFC)",
-            description: "Interface décisionnelle full-stack développée en alternance, à laquelle 400 conseillers bancaires ont accès. Affiche les segments stratégiques calculés par le pipeline ML. Vue 360° client consolidant historique multi-comptes, scoring digital propriétaire, et intégrations API (Goodays). Stack: React/Next.js (frontend), PHP/SQL Server (backend), Teradata (data). En production depuis 2024.",
+            description: "Interface décisionnelle full-stack développée en alternance, à laquelle 400 conseillers bancaires ont accès. Affiche les segments stratégiques calculés par le pipeline ML. Vue 360° client consolidant historique multi-comptes, scoring digital propriétaire, et intégrations API (Goodays). En production depuis 2024.",
             technos: ['React', 'Next.js', 'TypeScript', 'PHP', 'SQL Server', 'Teradata', 'Material-UI'],
             screenshots: [
                 "/p360/1.png",
@@ -242,7 +242,7 @@ export const data: FullData = {
             id: "vhalumni",
             title: "VH Besançon Alumni - Plateforme Associative Full-Stack (Projet Personnel)",
             shortTitle: "VH Besançon Alumni",
-            description: "Plateforme full-stack complète développée en bénévolat pour l'association des anciens élèves de VH Besançon. Blog, annuaire interactif, forum d'annonces, témoignages, authentification sécurisée (NextAuth v5) avec validation admin. Architecture testée (200+ tests unitaires + E2E), double pipeline CI/CD (Vercel + GitHub Actions), monitoring Sentry en production. Stack: Next.js 14, React 19, Sanity CMS, TypeScript.",
+            description: "Plateforme full-stack complète développée en bénévolat pour l'association des anciens élèves de VH Besançon. Blog, annuaire interactif, forum d'annonces, témoignages, authentification sécurisée (NextAuth v5) avec validation admin. Architecture testée (200+ tests unitaires + E2E), double pipeline CI/CD (Vercel + GitHub Actions), monitoring Sentry en production.",
             technos: ['Next.js 14', 'TypeScript', 'React 19', 'NextAuth v5', 'Sanity CMS', 'Tailwind CSS', 'Zod', 'Vitest', 'Playwright', 'Sentry', 'Nodemailer', 'Google Drive API', 'GitHub Actions', 'Vercel', 'OVH'],
             screenshots: [
                 "/vhalumni/1.png",
