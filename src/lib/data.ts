@@ -106,7 +106,7 @@ export const data: FullData = {
             description: "Contribution à la transformation data du marketing bancaire pendant mon alternance. (1) Développement du pipeline ML (Spark) de segmentation client avec 4 segments stratégiques exposés aux outils métier. (2) Participation aux workshops data avec 50+ collaborateurs Marketing/Comm pour faire adopter une approche data-driven. Projet mené sur 2 ans avec impact réel sur l'organisation.",
             technos: ['Data Strategy', 'Segmentation Client', 'Change Management', 'Workshop Animation', 'Product Thinking', 'Spark', 'ML Pipeline', 'Scoring', 'Big Data'],
             screenshots: [],
-            thumbnail: "/cafc-data/strategy-icon.svg",
+            thumbnail: "/cafc-data/figure-segmentation.svg",
             category: "Data Strategy & Leadership",
             strategyDocuments: [
                 {
@@ -190,7 +190,7 @@ export const data: FullData = {
                 "/p360/5.png",
                 "/p360/6.png",
             ],
-            thumbnail: "/p360/p360.svg",
+            thumbnail: "/p360/figure-interface.svg",
             category: "Full-Stack",
             link: "#",
             metrics: {
@@ -251,7 +251,7 @@ export const data: FullData = {
                 "/vhalumni/4.png",
                 "/vhalumni/5.png",
             ],
-            thumbnail: "/vhalumni/vhalumni.png",
+            thumbnail: "/vhalumni/figure-plateforme.svg",
             category: "Full-Stack",
             link: "#",
             keyFeatures: [

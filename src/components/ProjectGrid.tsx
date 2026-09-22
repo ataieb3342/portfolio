@@ -20,9 +20,8 @@ export const ProjectGrid: React.FC = () => {
       <RevealGroup>
         <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {data.projects.map((project, index) => {
-            // Une capture se recadre ; un logo carré doit rester entier.
-            const cover = project.screenshots[0];
-            const illustration = cover ?? project.thumbnail;
+            // À défaut de capture, la vignette : une figure au même format.
+            const illustration = project.screenshots[0] ?? project.thumbnail;
 
             return (
               <RevealItem as="li" key={project.id} className="h-full">
@@ -39,9 +38,7 @@ export const ProjectGrid: React.FC = () => {
                       alt=""
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1280px) 46vw, 380px"
-                      className={`transition-transform duration-500 group-hover:scale-[1.03] ${
-                        cover ? 'object-cover object-top' : 'object-contain p-8'
-                      }`}
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                   </span>
 
