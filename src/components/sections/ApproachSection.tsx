@@ -6,29 +6,36 @@ import { Icon } from '../ui/Icon';
 
 const { approach } = data;
 
-const TONES = ['tone-coral', 'tone-violet', 'tone-lime', 'tone-cyan'];
+/** Du legacy (corail) au branché (lime), comme la coloration du hero. */
+const TONES = ['tone-coral', 'tone-coral', 'tone-cyan', 'tone-cyan', 'tone-lime'];
 
+/** La méthode de migration, étape par étape, avec la part de l'IA à chacune. */
 export const ApproachSection: React.FC = () => (
-  <Section id="approche" tone="violet" eyebrow="approche" title={approach.title} lead={approach.lead}>
+  <Section id="approche" tone="violet" eyebrow="méthode" title={approach.title} lead={approach.lead}>
     <RevealGroup>
-      <ol className="grid gap-px overflow-hidden rounded-[14px] border border-[color:var(--rule)] bg-[color:var(--rule)] md:grid-cols-2">
-        {approach.principles.map((principle, index) => (
+      <ol className="relative space-y-3">
+        {approach.steps.map((step, index) => (
           <RevealItem
             as="li"
-            key={principle.title}
-            className={`${TONES[index % TONES.length]} bg-surface tinted group relative overflow-hidden p-6 md:p-8`}
+            key={step.title}
+            className={`${TONES[index % TONES.length]} panel tinted grid gap-5 p-5 md:grid-cols-[4.5rem_minmax(0,1.2fr)_minmax(0,1fr)] md:items-start md:gap-8 md:p-7`}
           >
-            <span
-              aria-hidden="true"
-              className="text-tone pointer-events-none absolute -right-2 -bottom-8 display text-[7rem] leading-none font-semibold opacity-[0.07] transition-opacity duration-500 group-hover:opacity-[0.16]"
-            >
+            <span className="display text-tone text-5xl leading-none md:text-6xl">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <span className="chip">
-              <Icon name={principle.icon} className="h-4.5 w-4.5" />
-            </span>
-            <h3 className="text-h3 mt-5">{principle.title}</h3>
-            <p className="text-muted mt-3 leading-relaxed">{principle.body}</p>
+
+            <div>
+              <h3 className="text-h3">{step.title}</h3>
+              <p className="text-muted mt-2.5 leading-relaxed">{step.body}</p>
+            </div>
+
+            <div className="tone-violet rounded-xl border border-[color:color-mix(in_srgb,var(--tone)_30%,transparent)] bg-[color:color-mix(in_srgb,var(--tone)_8%,transparent)] p-4">
+              <p className="note text-tone! flex items-center gap-2">
+                <Icon name="sparkles" className="h-3.5 w-3.5" />
+                Ce que fait l&apos;IA
+              </p>
+              <p className="text-fg mt-2 text-sm leading-relaxed">{step.ai}</p>
+            </div>
           </RevealItem>
         ))}
       </ol>

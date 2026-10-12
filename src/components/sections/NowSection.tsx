@@ -35,14 +35,26 @@ export const NowSection: React.FC = () => (
           <h3 className="text-h3 mt-5">{mission.title}</h3>
           <p className="text-muted mt-3 leading-relaxed">{mission.body}</p>
 
-          <ul className="mt-5 space-y-2.5">
-            {mission.points.map((point) => (
-              <li key={point} className="flex gap-3 text-sm leading-relaxed">
-                <Icon name="check" className="text-tone mt-0.5 h-4 w-4 shrink-0" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
+          {mission.points && (
+            <ul className="mt-5 space-y-2.5">
+              {mission.points.map((point) => (
+                <li key={point} className="flex gap-3 text-sm leading-relaxed">
+                  <Icon name="check" className="text-tone mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {mission.link && (
+            <a href={mission.link.href} className="group text-tone mt-5 inline-flex items-center gap-2 text-sm font-medium">
+              {mission.link.label}
+              <Icon
+                name="arrowRight"
+                className="h-4 w-4 rotate-90 transition-transform duration-300 group-hover:translate-y-0.5"
+              />
+            </a>
+          )}
 
           <div className="mt-auto flex flex-wrap gap-1.5 pt-6">
             {mission.tags.map((tag) => (

@@ -37,7 +37,9 @@ export interface MissionData {
   label: string;
   title: string;
   body: string;
-  points: string[];
+  points?: string[];
+  /** Renvoi vers une autre section, à la place des points. */
+  link?: { href: string; label: string };
   tags: string[];
 }
 
@@ -57,17 +59,18 @@ export interface SkillsData {
   tools: string[];
 }
 
-/** Une conviction de la section « Approche ». */
-export interface PrincipleData {
-  icon: IconName;
+/** Une étape de la méthode de migration. */
+export interface MethodStep {
   title: string;
   body: string;
+  /** Ce que fait l'IA à cette étape. */
+  ai: string;
 }
 
 export interface ApproachData {
   title: string;
   lead: string;
-  principles: PrincipleData[];
+  steps: MethodStep[];
 }
 
 export interface EducationData {

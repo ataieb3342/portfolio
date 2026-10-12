@@ -13,7 +13,7 @@ export const site = {
 
 export const navLinks = [
   { href: "#maintenant", label: "Maintenant" },
-  { href: "#approche", label: "Approche" },
+  { href: "#approche", label: "Méthode" },
   { href: "#parcours", label: "Parcours" },
   { href: "#stack", label: "Stack" },
   { href: "#contact", label: "Contact" },
