@@ -13,8 +13,8 @@ export const site = {
 
 export const navLinks = [
   { href: "#maintenant", label: "Maintenant" },
+  { href: "#approche", label: "Approche" },
   { href: "#parcours", label: "Parcours" },
-  { href: "#projets", label: "Projets" },
   { href: "#stack", label: "Stack" },
   { href: "#contact", label: "Contact" },
 ] as const;

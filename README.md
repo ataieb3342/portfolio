@@ -1,6 +1,6 @@
 # Portfolio — Adam Taïeb
 
-Portfolio d'Adam Taïeb, data engineer chez Tradim : poste actuel, parcours, projets et stack.
+Portfolio d'Adam Taïeb, data engineer chez Tradim : poste actuel, approche, parcours et stack.
 
 **En ligne :** [ataieb-dev.fr](https://www.ataieb-dev.fr)
 
@@ -25,13 +25,10 @@ src/
 ├── components/
 │   ├── Nav.tsx              # En-tête translucide, section active, progression de lecture
 │   ├── Footer.tsx
-│   ├── ProjectGrid.tsx      # Sommaire des projets + modale
-│   ├── ProjectModal.tsx     # Modale unifiée (captures ou documents)
-│   ├── ProjectGallery.tsx   # Carrousel navigable au clavier
-│   ├── sections/            # Hero, Maintenant, Parcours, Projets, Stack, Contact
+│   ├── sections/            # Hero, Maintenant, Approche, Parcours, Stack, Contact
 │   └── ui/                  # Section, Reveal, Icon
 ├── lib/
-│   ├── data.ts              # Tout le contenu éditorial (expériences, projets…)
+│   ├── data.ts              # Tout le contenu éditorial (poste, approche, expériences…)
 │   └── site.ts              # URL canonique, navigation
 └── types/index.ts
 ```
@@ -41,18 +38,18 @@ clair si le système le demande (`prefers-color-scheme`), un seul accent vert si
 réservé à ce qui est « vivant » : le poste actuel, l'étape cible du schéma de migration.
 Panneaux à bord fin, coins doux, trame de points en fond du hero et du contact.
 
-**Principe technique :** les sections sont des composants serveur. La seule frontière
-client est `Reveal`, qui déclenche les animations à l'entrée dans le viewport — plus
-le sommaire des projets, qui porte l'état de sélection.
+**Principe technique :** les sections sont des composants serveur. Les seules frontières
+client sont `Reveal`, qui déclenche les animations à l'entrée dans le viewport, et la
+barre de navigation.
 
 ## Modifier le contenu
 
 Tout le texte vit dans [`src/lib/data.ts`](src/lib/data.ts) : profil, poste actuel
-(`now` : missions et schéma de migration), expériences, projets, compétences,
+(`now` : missions et schéma de migration), approche, expériences, compétences,
 formation, contact. Aucun contenu n'est codé en
 dur dans les composants.
 
-Les icônes des missions se choisissent parmi les clés de
+Les icônes des missions et de l'approche se choisissent parmi les clés de
 [`src/components/ui/Icon.tsx`](src/components/ui/Icon.tsx).
 
 ## Développement

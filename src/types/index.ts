@@ -66,50 +66,17 @@ export interface SkillsData {
   tools: string[];
 }
 
-export interface TechnicalDetail {
+/** Une conviction de la section « Approche ». */
+export interface PrincipleData {
+  icon: IconName;
   title: string;
-  content: string;
+  body: string;
 }
 
-export interface ProjectMetrics {
-  users?: string;
-  activeUsers?: string;
-  status?: string;
-  scope?: string;
-  team?: string;
-  impact?: string;
-}
-
-export interface KeyFeature {
+export interface ApproachData {
   title: string;
-  content: string;
-}
-
-export interface StrategyDocument {
-  type: 'pdf' | 'html' | 'link';
-  title: string;
-  url: string;
-  description?: string;
-}
-
-export interface ProjectData {
-  id: string;
-  title: string;
-  shortTitle: string;
-  description: string;
-  technos: string[];
-  screenshots: string[];
-  thumbnail: string;
-  category: string;
-  link?: string;
-  metrics?: ProjectMetrics;
-  keyFeatures?: KeyFeature[];
-  technicalDetails?: TechnicalDetail[];
-  disclaimer?: string;
-  architectureFlow?: string;
-  iframeUrl?: string; // URL pour afficher le projet dans une iframe interactive
-  strategyDocuments?: StrategyDocument[]; // Documents stratégiques (PDF, HTML, etc.)
-  relatedProjects?: string[]; // IDs des projets liés
+  lead: string;
+  principles: PrincipleData[];
 }
 
 export interface EducationData {
@@ -135,5 +102,5 @@ export interface FullData {
   education: EducationData[];
   skills: SkillsData;
   contact: ContactData;
-  projects: ProjectData[];
+  approach: ApproachData;
 }
