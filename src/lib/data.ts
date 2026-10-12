@@ -2,9 +2,57 @@ import { FullData } from '@/types';
 
 export const data: FullData = {
     name: "Adam Taïeb",
-    title: "Data engineer · développement full-stack",
-    profile: "Data engineer. Cinq mois sur le système d'information décisionnel d'un client : couches datawarehouse et datamart sous Semarchy xDI et Vertica, puis la reprise d'un patrimoine de traitements SAS vers Python — avec l'outil de cartographie du code et l'architecture de non-régression qui rendent la migration vérifiable. Avant, l'alternance au Crédit Agricole : le pipeline Spark de segmentation, et les interfaces qui l'ont mis entre les mains des conseillers. Je tiens les deux bouts, la donnée et l'écran qui la rend utilisable.",
+    title: "Data engineer",
+    profile: "Data engineer chez Tradim depuis octobre 2026. Je tiens le support de la facturation d'ECOCITO et je reprends en Python les traitements SSIS et les rapports SSRS, avec l'IA pour aller plus vite et pour que d'autres outils puissent ensuite s'y brancher. Avant ça : un SI décisionnel sous Vertica, une migration SAS vers Python, et deux ans d'alternance au Crédit Agricole entre pipeline Spark et interfaces métier.",
+    now: {
+      company: "Tradim",
+      role: "Data engineer",
+      since: "Depuis oct. 2026",
+      place: "Dijon",
+      context: "Tradim édite ECOCITO, la suite logicielle qui sert aux collectivités et aux opérateurs à gérer et facturer les services de collecte des déchets, d'eau et d'assainissement. Plus de 1 500 sites l'utilisent. J'y travaille sur deux sujets qui se rejoignent : la facturation, et les traitements de données qui l'alimentent.",
+      missions: [
+        {
+          icon: "doc",
+          label: "Support",
+          title: "Support facturation",
+          body: "Je suis le relais technique quand une facturation ne tombe pas juste chez un client : redevance incitative, part fixe et part variable, levées comptées, régularisations.",
+          points: [
+            "Diagnostic des anomalies de facturation, directement en SQL dans les données du client",
+            "Correction ou contournement, puis explication claire au client et aux équipes",
+            "Les cas qui reviennent deviennent des requêtes et des contrôles réutilisables",
+          ],
+          tags: ["SQL Server", "SQL", "Facturation", "Redevance incitative"],
+        },
+        {
+          icon: "code",
+          label: "Migration",
+          title: "SSIS et SSRS vers Python, avec l'IA",
+          body: "Les traitements reposent sur des packages SSIS et des rapports SSRS. Je les reprends en Python, avec l'IA comme outil de migration, pour obtenir du code lisible, testé, et sur lequel on peut brancher de nouveaux usages.",
+          points: [
+            "Lecture et cartographie des packages SSIS (.dtsx) et des rapports SSRS (.rdl)",
+            "Réécriture en Python assistée par LLM, relue et vérifiée par comparaison des sorties",
+            "Traitements exposés proprement pour que d'autres outils, y compris de l'IA, s'y branchent",
+          ],
+          tags: ["Python", "SSIS", "SSRS", "LLM", "Non-régression"],
+        },
+      ],
+      flow: [
+        { label: "Existant", items: ["Packages SSIS", "Rapports SSRS", "SQL Server"] },
+        { label: "Migration", items: ["Cartographie", "Réécriture assistée par IA", "Tests iso-résultat"] },
+        { label: "Cible", items: ["Traitements Python", "Code versionné et testé"] },
+        { label: "Usages", items: ["APIs", "Automatisations", "Assistants IA"] },
+      ],
+    },
     experiences: [
+      {
+        id: "tradim",
+        title: "Data Engineer",
+        company: "Tradim",
+        period: "Oct. 2026 - aujourd'hui",
+        current: true,
+        summary: "Support de la facturation ECOCITO et migration des traitements SSIS et SSRS vers Python, avec l'IA.",
+        axes: [],
+      },
       {
         id: "hara",
         title: "Data Engineer",
@@ -16,18 +64,17 @@ export const data: FullData = {
           {
             icon: "database",
             label: "MOE sur le SID",
-            body: "Build et run des couches datawarehouse et datamart sous Semarchy xDI sur base Vertica. Création de nouvelles tables et de leurs liens, évolution des modèles existants, résolution des incidents de chargement et des anomalies de données, le tout en SQL."
+            body: "Build et run des couches datawarehouse et datamart sous Semarchy xDI sur base Vertica. Nouvelles tables et leurs liens, évolution des modèles existants, incidents de chargement et anomalies de données, le tout en SQL."
           },
           {
             icon: "code",
             label: "Migration SAS → Python",
-            body: "Reprise d'un patrimoine de traitements SAS vers Python sur Vertica. Conception d'un outil interne de parsing et de visualisation du code SAS pour cartographier l'existant, et mise en place d'une architecture de non-régression pour garantir l'iso-résultat à chaque lot migré."
+            body: "Reprise de traitements SAS vers Python sur Vertica. Un outil interne de parsing et de visualisation du code SAS pour cartographier l'existant, et une architecture de non-régression pour garantir l'iso-résultat à chaque lot migré."
           }
         ],
         highlights: [
           "Outil maison de parsing et de visualisation du code SAS",
           "Architecture de non-régression sur les traitements migrés",
-          "Présentations régulières aux parties prenantes"
         ]
       },
       {
@@ -35,13 +82,13 @@ export const data: FullData = {
         title: "Ingénieur Full-Stack & Data",
         company: "Crédit Agricole Franche-Comté",
         period: "Sept. 2023 - Janv. 2025",
-        contract: "Alternance · Master 2",
-        summary: "Deux ans à industrialiser la data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée chaque jour par les conseillers.",
+        contract: "Alternance",
+        summary: "Deux ans à industrialiser la data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée par les conseillers.",
         axes: [
           {
             icon: "code",
-            label: "Applications métier full-stack",
-            body: "Interfaces décisionnelles ouvertes à 400 conseillers, en React sur un back PHP et SQL Server. En parallèle, l'accompagnement d'une cinquantaine de collaborateurs du Marketing vers des décisions appuyées sur la donnée."
+            label: "Applications métier",
+            body: "Interfaces décisionnelles ouvertes à 400 conseillers, en React sur un back PHP et SQL Server. En parallèle, une cinquantaine de collaborateurs du Marketing accompagnés vers des décisions appuyées sur la donnée."
           },
           {
             icon: "chart",
@@ -50,46 +97,30 @@ export const data: FullData = {
           }
         ],
         testimonial: {
-          quote: "Adam a réalisé une excellente alternance avec des apports concrets et pertinents. L'évolution au cours des deux années a été réelle avec une prise de hauteur et une compréhension de l'impact de l'accompagnement métier dans la réussite technique. Fait preuve d'énergie et de conviction pour défendre ses projets.",
+          quote: "Adam a réalisé une excellente alternance avec des apports concrets et pertinents. L'évolution au cours des deux années a été réelle avec une prise de hauteur et une compréhension de l'impact de l'accompagnement métier dans la réussite technique.",
           author: "Maître d'apprentissage",
-          role: "Responsable Data & Web Development • Service Marketing",
+          role: "Responsable Data & Web Development, service Marketing",
           company: ""
         }
       }
     ],
     education: [
       {
-        degree: "Master Informatique - Ingénierie Systèmes & Logiciels",
+        degree: "Master Informatique, Ingénierie Systèmes & Logiciels",
         school: "Université de Franche-Comté",
         period: "2023 - 2025",
-        details: "Alternance au Crédit Agricole FC. Spécialisation en développement logiciel, systèmes distribués et intelligence artificielle."
+        details: "En alternance au Crédit Agricole Franche-Comté."
       },
       {
         degree: "Licence Informatique",
         school: "Université de Franche-Comté",
         period: "2020 - 2023",
-        details: "Socle fondamental en conception et développement d'applications, architecture systèmes et réseaux."
       }
     ],
-    impacts: [
-      { icon: "bolt", title: "Du modèle à l'écran, sans relais", description: "Du pipeline Spark aux APIs REST jusqu'à l'interface React : trois projets tenus d'un bout à l'autre, jusqu'en production." },
-      { icon: "chart", title: "L'usage plutôt que la livraison", description: "400 conseillers ont accès à l'interface décisionnelle, une centaine s'en servent régulièrement. Le pipeline de segmentation tourne en production, et la plateforme alumni est couverte par plus de 200 tests et deux chaînes d'intégration." },
-      { icon: "layers", title: "À l'aise dans l'existant", description: "Data et ML en Python, Spark et SQL ; full-stack en React, PHP et Next.js ; Docker et intégration continue pour déployer. Les systèmes hérités ne me rebutent pas, j'y passe l'essentiel de mon temps." },
-    ],
     skills: {
-      data: ['Python', 'SQL', 'ETL', 'Machine Learning', 'Spark/Hadoop', 'Vertica', 'Semarchy xDI', 'Datawarehouse & datamart', 'Migration SAS', 'Segmentation client'],
-      dev: ['React', 'JavaScript', 'PHP', 'C#', 'ASP.NET', 'APIs REST', 'Architecture logicielle'],
-      tools: ['Git', 'Docker', 'SQL Server', 'MySQL', 'Apache', 'Systèmes distribués'],
-    },
-    whatISeek: {
-      title: "Ce que je recherche",
-      subtitle: "Data engineer · Dijon et alentours, ou remote · disponible",
-      criteria: [
-        "Des sujets qui passent en production et servent à quelqu'un, pas des tableaux de bord qu'on regarde une fois.",
-        "Tenir un sujet de bout en bout : le modèle de données, le traitement, et l'interface quand il en faut une.",
-        "Le legacy ne me rebute pas : migrations, entrepôts existants, SI décisionnel."
-      ],
-      closingStatement: "Disponible, à Dijon."
+      data: ['Python', 'SQL', 'SQL Server', 'SSIS', 'SSRS', 'Vertica', 'Semarchy xDI', 'Spark', 'Datawarehouse & datamart', 'Migration de traitements'],
+      dev: ['LLM & IA générative', 'APIs REST', 'React', 'Next.js', 'TypeScript', 'PHP', 'C#'],
+      tools: ['Git', 'Docker', 'CI/CD', 'Tests de non-régression'],
     },
     contact: {
       phone: "+33 7.69.21.42.26",

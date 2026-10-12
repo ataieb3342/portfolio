@@ -1,6 +1,6 @@
 # Portfolio — Adam Taïeb
 
-Portfolio d'ingénieur Full-Stack & Data : parcours, projets et stack technique.
+Portfolio d'Adam Taïeb, data engineer chez Tradim : poste actuel, parcours, projets et stack.
 
 **En ligne :** [ataieb-dev.fr](https://www.ataieb-dev.fr)
 
@@ -8,7 +8,7 @@ Portfolio d'ingénieur Full-Stack & Data : parcours, projets et stack technique.
 
 - **Framework :** Next.js 16 (App Router, React Compiler), React 19, TypeScript
 - **Style :** Tailwind CSS 4 — design system par tokens CSS dans `src/app/globals.css`
-- **Typographie :** Instrument Serif (titres), Geist Sans (corps), Geist Mono (notes)
+- **Typographie :** Geist Sans (titres et corps), Geist Mono (repères et étiquettes)
 - **Animation :** Framer Motion, avec prise en charge de `prefers-reduced-motion`
 - **Analytics :** Vercel Analytics
 
@@ -23,25 +23,23 @@ src/
 │   ├── opengraph-image.tsx  # Aperçu social généré au build
 │   ├── robots.ts / sitemap.ts
 ├── components/
-│   ├── Nav.tsx              # En-tête fixe, section active, progression de lecture
+│   ├── Nav.tsx              # En-tête translucide, section active, progression de lecture
 │   ├── Footer.tsx
 │   ├── ProjectGrid.tsx      # Sommaire des projets + modale
 │   ├── ProjectModal.tsx     # Modale unifiée (captures ou documents)
 │   ├── ProjectGallery.tsx   # Carrousel navigable au clavier
-│   ├── sections/            # Une section par fichier
+│   ├── sections/            # Hero, Maintenant, Parcours, Projets, Stack, Contact
 │   └── ui/                  # Section, Reveal, Icon
 ├── lib/
 │   ├── data.ts              # Tout le contenu éditorial (expériences, projets…)
-│   ├── site.ts              # URL canonique, navigation
-│   └── animations.ts        # Variants Framer Motion partagés
+│   └── site.ts              # URL canonique, navigation
 └── types/index.ts
 ```
 
-**Parti pris graphique :** le site est composé comme une revue technique imprimée.
-Une grille asymétrique (`.editorial`) pose une colonne de marge en mono — numéro de
-section, dates, mentions — face à une colonne de texte. Les blocs sont séparés par
-des filets 1px, pas par des cartes. Palette encre chaude / crème / terracotta, un
-seul accent, un grain de papier en surimpression.
+**Parti pris graphique :** un poste de travail data, sobre. Fond sombre par défaut,
+clair si le système le demande (`prefers-color-scheme`), un seul accent vert signal
+réservé à ce qui est « vivant » : le poste actuel, l'étape cible du schéma de migration.
+Panneaux à bord fin, coins doux, trame de points en fond du hero et du contact.
 
 **Principe technique :** les sections sont des composants serveur. La seule frontière
 client est `Reveal`, qui déclenche les animations à l'entrée dans le viewport — plus
@@ -49,11 +47,12 @@ le sommaire des projets, qui porte l'état de sélection.
 
 ## Modifier le contenu
 
-Tout le texte vit dans [`src/lib/data.ts`](src/lib/data.ts) : profil, chiffres clés,
-expériences, projets, compétences, formation, contact. Aucun contenu n'est codé en
+Tout le texte vit dans [`src/lib/data.ts`](src/lib/data.ts) : profil, poste actuel
+(`now` : missions et schéma de migration), expériences, projets, compétences,
+formation, contact. Aucun contenu n'est codé en
 dur dans les composants.
 
-Les icônes des blocs « Approche » se choisissent parmi les clés de
+Les icônes des missions se choisissent parmi les clés de
 [`src/components/ui/Icon.tsx`](src/components/ui/Icon.tsx).
 
 ## Développement

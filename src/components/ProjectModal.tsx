@@ -137,7 +137,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-surface flex max-h-[92svh] w-full max-w-4xl flex-col overflow-hidden border border-[color:var(--rule-strong)]"
+            className="bg-surface flex max-h-[92svh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[color:var(--rule-strong)]"
           >
             {/* En-tête */}
             <header className="rule-b flex shrink-0 items-start justify-between gap-4 px-6 py-6 md:px-10">
@@ -268,7 +268,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     </div>
 
                     {project.architectureFlow && (
-                      <p className="text-faint bg-bg mt-8 p-5 font-mono text-xs leading-relaxed">
+                      <p className="text-faint bg-bg mt-8 rounded-xl p-5 font-mono text-xs leading-relaxed">
                         {project.architectureFlow}
                       </p>
                     )}
@@ -279,7 +279,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 {project.technos.length > 0 && (
                   <section>
                     <h3 className="note mb-6">Technologies</h3>
-                    <ul className="flex flex-wrap items-baseline">
+                    <ul className="flex flex-wrap items-baseline gap-1.5">
                       {project.technos.map((techno) => (
                         <li key={techno}>
                           <span className="tag">{techno}</span>

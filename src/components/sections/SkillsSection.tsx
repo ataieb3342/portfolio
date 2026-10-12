@@ -4,40 +4,27 @@ import { Section } from '../ui/Section';
 import { RevealGroup, RevealItem } from '../ui/Reveal';
 
 const groups: { key: keyof typeof data.skills; label: string; note: string }[] = [
-  { key: 'data', label: 'Data & ML', note: 'Du jeu de données brut au modèle en production' },
-  { key: 'dev', label: 'Développement', note: 'Back, front et conception applicative' },
-  { key: 'tools', label: 'Outils & DevOps', note: 'Versionner, conteneuriser, déployer' },
+  { key: 'data', label: 'Data', note: 'Entrepôts, traitements, migrations' },
+  { key: 'dev', label: 'IA & développement', note: 'Ce qu’on branche sur la donnée' },
+  { key: 'tools', label: 'Outillage', note: 'Versionner, tester, déployer' },
 ];
 
 export const SkillsSection: React.FC = () => (
-  <Section
-    id="stack"
-    index="04"
-    eyebrow="Compétences"
-    title="Stack technique"
-    lead="Un périmètre large assumé : je préfère comprendre toute la chaîne que maîtriser une seule couche."
-  >
-    <RevealGroup>
-      <dl className="space-y-10">
-        {groups.map((group) => (
-          <RevealItem
-            key={group.key}
-            className="rule-t grid gap-3 pt-7 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-10"
-          >
-            <div>
-              <dt className="text-fg text-lg">{group.label}</dt>
-              <p className="note mt-1.5 normal-case">{group.note}</p>
-            </div>
-            <dd className="flex flex-wrap items-baseline">
-              {data.skills[group.key].map((skill) => (
-                <span key={skill} className="tag">
-                  {skill}
-                </span>
-              ))}
-            </dd>
-          </RevealItem>
-        ))}
-      </dl>
+  <Section id="stack" eyebrow="stack" title="Avec quoi je travaille">
+    <RevealGroup className="grid gap-4 md:grid-cols-3">
+      {groups.map((group) => (
+        <RevealItem key={group.key} className="panel p-6">
+          <h3 className="text-fg text-lg font-medium">{group.label}</h3>
+          <p className="text-muted mt-1 text-sm">{group.note}</p>
+          <ul className="mt-5 flex flex-wrap gap-1.5">
+            {data.skills[group.key].map((skill) => (
+              <li key={skill}>
+                <span className="tag">{skill}</span>
+              </li>
+            ))}
+          </ul>
+        </RevealItem>
+      ))}
     </RevealGroup>
   </Section>
 );

@@ -1,66 +1,80 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Parti pris : une revue technique imprimée.
-   Encre chaude, crème, un seul accent. Des filets, pas des boîtes.
+   Parti pris : un poste de travail data, sobre.
+   Fond sombre par défaut, clair si le système le demande.
+   Un seul accent, vert signal, réservé à ce qui est vivant.
    ============================================================ */
 @theme {
-  /* Fond clair, chaud : os plutôt que blanc pur */
-  --color-bg: #f4f1e8;
-  --color-surface: #ffffff;
-  --color-surface-2: #e9e5d8;
-  --color-surface-3: #ded9c9;
+  --color-bg: #0b0c0b;
+  --color-surface: #131513;
+  --color-surface-2: #1b1e1b;
+  --color-surface-3: #262a26;
 
-  /* Encre */
-  --color-fg: #14130f;
-  --color-muted: #55514a;
-  --color-faint: #857f73;
+  --color-fg: #eceee8;
+  --color-muted: #a2a99f;
+  --color-faint: #6c736a;
 
-  /* Duo : pin profond en couleur de travail, orange en signal */
-  --color-accent: #0f4c4a;
-  --color-accent-soft: #17706c;
-  --color-pop: #ff4d1f;
+  --color-accent: #c4f25a;
+  --color-accent-soft: #c4f25a;
+  --color-on-accent: #0b0c0b;
+  /* Ancien nom du signal, conservé pour la modale de projet. */
+  --color-pop: #c4f25a;
 
-  /* Titres serrés et gras */
-  --text-display: clamp(2.5rem, 1.5rem + 4.4vw, 4.75rem);
-  --text-display--line-height: 0.94;
-  --text-display--letter-spacing: -0.04em;
+  --text-display: clamp(2.6rem, 1.4rem + 5vw, 5.25rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.045em;
 
-  --text-h2: clamp(1.75rem, 1.25rem + 2vw, 2.6rem);
-  --text-h2--line-height: 1.02;
+  --text-h2: clamp(1.7rem, 1.25rem + 1.8vw, 2.5rem);
+  --text-h2--line-height: 1.08;
   --text-h2--letter-spacing: -0.035em;
 
-  --text-h3: clamp(1.2rem, 1.05rem + 0.55vw, 1.55rem);
-  --text-h3--line-height: 1.15;
+  --text-h3: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+  --text-h3--line-height: 1.2;
   --text-h3--letter-spacing: -0.02em;
 
   --text-lead: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
-  --text-lead--line-height: 1.55;
+  --text-lead--line-height: 1.6;
 
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
 
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /*
-   * Seuil à partir duquel la colonne de texte est assez large pour que le
-   * portrait remplisse la hauteur sans recadrage excessif.
-   *
-   * En rem, impérativement : Tailwind trie les points de rupture par unité
-   * avant de les trier par valeur. Défini en px, `wide` serait généré AVANT
-   * `sm` (40rem) et se ferait écraser par lui au-delà de 900px.
-   */
+  /* En rem : Tailwind trie les points de rupture par unité avant la valeur. */
   --breakpoint-wide: 56.25rem;
 }
 
 :root {
-  /* Filets sombres sur fond clair */
-  --rule: rgba(20, 19, 15, 0.14);
-  --rule-strong: rgba(20, 19, 15, 0.3);
+  --rule: rgba(236, 238, 232, 0.1);
+  --rule-strong: rgba(236, 238, 232, 0.22);
+  --dot: rgba(236, 238, 232, 0.07);
 
   --gutter: clamp(1.25rem, 3.5vw, 2.5rem);
-  --shell: 1280px;
+  --shell: 1160px;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f6f7f3;
+    --color-surface: #ffffff;
+    --color-surface-2: #eceee7;
+    --color-surface-3: #dfe2d8;
+    --color-fg: #111311;
+    --color-muted: #4e554c;
+    --color-faint: #7b8279;
+    --color-accent: #3f6e00;
+    --color-accent-soft: #3f6e00;
+    --color-on-accent: #ffffff;
+    --color-pop: #3f6e00;
+
+    --rule: rgba(17, 19, 17, 0.11);
+    --rule-strong: rgba(17, 19, 17, 0.25);
+    --dot: rgba(17, 19, 17, 0.08);
+    color-scheme: light;
+  }
 }
 
 /* ============================================================
@@ -82,22 +96,16 @@
     overflow-x: hidden;
   }
 
-  /* Titres : display épais, jamais utilisé pour du texte courant. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 800;
-  }
-
-  blockquote {
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 600;
   }
 
   ::selection {
-    background-color: var(--color-pop);
-    color: #fff;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
   }
 
   :focus-visible {
@@ -107,19 +115,7 @@
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(20, 19, 15, 0.25) transparent;
-  }
-  ::-webkit-scrollbar {
-    width: 9px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(20, 19, 15, 0.22);
-    border-radius: 99px;
-    border: 3px solid transparent;
-    background-clip: content-box;
+    scrollbar-color: var(--rule-strong) transparent;
   }
 }
 
@@ -134,27 +130,8 @@
     padding-inline: var(--gutter);
   }
 
-  /* Hero : texte à gauche, colonne d'appoint à droite dès 540px. */
-  .hero-grid {
-    display: grid;
-    gap: 2rem;
-  }
-  /*
-   * Sous 900px la colonne de texte est étroite, donc très haute : y coller
-   * un portrait étiré le réduirait à une bande. On ne passe en deux colonnes
-   * étirées qu'au-delà.
-   */
-  @media (min-width: 900px) {
-    .hero-grid {
-      grid-template-columns: minmax(0, 1fr) clamp(13rem, 30%, 22rem);
-      gap: clamp(1.5rem, 3vw, 2.75rem);
-      align-items: stretch;
-    }
-  }
-
-  /* Rythme resserré : on remplit l'écran plutôt que de l'aérer. */
   .section-y {
-    padding-block: clamp(3rem, 5vw, 5.5rem);
+    padding-block: clamp(3.5rem, 7vw, 6.5rem);
   }
 
   .rule-t {
@@ -164,150 +141,174 @@
     border-bottom: 1px solid var(--rule);
   }
 
-  /* Étiquette en capitales, à chasse fixe */
+  /* Étiquette en chasse fixe */
   .note {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-muted);
     line-height: 1.5;
   }
 
-  /* Numéro de section / de rang, en couleur de signal */
+  /* Marqueur de section, façon commentaire de code */
   .folio {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--color-pop);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-accent);
   }
 
-  /* Puce technologie : bloc plein, pas un contour */
   .tag {
     display: inline-flex;
     align-items: center;
-    padding: 0.2rem 0.55rem;
-    border-radius: 0.25rem;
-    background-color: var(--color-surface-2);
+    padding: 0.22rem 0.6rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 500;
     color: var(--color-muted);
     white-space: nowrap;
     transition:
-      background-color 0.2s,
+      border-color 0.2s,
       color 0.2s;
   }
   .tag:hover {
-    background-color: var(--color-accent);
-    color: var(--color-bg);
+    border-color: var(--color-accent);
+    color: var(--color-fg);
   }
 
-  /* Bloc plein : l'unité qui remplit la page */
-  .block {
+  /* Panneau : l'unité de base, bord fin et coins doux */
+  .panel {
     background-color: var(--color-surface);
     border: 1px solid var(--rule);
+    border-radius: 14px;
   }
-  .block-ink {
-    background-color: var(--color-accent);
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .btn-primary {
+    background-color: var(--color-fg);
     color: var(--color-bg);
   }
-  .block-pop {
-    background-color: var(--color-pop);
-    color: #fff;
+  .btn-primary:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .btn-ghost {
+    border: 1px solid var(--rule-strong);
+    color: var(--color-fg);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-accent);
   }
 
-  /* Lien souligné qui s'épaissit */
   .link-rule {
     color: inherit;
-    text-decoration: none;
-    background-image: linear-gradient(var(--color-pop), var(--color-pop));
-    background-size: 100% 2px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    padding-bottom: 1px;
-    transition: background-size 0.3s var(--ease-expo);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color 0.2s;
   }
   .link-rule:hover {
-    background-size: 100% 100%;
-    color: #fff;
+    text-decoration-color: var(--color-accent);
   }
 
-  /* Grain de papier, en multiplication sur fond clair */
-  .grain::after {
+  /* Trame de points, estompée vers le bas */
+  .dots {
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, black 30%, transparent);
+  }
+
+  /* Point d'état, qui pulse doucement */
+  .pulse {
+    position: relative;
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background-color: var(--color-accent);
+  }
+  .pulse::after {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.16;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    border-radius: inherit;
+    background-color: var(--color-accent);
+    animation: pulse 2.4s var(--ease-expo) infinite;
   }
 
   .display {
     font-family: var(--font-display);
-    font-weight: 800;
-    letter-spacing: -0.04em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
   }
 }
 
 /* ============================================================
-   Apparition au défilement
-
-   Le défaut est « visible » : sans JavaScript, aucun de ces blocs n'est
-   masqué. `data-js` n'est posé sur <html> que par le script en ligne du
-   layout, et retiré par son filet de sécurité si l'application ne prend
-   jamais la main. Voir components/ui/Reveal.tsx.
+   Apparition au défilement — voir components/ui/Reveal.tsx.
+   Le défaut est « visible » : sans JavaScript, rien n'est masqué.
    ============================================================ */
 [data-reveal],
 [data-reveal-item] {
   transition:
-    opacity 0.65s var(--ease-expo),
-    transform 0.65s var(--ease-expo);
+    opacity 0.6s var(--ease-expo),
+    transform 0.6s var(--ease-expo);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 html[data-js] [data-reveal]:not([data-shown]),
 html[data-js] [data-reveal-group]:not([data-shown]) [data-reveal-item] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
 }
 
-/*
- * Cadence du groupe. Le rang se lit sur l'élément lui-même plutôt que sur un
- * sélecteur d'enfant direct : un `RevealItem` est souvent imbriqué dans la
- * liste que le groupe enveloppe, pas posé juste dessous.
- */
 [data-reveal-item]:nth-child(1) {
   --reveal-delay: 40ms;
 }
 [data-reveal-item]:nth-child(2) {
-  --reveal-delay: 120ms;
+  --reveal-delay: 110ms;
 }
 [data-reveal-item]:nth-child(3) {
-  --reveal-delay: 200ms;
+  --reveal-delay: 180ms;
 }
 [data-reveal-item]:nth-child(4) {
-  --reveal-delay: 280ms;
+  --reveal-delay: 250ms;
 }
-[data-reveal-item]:nth-child(5) {
-  --reveal-delay: 360ms;
-}
-[data-reveal-item]:nth-child(n + 6) {
-  --reveal-delay: 440ms;
+[data-reveal-item]:nth-child(n + 5) {
+  --reveal-delay: 320ms;
 }
 
-/* ============================================================
-   Mouvement réduit
-   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  /* Rien n'attend le JavaScript pour s'afficher. */
   html[data-js] [data-reveal]:not([data-shown]),
   html[data-js] [data-reveal-group]:not([data-shown]) [data-reveal-item] {
     opacity: 1;

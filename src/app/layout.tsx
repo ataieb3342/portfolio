@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono, Bricolage_Grotesque } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
@@ -19,13 +19,6 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
-/** Grotesque à graisse variable, réservé aux titres. */
-const bricolage = Bricolage_Grotesque({
-  variable: '--font-bricolage',
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -38,18 +31,17 @@ export const metadata: Metadata = {
   creator: site.name,
   keywords: [
     'data engineer',
-    'full-stack',
-    'machine learning',
-    'React',
-    'Next.js',
-    'TypeScript',
+    'Tradim',
+    'ECOCITO',
+    'SSIS',
+    'SSRS',
     'Python',
-    'Spark',
-    'portfolio',
-    'Vertica',
-    'Semarchy xDI',
+    'migration',
+    'IA',
+    'LLM',
+    'SQL Server',
     'Dijon',
-    'alternance Crédit Agricole',
+    'portfolio',
   ],
   alternates: { canonical: '/' },
   openGraph: {
@@ -74,8 +66,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#f4f1e8',
-  colorScheme: 'light',
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#0b0c0b' },
+    { media: '(prefers-color-scheme: light)', color: '#f6f7f3' },
+  ],
+  colorScheme: 'dark light',
 };
 
 /** Données structurées Schema.org pour les moteurs de recherche. */
@@ -94,11 +89,7 @@ const personJsonLd = {
     '@type': 'Place',
     address: { '@type': 'PostalAddress', addressLocality: 'Dijon', addressCountry: 'FR' },
   },
-  hasOccupation: data.experiences.map((experience) => ({
-    '@type': 'Occupation',
-    name: experience.title,
-    hiringOrganization: { '@type': 'Organization', name: experience.company },
-  })),
+  worksFor: { '@type': 'Organization', name: data.now.company },
   alumniOf: data.education.map((edu) => ({
     '@type': 'EducationalOrganization',
     name: edu.school,
@@ -125,15 +116,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html
       lang="fr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: revealBootstrap }} />
       </head>
-      <body className="grain antialiased">
+      <body className="antialiased">
         <a
           href="#contenu"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-200 focus:border focus:border-accent focus:bg-surface focus:px-4 focus:py-2.5 focus:font-mono focus:text-sm focus:text-fg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-200 focus:rounded-full focus:border focus:border-accent focus:bg-surface focus:px-4 focus:py-2.5 focus:text-sm focus:text-fg"
         >
           Aller au contenu
         </a>

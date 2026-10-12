@@ -8,10 +8,7 @@ import { RevealGroup, RevealItem } from './ui/Reveal';
 import { Icon } from './ui/Icon';
 import { ProjectModal } from './ProjectModal';
 
-/**
- * Sommaire des projets : une entrée par ligne, à la façon d'un chemin de fer.
- * Pas de carte — un filet, un numéro, un titre, une vignette.
- */
+/** Sommaire des projets : une carte par projet, le détail en modale. */
 export const ProjectGrid: React.FC = () => {
   const [selected, setSelected] = useState<ProjectData | null>(null);
 
@@ -19,7 +16,7 @@ export const ProjectGrid: React.FC = () => {
     <>
       <RevealGroup>
         <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {data.projects.map((project, index) => {
+          {data.projects.map((project) => {
             // À défaut de capture, la vignette : une figure au même format.
             const illustration = project.screenshots[0] ?? project.thumbnail;
 
@@ -29,10 +26,10 @@ export const ProjectGrid: React.FC = () => {
                   type="button"
                   onClick={() => setSelected(project)}
                   aria-label={`Voir le détail du projet ${project.shortTitle}`}
-                  className="block group hover:border-accent flex h-full w-full flex-col p-4 text-left transition-colors duration-300"
+                  className="panel group hover:border-accent flex h-full w-full flex-col p-4 text-left transition-colors duration-300"
                 >
                   {/* Visuel */}
-                  <span className="bg-surface-2 relative block aspect-16/10 w-full overflow-hidden">
+                  <span className="bg-surface-2 relative block aspect-16/10 w-full overflow-hidden rounded-lg">
                     <Image
                       src={illustration}
                       alt=""
@@ -42,12 +39,9 @@ export const ProjectGrid: React.FC = () => {
                     />
                   </span>
 
-                  <span className="mt-4 flex items-baseline gap-3">
-                    <span className="folio">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="note text-faint">{project.category}</span>
-                  </span>
+                  <span className="note mt-5">{project.category}</span>
 
-                  <h3 className="text-h3 group-hover:text-accent mt-2 transition-colors">
+                  <h3 className="text-h3 mt-1.5">
                     {project.shortTitle}
                   </h3>
 
@@ -66,7 +60,7 @@ export const ProjectGrid: React.FC = () => {
                     )}
                   </span>
 
-                  <span className="folio mt-auto flex items-center gap-2 pt-5">
+                  <span className="text-accent mt-auto flex items-center gap-2 pt-5 text-sm">
                     Lire le détail
                     <Icon
                       name="arrowRight"
