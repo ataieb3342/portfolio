@@ -43,12 +43,6 @@ export interface MissionData {
   tags: string[];
 }
 
-/** Une étape du schéma de migration. */
-export interface FlowStep {
-  label: string;
-  items: string[];
-}
-
 export interface NowData {
   company: string;
   role: string;
@@ -57,7 +51,6 @@ export interface NowData {
   /** Ce que fait l'entreprise, en une ou deux phrases. */
   context: string;
   missions: MissionData[];
-  flow: FlowStep[];
 }
 
 export interface SkillsData {

@@ -48,7 +48,7 @@ barre de navigation.
 ## Modifier le contenu
 
 Tout le texte vit dans [`src/lib/data.ts`](src/lib/data.ts) : profil, poste actuel
-(`now` : missions et schéma de migration), approche, expériences, compétences,
+(`now` : contexte et missions), approche, expériences, compétences,
 formation, contact. Aucun contenu n'est codé en
 dur dans les composants.
 

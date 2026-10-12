@@ -36,12 +36,6 @@ export const data: FullData = {
           tags: ["Python", "SSIS", "SSRS", "LLM", "Non-régression"],
         },
       ],
-      flow: [
-        { label: "Existant", items: ["Packages SSIS", "Rapports SSRS", "SQL Server"] },
-        { label: "Migration", items: ["Cartographie", "Réécriture assistée par IA", "Tests iso-résultat"] },
-        { label: "Cible", items: ["Traitements Python", "Code versionné et testé"] },
-        { label: "Usages", items: ["APIs", "Automatisations", "Assistants IA"] },
-      ],
     },
     experiences: [
       {

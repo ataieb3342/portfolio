@@ -1,53 +1,12 @@
 import React from 'react';
 import { data } from '@/lib/data';
 import { Section } from '../ui/Section';
-import { Reveal, RevealGroup, RevealItem } from '../ui/Reveal';
+import { RevealGroup, RevealItem } from '../ui/Reveal';
 import { Icon } from '../ui/Icon';
 
 const { now } = data;
 
-/** Un ton par étape, les mêmes que la coloration du hero : legacy, IA, Python, usages. */
-const STEP_TONES = ['tone-coral', 'tone-violet', 'tone-cyan', 'tone-lime'];
 const MISSION_TONES = ['tone-coral', 'tone-violet'];
-
-/** Schéma de la migration : de l'existant aux usages qu'on y branche. */
-const MigrationFlow: React.FC = () => (
-  <Reveal className="panel mt-4 p-5 md:p-7">
-    <p className="note">Le chemin d&apos;un traitement</p>
-    <ol className="mt-5 grid gap-3 md:grid-cols-4 md:gap-0">
-      {now.flow.map((step, index) => {
-        const last = index === now.flow.length - 1;
-        return (
-          <li key={step.label} className={`${STEP_TONES[index]} relative flex md:block`}>
-            <div
-              className={`tinted bg-surface-2 border-tone flex-1 rounded-xl border p-4 ${
-                last ? '' : 'md:mr-8'
-              }`}
-              style={{ borderColor: 'color-mix(in srgb, var(--tone) 40%, transparent)' }}
-            >
-              <p className="folio">
-                {String(index + 1).padStart(2, '0')} · {step.label}
-              </p>
-              <ul className="mt-3 space-y-1.5">
-                {step.items.map((item) => (
-                  <li key={item} className="text-fg text-sm">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {!last && (
-              <Icon
-                name="arrowRight"
-                className="text-faint absolute top-1/2 right-1.5 hidden h-5 w-5 -translate-y-1/2 md:block"
-              />
-            )}
-          </li>
-        );
-      })}
-    </ol>
-  </Reveal>
-);
 
 export const NowSection: React.FC = () => (
   <Section
@@ -95,7 +54,5 @@ export const NowSection: React.FC = () => (
         </RevealItem>
       ))}
     </RevealGroup>
-
-    <MigrationFlow />
   </Section>
 );
