@@ -3,7 +3,7 @@ import { FullData } from '@/types';
 export const data: FullData = {
     name: "Adam Taïeb",
     title: "Data engineer",
-    profile: "Data engineer chez Tradim depuis octobre 2026. Je tiens le support de la facturation d'ECOCITO et je reprends en Python les traitements SSIS et les rapports SSRS, avec l'IA pour aller plus vite et pour que d'autres outils puissent ensuite s'y brancher. Avant ça : un SI décisionnel sous Vertica, une migration SAS vers Python, et deux ans d'alternance au Crédit Agricole entre pipeline Spark et interfaces métier.",
+    profile: "Data engineer chez Tradim depuis octobre 2026. Je tiens le support de la facturation d'ECOCITO et je reprends en Python les traitements SSIS et les rapports SSRS, avec l'IA pour aller plus vite et pour que d'autres outils puissent ensuite s'y brancher. Avant ça : un SI décisionnel sous Vertica, une migration SAS vers Python, et plus de deux ans au Crédit Agricole, en alternance puis en CDD, entre pipeline Spark et interfaces métier.",
     now: {
       company: "Tradim",
       role: "Data engineer",
@@ -81,9 +81,9 @@ export const data: FullData = {
         id: "cafc",
         title: "Ingénieur Full-Stack & Data",
         company: "Crédit Agricole Franche-Comté",
-        period: "Sept. 2023 - Janv. 2025",
-        contract: "Alternance",
-        summary: "Deux ans à industrialiser la data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée par les conseillers.",
+        period: "Sept. 2023 - Déc. 2025",
+        contract: "Alternance puis CDD",
+        summary: "Alternance de septembre 2023 à août 2025, prolongée par un CDD jusqu'en décembre. Plus de deux ans à industrialiser la data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée par les conseillers.",
         axes: [
           {
             icon: "code",
