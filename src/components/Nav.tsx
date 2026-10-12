@@ -6,8 +6,8 @@ import { navLinks, site } from '@/lib/site';
 import { Icon } from './ui/Icon';
 
 /**
- * Bandeau de tête : discret, en mono, aligné sur la grille de la revue.
- * Il marque la section courante d'un filet couleur accent.
+ * Bandeau de tête translucide. Il marque la section courante et la
+ * progression de lecture d'un filet couleur accent.
  */
 export const Nav: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -65,34 +65,36 @@ export const Nav: React.FC = () => {
 
   return (
     <header
-      className={`bg-bg fixed inset-x-0 top-0 z-50 transition-shadow duration-300 ${
-        scrolled ? 'rule-b shadow-[0_1px_12px_rgba(20,19,15,0.08)]' : ''
+      className={`fixed inset-x-0 top-0 z-50 backdrop-blur-md transition-colors duration-300 ${
+        scrolled || open ? 'rule-b bg-bg/85' : 'bg-transparent'
       }`}
     >
       <motion.div
         aria-hidden="true"
         style={{ scaleX: reduced ? 0 : progress }}
-        className="bg-accent absolute inset-x-0 top-0 h-px origin-left"
+        className="bg-accent absolute inset-x-0 bottom-0 h-px origin-left"
       />
 
       <nav className="shell flex h-16 items-center justify-between gap-6" aria-label="Navigation principale">
-        <a href="#top" className="text-fg hover:text-accent shrink-0 text-lg whitespace-nowrap transition-colors">
-          <span className="display">{site.name}</span>
+        <a href="#top" className="text-fg flex shrink-0 items-center gap-2.5 whitespace-nowrap">
+          <span className="bg-fg text-bg grid h-7 w-7 place-items-center rounded-md font-mono text-xs font-semibold">
+            AT
+          </span>
+          <span className="font-medium">{site.name}</span>
         </a>
 
-        <ul className="hidden items-center gap-5 lg:flex">
-          {navLinks.map((link, i) => {
+        <ul className="hidden items-center gap-1 md:flex">
+          {navLinks.map((link) => {
             const isActive = active === link.href.slice(1);
             return (
               <li key={link.href}>
                 <a
                   href={link.href}
                   aria-current={isActive ? 'true' : undefined}
-                  className={`note whitespace-nowrap transition-colors hover:text-fg ${isActive ? 'text-fg' : ''}`}
+                  className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+                    isActive ? 'bg-surface-2 text-fg' : 'text-muted hover:text-fg'
+                  }`}
                 >
-                  <span className={isActive ? 'text-accent' : 'text-accent/50'}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>{' '}
                   {link.label}
                 </a>
               </li>
@@ -100,22 +102,16 @@ export const Nav: React.FC = () => {
           })}
         </ul>
 
-        <div className="flex items-center gap-4">
-          <a href="/cv.pdf" download className="note link-rule hidden sm:inline-block">
-            CV
-          </a>
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="menu-mobile"
-            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-            className="text-fg hover:text-accent transition-colors lg:hidden"
-          >
-            <Icon name={open ? 'close' : 'menu'} className="h-5 w-5" />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="menu-mobile"
+          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+          className="text-fg hover:text-accent transition-colors md:hidden"
+        >
+          <Icon name={open ? 'close' : 'menu'} className="h-5 w-5" />
+        </button>
       </nav>
 
       <AnimatePresence>
@@ -126,32 +122,20 @@ export const Nav: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-bg/97 rule-t backdrop-blur-md lg:hidden"
+            className="rule-t md:hidden"
           >
             <ul className="shell flex flex-col py-2">
-              {navLinks.map((link, i) => (
-                <li key={link.href} className="rule-b">
+              {navLinks.map((link) => (
+                <li key={link.href} className="rule-b last:border-b-0">
                   <a
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="text-fg flex items-baseline gap-4 py-4 text-lg"
+                    className="text-fg block py-4 text-lg"
                   >
-                    <span className="folio">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="display">{link.label}</span>
+                    {link.label}
                   </a>
                 </li>
               ))}
-              <li>
-                <a
-                  href="/cv.pdf"
-                  download
-                  onClick={() => setOpen(false)}
-                  className="note text-pop flex items-center gap-2 py-5"
-                >
-                  <Icon name="download" className="h-4 w-4" />
-                  Télécharger le CV
-                </a>
-              </li>
             </ul>
           </motion.div>
         )}

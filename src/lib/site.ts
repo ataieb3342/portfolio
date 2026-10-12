@@ -5,17 +5,16 @@
 export const site = {
   url: "https://www.ataieb-dev.fr",
   name: "Adam Taïeb",
-  role: "Data engineer · développement full-stack",
+  role: "Data engineer chez Tradim",
   locale: "fr_FR",
   description:
-    "Portfolio d'Adam Taïeb, data engineer à Dijon. Datawarehouse et datamart sous Semarchy xDI et Vertica, migration SAS vers Python, pipeline Spark de segmentation et les interfaces qui l'exposent.",
+    "Adam Taïeb, data engineer chez Tradim à Dijon. Support de la facturation ECOCITO et migration des traitements SSIS et SSRS vers Python, avec l'IA.",
 } as const;
 
 export const navLinks = [
-  { href: "#experience", label: "Expérience" },
-  { href: "#projets", label: "Projets" },
+  { href: "#maintenant", label: "Maintenant" },
   { href: "#approche", label: "Approche" },
+  { href: "#parcours", label: "Parcours" },
   { href: "#stack", label: "Stack" },
-  { href: "#formation", label: "Formation" },
   { href: "#contact", label: "Contact" },
 ] as const;
