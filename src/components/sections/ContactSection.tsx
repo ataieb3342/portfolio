@@ -8,6 +8,9 @@ export const ContactSection: React.FC = () => (
     <div className="shell">
       <Reveal className="panel relative overflow-hidden p-7 md:p-12">
         <div aria-hidden="true" className="dots pointer-events-none absolute inset-0" />
+        <div aria-hidden="true" className="glow bg-accent -bottom-32 -left-20 h-80 w-80 opacity-30!" />
+        <div aria-hidden="true" className="glow bg-violet -top-24 right-0 h-80 w-80 opacity-30!" />
+        <div aria-hidden="true" className="glow bg-cyan right-1/3 -bottom-40 h-72 w-72 opacity-20!" />
 
         <div className="relative">
           <p className="folio mb-4">{'// contact'}</p>
@@ -19,10 +22,10 @@ export const ContactSection: React.FC = () => (
             href={`mailto:${data.contact.email}`}
             className="group text-fg mt-8 inline-flex items-center gap-3 text-xl md:text-3xl"
           >
-            <span className="link-rule">{data.contact.email}</span>
+            <span className="text-gradient font-medium">{data.contact.email}</span>
             <Icon
               name="arrowRight"
-              className="text-accent h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 md:h-6 md:w-6"
+              className="text-cyan h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 md:h-6 md:w-6"
             />
           </a>
 

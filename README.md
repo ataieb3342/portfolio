@@ -33,10 +33,13 @@ src/
 └── types/index.ts
 ```
 
-**Parti pris graphique :** un poste de travail data, sobre. Fond sombre par défaut,
-clair si le système le demande (`prefers-color-scheme`), un seul accent vert signal
-réservé à ce qui est « vivant » : le poste actuel, l'étape cible du schéma de migration.
-Panneaux à bord fin, coins doux, trame de points en fond du hero et du contact.
+**Parti pris graphique :** un poste de travail data, avec du caractère. Fond sombre par
+défaut, clair si le système le demande (`prefers-color-scheme`). Quatre tons — lime,
+violet, cyan, corail — utilisés comme une coloration syntaxique : legacy en corail, IA
+en violet, Python en cyan, ce qui est vivant en lime. Chaque section pose son ton
+(`tone` sur `Section`, classes `.tone-*`), repris par les pastilles, les cartes teintées
+et les utilitaires `text-tone` / `bg-tone` / `border-tone`. Le hero montre le métier
+en code : un traitement SSIS repris en Python.
 
 **Principe technique :** les sections sont des composants serveur. Les seules frontières
 client sont `Reveal`, qui déclenche les animations à l'entrée dans le viewport, et la

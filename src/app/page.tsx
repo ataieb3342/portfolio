@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { Ticker } from '@/components/sections/Ticker';
 import { NowSection } from '@/components/sections/NowSection';
 import { ParcoursSection } from '@/components/sections/ParcoursSection';
 import { ApproachSection } from '@/components/sections/ApproachSection';
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      <Ticker />
       <NowSection />
       <ApproachSection />
       <ParcoursSection />

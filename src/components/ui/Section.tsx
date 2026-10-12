@@ -7,15 +7,32 @@ interface SectionProps {
   eyebrow: string;
   title: React.ReactNode;
   lead?: string;
+  /** Ton de la section : colore le repère, les pastilles et les cartes. */
+  tone?: 'lime' | 'violet' | 'cyan' | 'coral';
   children: React.ReactNode;
 }
 
 /** Coquille de section : repère, titre, chapô, puis le contenu. */
-export const Section: React.FC<SectionProps> = ({ id, eyebrow, title, lead, children }) => (
-  <section id={id} className="section-y rule-t relative" aria-labelledby={`${id}-title`}>
-    <div className="shell">
+export const Section: React.FC<SectionProps> = ({
+  id,
+  eyebrow,
+  title,
+  lead,
+  tone = 'lime',
+  children,
+}) => (
+  <section
+    id={id}
+    className={`section-y rule-t tone-${tone} relative overflow-hidden`}
+    aria-labelledby={`${id}-title`}
+  >
+    <div aria-hidden="true" className="glow bg-tone -top-40 -right-40 h-96 w-96 opacity-[0.08]!" />
+    <div className="shell relative">
       <Reveal className="max-w-3xl">
-        <p className="folio mb-4">{`// ${eyebrow}`}</p>
+        <p className="folio mb-4 flex items-center gap-2.5">
+          <span className="bg-tone h-1.5 w-1.5 rounded-full" aria-hidden="true" />
+          {`// ${eyebrow}`}
+        </p>
         <h2 id={`${id}-title`} className="text-h2 text-balance">
           {title}
         </h2>
