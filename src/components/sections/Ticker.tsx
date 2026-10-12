@@ -9,7 +9,8 @@ const words: [string, string][] = [
   ['LLM', 'text-accent'],
   ['Non-régression', 'text-cyan'],
   ['ECOCITO', 'text-violet'],
-  ['Redevance incitative', 'text-coral'],
+  ['Support N2', 'text-coral'],
+  ['Agents IA', 'text-violet'],
   ['APIs', 'text-fg'],
   ['Automatisations', 'text-accent'],
 ];

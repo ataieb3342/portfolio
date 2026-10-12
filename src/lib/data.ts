@@ -13,15 +13,15 @@ export const data: FullData = {
       missions: [
         {
           icon: "doc",
-          label: "Support",
-          title: "Support facturation",
-          body: "Je suis le relais technique quand une facturation ne tombe pas juste chez un client : redevance incitative, part fixe et part variable, levées comptées, régularisations.",
+          label: "Support N2",
+          title: "Support facturation, niveau 2",
+          body: "Les clients ouvrent des tickets sur la facturation ECOCITO. Quand ça devient technique, c'est pour moi : il faut trouver d'où vient le problème, le réparer et répondre.",
           points: [
-            "Diagnostic des anomalies de facturation, directement en SQL dans les données du client",
-            "Correction ou contournement, puis explication claire au client et aux équipes",
-            "Les cas qui reviennent deviennent des requêtes et des contrôles réutilisables",
+            "Diagnostic dans les données et les traitements, souvent directement en SQL",
+            "Correction, puis réponse claire au client",
+            "Quand c'est un bug, une procédure précise pour les développeurs",
           ],
-          tags: ["SQL Server", "SQL", "Facturation", "Redevance incitative"],
+          tags: ["Support N2", "SQL Server", "SQL", "Facturation"],
         },
         {
           icon: "code",
@@ -112,8 +112,8 @@ export const data: FullData = {
         },
         {
           title: "Bascule et branchements",
-          body: "Mise en production, puis arrêt de l'ancien traitement. Une fois en Python, il peut être appelé par une API, une automatisation ou un assistant IA.",
-          ai: "Devient un usage à part entière : ce qu'on branche sur les traitements migrés.",
+          body: "Mise en production, puis arrêt de l'ancien traitement. Une fois en Python, il peut être appelé par une API, une automatisation ou un agent IA.",
+          ai: "Des agents peuvent s'y brancher. Au support, par exemple : répondre au client sur un ticket, ou préparer la procédure de correction pour les développeurs.",
         },
       ],
     },
