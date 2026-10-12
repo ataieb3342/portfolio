@@ -10,17 +10,11 @@ const Entry: React.FC<{ experience: ExperienceData }> = ({ experience }) => (
       <h3 className="text-h3">{experience.company}</h3>
       <span className="text-muted">{experience.title}</span>
       {experience.contract && <span className="tag">{experience.contract}</span>}
-      {experience.current && (
-        <span className="tag border-accent! text-accent!">
-          <span className="pulse mr-2 h-1.5! w-1.5!" aria-hidden="true" />
-          En poste
-        </span>
-      )}
     </div>
 
     <p className="text-muted mt-3 max-w-2xl leading-relaxed">{experience.summary}</p>
 
-    {experience.axes.length > 0 && (
+    {experience.axes && experience.axes.length > 0 && (
       <div className="mt-6 grid gap-6 md:grid-cols-2 md:gap-8">
         {experience.axes.map((axis) => (
           <div key={axis.label}>
@@ -64,15 +58,14 @@ const Entry: React.FC<{ experience: ExperienceData }> = ({ experience }) => (
 );
 
 /** Un ton par poste, du plus récent au plus ancien. */
-const EXPERIENCE_TONES = ['tone-lime', 'tone-violet', 'tone-coral'];
+const EXPERIENCE_TONES = ['tone-violet', 'tone-coral'];
 
 /** Une ligne de la frise : dates en marge, contenu à droite, un point sur le fil. */
 const Row: React.FC<{
   period: string;
-  current?: boolean;
   tone?: string;
   children: React.ReactNode;
-}> = ({ period, current, tone = '', children }) => (
+}> = ({ period, tone = '', children }) => (
   <RevealItem
     as="li"
     className={`${tone} relative grid gap-2 pb-12 pl-7 last:pb-0 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-10 md:pl-0`}
@@ -80,11 +73,7 @@ const Row: React.FC<{
     <span
       aria-hidden="true"
       className={`absolute top-1.5 left-0 h-2.5 w-2.5 rounded-full border-2 md:left-[calc(10rem+1.25rem-5px)] ${
-        current
-          ? 'border-tone bg-tone shadow-[0_0_0_5px_color-mix(in_srgb,var(--tone)_20%,transparent)]'
-          : tone
-            ? 'border-tone bg-bg'
-            : 'bg-bg border-[color:var(--rule-strong)]'
+        tone ? 'border-tone bg-bg' : 'bg-bg border-[color:var(--rule-strong)]'
       }`}
     />
     <p className={`note pt-0.5 normal-case! tracking-normal! ${tone ? 'text-tone!' : ''}`}>{period}</p>
@@ -97,8 +86,8 @@ export const ParcoursSection: React.FC = () => (
     id="parcours"
     tone="cyan"
     eyebrow="parcours"
-    title="Toujours de la donnée, souvent de l'existant à reprendre"
-    lead="Entrepôts, migrations, interfaces métier : trois postes où il a fallu comprendre ce qui tournait déjà avant de le faire évoluer."
+    title="Avant Tradim"
+    lead="Un SI décisionnel et une migration SAS, puis plus de deux ans entre pipeline Spark et interfaces métier."
   >
     <RevealGroup>
       <ol className="relative">
@@ -112,7 +101,6 @@ export const ParcoursSection: React.FC = () => (
           <Row
             key={experience.id}
             period={experience.period}
-            current={experience.current}
             tone={EXPERIENCE_TONES[index % EXPERIENCE_TONES.length]}
           >
             <Entry experience={experience} />

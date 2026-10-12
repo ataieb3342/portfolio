@@ -39,36 +39,15 @@ export const data: FullData = {
     },
     experiences: [
       {
-        id: "tradim",
-        title: "Data Engineer",
-        company: "Tradim",
-        period: "Oct. 2026 - aujourd'hui",
-        current: true,
-        summary: "Support de la facturation ECOCITO et migration des traitements SSIS et SSRS vers Python, avec l'IA.",
-        axes: [],
-      },
-      {
         id: "hara",
         title: "Data Engineer",
         company: "Hara",
         period: "Févr. 2026 - Juin 2026",
         contract: "CDI",
-        summary: "Maîtrise d'œuvre sur le système d'information décisionnel d'un client : couches datawarehouse et datamart sous Semarchy xDI et Vertica.",
-        axes: [
-          {
-            icon: "database",
-            label: "MOE sur le SID",
-            body: "Build et run des couches datawarehouse et datamart sous Semarchy xDI sur base Vertica. Nouvelles tables et leurs liens, évolution des modèles existants, incidents de chargement et anomalies de données, le tout en SQL."
-          },
-          {
-            icon: "code",
-            label: "Migration SAS → Python",
-            body: "Reprise de traitements SAS vers Python sur Vertica. Un outil interne de parsing et de visualisation du code SAS pour cartographier l'existant, et une architecture de non-régression pour garantir l'iso-résultat à chaque lot migré."
-          }
-        ],
+        summary: "Maîtrise d'œuvre sur le SI décisionnel d'un client : datawarehouse et datamart sous Semarchy xDI et Vertica, en build comme en run. Puis la reprise de traitements SAS en Python.",
         highlights: [
           "Outil maison de parsing et de visualisation du code SAS",
-          "Architecture de non-régression sur les traitements migrés",
+          "Architecture de non-régression, lot par lot",
         ]
       },
       {
@@ -77,18 +56,11 @@ export const data: FullData = {
         company: "Crédit Agricole Franche-Comté",
         period: "Sept. 2023 - Déc. 2025",
         contract: "Alternance puis CDD",
-        summary: "Alternance de septembre 2023 à août 2025, prolongée par un CDD jusqu'en décembre. Plus de deux ans à industrialiser la data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée par les conseillers.",
-        axes: [
-          {
-            icon: "code",
-            label: "Applications métier",
-            body: "Interfaces décisionnelles ouvertes à 400 conseillers, en React sur un back PHP et SQL Server. En parallèle, une cinquantaine de collaborateurs du Marketing accompagnés vers des décisions appuyées sur la donnée."
-          },
-          {
-            icon: "chart",
-            label: "Data & MLOps",
-            body: "Pipeline de segmentation client industrialisé sous Spark, modèles de scoring passés en production, et un datamart centralisé de quinze tables pour les analyses du service."
-          }
+        summary: "La data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée par les conseillers. Alternance de septembre 2023 à août 2025, puis CDD jusqu'en décembre.",
+        highlights: [
+          "Pipeline de segmentation Spark en production",
+          "Interface React ouverte à 400 conseillers",
+          "Une cinquantaine de personnes du Marketing accompagnées",
         ],
         testimonial: {
           quote: "Adam a réalisé une excellente alternance avec des apports concrets et pertinents. L'évolution au cours des deux années a été réelle avec une prise de hauteur et une compréhension de l'impact de l'accompagnement métier dans la réussite technique.",
@@ -100,15 +72,10 @@ export const data: FullData = {
     ],
     education: [
       {
-        degree: "Master Informatique, Ingénierie Systèmes & Logiciels",
+        degree: "Licence puis Master Informatique",
         school: "Université de Franche-Comté",
-        period: "2023 - 2025",
-        details: "En alternance au Crédit Agricole Franche-Comté."
-      },
-      {
-        degree: "Licence Informatique",
-        school: "Université de Franche-Comté",
-        period: "2020 - 2023",
+        period: "2020 - 2025",
+        details: "Master Ingénierie Systèmes & Logiciels, en alternance au Crédit Agricole."
       }
     ],
     skills: {
@@ -128,24 +95,24 @@ export const data: FullData = {
       lead: "Avec les outils d'aujourd'hui, produire du code ou une démo ne prend plus que quelques heures. Ça ne suffit plus à créer de la valeur. Elle vient de ce qu'il y a autour : comprendre le besoin, cadrer, vérifier, et livrer quelque chose qui tient en production.",
       principles: [
         {
+          icon: "code",
+          title: "Deuxième migration en un an",
+          body: "Du SAS chez Hara, du SSIS et du SSRS chez Tradim. Les langages changent, le réflexe reste : cartographier avant de réécrire. Pour SAS, j'avais construit un outil qui parse et visualise le code. Avec l'IA, cette lecture de l'existant va beaucoup plus vite.",
+        },
+        {
           icon: "target",
-          title: "Le métier d'abord",
-          body: "Une facture fausse, c'est un usager mal facturé et une collectivité qui appelle. Avant de toucher à un traitement, je comprends ce qu'il calcule et pour qui. C'est la partie que l'IA ne fait pas à ma place.",
-        },
-        {
-          icon: "sparkles",
-          title: "L'IA comme accélérateur, pas comme pilote",
-          body: "Je m'en sers pour démêler un package SSIS touffu, cartographier l'existant, proposer une réécriture en Python. Je garde la main sur l'architecture et sur chaque ligne qui part en production.",
-        },
-        {
-          icon: "check",
-          title: "La preuve plutôt que la démo",
-          body: "Un traitement migré n'est terminé que lorsque ses sorties sont identiques à l'ancien. Les tests de non-régression comptent plus que la vitesse de réécriture : c'est ce qui rend une migration rapide sans danger.",
+          title: "Je vois où ça casse",
+          body: "Le support facturation me met du côté où les erreurs arrivent : chez le client, sur une facture. Quand je migre un traitement, je sais quels calculs ne doivent jamais bouger, et ce que coûte un écart.",
         },
         {
           icon: "layers",
-          title: "Des briques sur lesquelles on branche",
-          body: "Un traitement en Python, versionné et testé, peut être appelé par une API, par une automatisation ou par un assistant IA. L'objectif n'est pas seulement de remplacer l'ancien, c'est de rendre la donnée utilisable par ce qui vient après.",
+          title: "La donnée et l'écran",
+          body: "Au Crédit Agricole, j'ai fait le pipeline Spark de segmentation et l'interface React ouverte à 400 conseillers. J'en ai gardé l'habitude de penser un traitement jusqu'à la personne qui s'en sert au bout.",
+        },
+        {
+          icon: "sparkles",
+          title: "Faire adopter, pas seulement livrer",
+          body: "J'ai accompagné une cinquantaine de personnes du Marketing vers des décisions appuyées sur la donnée. L'IA, c'est pareil : un outil branché qui n'est pas adopté par les équipes ne change rien.",
         },
       ],
     },

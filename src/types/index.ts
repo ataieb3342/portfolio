@@ -22,11 +22,9 @@ export interface ExperienceData {
   period: string;
   /** Type de contrat, affiché en étiquette. */
   contract?: string;
-  /** Poste occupé actuellement. */
-  current?: boolean;
   /** Une phrase de cadrage sous l'intitulé. */
   summary: string;
-  axes: ExperienceAxis[];
+  axes?: ExperienceAxis[];
   /** Faits marquants listés sous les volets. */
   highlights?: string[];
   /** Identifiant du témoignage rattaché, le cas échéant. */
