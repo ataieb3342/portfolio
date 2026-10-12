@@ -35,7 +35,7 @@ const Entry: React.FC<{ experience: ExperienceData }> = ({ experience }) => (
       <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-1.5">
         {experience.highlights.map((highlight) => (
           <li key={highlight} className="text-muted flex items-baseline gap-2 text-sm">
-            <span aria-hidden="true" className="text-accent">
+            <span aria-hidden="true" className="text-tone">
               +
             </span>
             {highlight}
@@ -45,9 +45,15 @@ const Entry: React.FC<{ experience: ExperienceData }> = ({ experience }) => (
     )}
 
     {experience.testimonial && (
-      <figure className="panel mt-7 p-5 md:p-6">
-        <blockquote className="text-fg leading-relaxed">
-          « {experience.testimonial.quote} »
+      <figure className="panel tinted tinted-edge relative mt-7 overflow-hidden p-5 md:p-7">
+        <span
+          aria-hidden="true"
+          className="text-tone pointer-events-none absolute -top-4 right-4 font-serif text-[7rem] leading-none opacity-25"
+        >
+          “
+        </span>
+        <blockquote className="text-fg relative text-lg leading-relaxed">
+          {experience.testimonial.quote}
         </blockquote>
         <figcaption className="note mt-4 normal-case! tracking-normal!">
           {experience.testimonial.author}, {experience.testimonial.role}
@@ -57,23 +63,31 @@ const Entry: React.FC<{ experience: ExperienceData }> = ({ experience }) => (
   </>
 );
 
+/** Un ton par poste, du plus récent au plus ancien. */
+const EXPERIENCE_TONES = ['tone-lime', 'tone-violet', 'tone-coral'];
+
 /** Une ligne de la frise : dates en marge, contenu à droite, un point sur le fil. */
-const Row: React.FC<{ period: string; current?: boolean; children: React.ReactNode }> = ({
-  period,
-  current,
-  children,
-}) => (
+const Row: React.FC<{
+  period: string;
+  current?: boolean;
+  tone?: string;
+  children: React.ReactNode;
+}> = ({ period, current, tone = '', children }) => (
   <RevealItem
     as="li"
-    className="relative grid gap-2 pb-12 pl-7 last:pb-0 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-10 md:pl-0"
+    className={`${tone} relative grid gap-2 pb-12 pl-7 last:pb-0 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-10 md:pl-0`}
   >
     <span
       aria-hidden="true"
       className={`absolute top-1.5 left-0 h-2.5 w-2.5 rounded-full border-2 md:left-[calc(10rem+1.25rem-5px)] ${
-        current ? 'border-accent bg-accent' : 'bg-bg border-[color:var(--rule-strong)]'
+        current
+          ? 'border-tone bg-tone shadow-[0_0_0_5px_color-mix(in_srgb,var(--tone)_20%,transparent)]'
+          : tone
+            ? 'border-tone bg-bg'
+            : 'bg-bg border-[color:var(--rule-strong)]'
       }`}
     />
-    <p className="note pt-0.5 normal-case! tracking-normal!">{period}</p>
+    <p className={`note pt-0.5 normal-case! tracking-normal! ${tone ? 'text-tone!' : ''}`}>{period}</p>
     <div className="md:pl-10">{children}</div>
   </RevealItem>
 );
@@ -81,6 +95,7 @@ const Row: React.FC<{ period: string; current?: boolean; children: React.ReactNo
 export const ParcoursSection: React.FC = () => (
   <Section
     id="parcours"
+    tone="cyan"
     eyebrow="parcours"
     title="Toujours de la donnée, souvent de l'existant à reprendre"
     lead="Entrepôts, migrations, interfaces métier : trois postes où il a fallu comprendre ce qui tournait déjà avant de le faire évoluer."
@@ -93,8 +108,13 @@ export const ParcoursSection: React.FC = () => (
           className="absolute top-2 bottom-2 left-[4px] w-px bg-[color:var(--rule)] md:left-[calc(10rem+1.25rem)]"
         />
 
-        {data.experiences.map((experience) => (
-          <Row key={experience.id} period={experience.period} current={experience.current}>
+        {data.experiences.map((experience, index) => (
+          <Row
+            key={experience.id}
+            period={experience.period}
+            current={experience.current}
+            tone={EXPERIENCE_TONES[index % EXPERIENCE_TONES.length]}
+          >
             <Entry experience={experience} />
           </Row>
         ))}

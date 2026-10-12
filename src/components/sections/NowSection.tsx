@@ -6,6 +6,10 @@ import { Icon } from '../ui/Icon';
 
 const { now } = data;
 
+/** Un ton par étape, les mêmes que la coloration du hero : legacy, IA, Python, usages. */
+const STEP_TONES = ['tone-coral', 'tone-violet', 'tone-cyan', 'tone-lime'];
+const MISSION_TONES = ['tone-coral', 'tone-violet'];
+
 /** Schéma de la migration : de l'existant aux usages qu'on y branche. */
 const MigrationFlow: React.FC = () => (
   <Reveal className="panel mt-4 p-5 md:p-7">
@@ -14,15 +18,14 @@ const MigrationFlow: React.FC = () => (
       {now.flow.map((step, index) => {
         const last = index === now.flow.length - 1;
         return (
-          <li key={step.label} className="relative flex md:block">
+          <li key={step.label} className={`${STEP_TONES[index]} relative flex md:block`}>
             <div
-              className={`flex-1 rounded-xl border p-4 ${
-                last
-                  ? 'border-accent bg-[color:color-mix(in_srgb,var(--color-accent)_8%,transparent)]'
-                  : 'bg-surface-2 border-[color:var(--rule)] md:mr-8'
+              className={`tinted bg-surface-2 border-tone flex-1 rounded-xl border p-4 ${
+                last ? '' : 'md:mr-8'
               }`}
+              style={{ borderColor: 'color-mix(in srgb, var(--tone) 40%, transparent)' }}
             >
-              <p className={`folio ${last ? '' : 'text-faint!'}`}>
+              <p className="folio">
                 {String(index + 1).padStart(2, '0')} · {step.label}
               </p>
               <ul className="mt-3 space-y-1.5">
@@ -58,13 +61,16 @@ export const NowSection: React.FC = () => (
     lead={now.context}
   >
     <RevealGroup className="grid gap-4 md:grid-cols-2">
-      {now.missions.map((mission) => (
-        <RevealItem key={mission.title} className="panel flex h-full flex-col p-6 md:p-7">
+      {now.missions.map((mission, index) => (
+        <RevealItem
+          key={mission.title}
+          className={`${MISSION_TONES[index % MISSION_TONES.length]} panel tinted tinted-edge flex h-full flex-col p-6 md:p-7`}
+        >
           <div className="flex items-center gap-3">
-            <span className="text-accent grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--rule)]">
+            <span className="chip">
               <Icon name={mission.icon} className="h-4.5 w-4.5" />
             </span>
-            <span className="note">{mission.label}</span>
+            <span className="note text-tone!">{mission.label}</span>
           </div>
 
           <h3 className="text-h3 mt-5">{mission.title}</h3>
@@ -73,7 +79,7 @@ export const NowSection: React.FC = () => (
           <ul className="mt-5 space-y-2.5">
             {mission.points.map((point) => (
               <li key={point} className="flex gap-3 text-sm leading-relaxed">
-                <Icon name="check" className="text-accent mt-0.5 h-4 w-4 shrink-0" />
+                <Icon name="check" className="text-tone mt-0.5 h-4 w-4 shrink-0" />
                 <span>{point}</span>
               </li>
             ))}
