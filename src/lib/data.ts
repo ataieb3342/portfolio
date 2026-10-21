@@ -3,7 +3,7 @@ import { FullData } from '@/types';
 export const data: FullData = {
     name: "Adam Taïeb",
     title: "Data engineer",
-    profile: "Data engineer chez Tradim depuis octobre 2026. Je tiens le support de la facturation d'ECOCITO et je reprends en Python les traitements SSIS et les rapports SSRS, avec l'IA pour aller plus vite et pour que d'autres outils puissent ensuite s'y brancher. Avant ça : un SI décisionnel sous Vertica, une migration SAS vers Python, et plus de deux ans au Crédit Agricole, en alternance puis en CDD, entre pipeline Spark et interfaces métier.",
+    profile: "Data engineer chez Tradim depuis octobre 2026. Je tiens le support de la facturation d'ECOCITO et je reprends en Python les traitements SSIS et les rapports SSRS, avec l'IA pour aller plus vite et pour que d'autres outils puissent ensuite s'y brancher. Avant ça : un SI décisionnel sous Vertica, une migration SAS vers Python, et plus de deux ans au Crédit Agricole, en alternance puis en CDD, entre pipeline Spark et interfaces métier. À côté, je conçois et maintiens deux sites associatifs en ligne, dont des gens se servent.",
     now: {
       company: "Tradim",
       role: "Data engineer",
@@ -65,6 +65,44 @@ export const data: FullData = {
           company: ""
         }
       }
+    ],
+    sites: [
+      {
+        id: "vhalumni",
+        name: "VH Besançon Alumni",
+        url: "https://www.vh-besancon-alumni.fr",
+        context: "L'association des anciens élèves du lycée Victor Hugo de Besançon.",
+        body: "Je l'ai conçu, et je le développe et le maintiens bénévolement depuis octobre 2025. Les lycéens y cherchent des anciens par matière ou par ville, les membres publient annonces et témoignages, et le bureau administre tout depuis le site.",
+        usage: [
+          { value: "100", label: "comptes inscrits" },
+          { value: "20", label: "articles publiés" },
+        ],
+        points: [
+          "Migration de Sanity vers PostgreSQL, vérifiée type de donnée par type de donnée avant la bascule du 21 octobre 2026",
+          "Permissions testées : 23 actions d'administration rejouées avec quatre profils, dont un jeton falsifié",
+          "334 tests unitaires et 36 scénarios de bout en bout",
+        ],
+        image: "/projets/vhalumni.jpg",
+        tags: ["Next.js 16", "TypeScript", "PostgreSQL", "Drizzle", "Vercel"],
+      },
+      {
+        id: "lfi-dijon",
+        name: "LFI Dijon Centre",
+        url: "https://lfi-dijon.fr",
+        context: "Le groupe d'action de La France insoumise du centre de Dijon.",
+        body: "Je l'ai conçu, je l'héberge et je le maintiens ; deux autres bénévoles contribuent au code. Les militants y tiennent l'agenda, les comptes rendus des apéros thématiques et les articles.",
+        usage: [
+          { value: "53", label: "publications en ligne" },
+          { value: "24", label: "rendez-vous en octobre" },
+        ],
+        points: [
+          "Une attaque par saturation le 16 octobre 2026 : journaux analysés, correctifs en ligne une douzaine d'heures plus tard",
+          "Mesure d'audience côté serveur, sans cookie ni adresse IP conservée",
+          "Serveur que j'administre : Docker, Caddy, déploiement continu et sauvegardes scriptées",
+        ],
+        image: "/projets/lfi-dijon.jpg",
+        tags: ["SvelteKit", "TypeScript", "SQLite", "Docker", "Linux"],
+      },
     ],
     education: [
       {

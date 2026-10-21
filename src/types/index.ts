@@ -53,6 +53,27 @@ export interface NowData {
   missions: MissionData[];
 }
 
+/** Un chiffre d'usage, affiché en grand. */
+export interface UsageFigure {
+  value: string;
+  label: string;
+}
+
+/** Un site en ligne que je maintiens, avec de quoi montrer qu'il sert. */
+export interface SiteData {
+  id: string;
+  name: string;
+  url: string;
+  /** Pour qui, en une phrase. */
+  context: string;
+  body: string;
+  usage: UsageFigure[];
+  points: string[];
+  /** Capture d'écran au format 16:10. */
+  image: string;
+  tags: string[];
+}
+
 export interface SkillsData {
   data: string[];
   dev: string[];
@@ -93,6 +114,7 @@ export interface FullData {
   profile: string;
   now: NowData;
   experiences: ExperienceData[];
+  sites: SiteData[];
   education: EducationData[];
   skills: SkillsData;
   contact: ContactData;
