@@ -138,31 +138,31 @@ export const data: FullData = {
     },
     approach: {
       title: "L'IA écrit vite. Ce qui compte, c'est de savoir quoi lui faire écrire, et de prouver que c'est juste.",
-      lead: "Concrètement, une migration se fait en cinq étapes. L'IA intervient à chacune, mais aucune ne repose seulement sur elle.",
+      lead: "La méthode que j'ai appliquée chez Hara pour reprendre des traitements SAS en Python, et que je reprends chez Tradim pour SSIS et SSRS. Cinq étapes : l'IA intervient à chacune, mais aucune ne repose seulement sur elle.",
       steps: [
         {
           title: "Analyse préalable",
-          body: "Comprendre ce que fait le traitement et pour qui : sources, sorties, règles métier, dépendances, fréquence. C'est là qu'on découpe en lots et qu'on décide par où commencer.",
+          body: "Comprendre ce que fait le traitement et pour qui : sources, sorties, règles métier, dépendances. On découpe en lots et on choisit par où commencer.",
           ai: "Résume l'existant et la documentation. Les règles métier, elles, se valident avec les gens qui s'en servent.",
         },
         {
           title: "Script de parsing",
-          body: "Un package SSIS ou un rapport SSRS, c'est du XML. Un script le lit et en sort une carte : flux, requêtes SQL, transformations, dépendances. On sait exactement ce qu'il faut reproduire.",
+          body: "Un package SSIS ou un rapport SSRS, c'est du XML. Un script le lit et en sort une carte des flux, requêtes et dépendances : on sait exactement quoi reproduire.",
           ai: "Aide à écrire le parseur et explique les requêtes les plus touffues.",
         },
         {
           title: "Réécriture en Python",
-          body: "Lot par lot, à partir de la carte. Du code lisible, découpé et versionné, pas une traduction ligne à ligne de l'ancien.",
+          body: "Lot par lot, à partir de la carte. Du code lisible et versionné, pas une traduction ligne à ligne.",
           ai: "Propose la réécriture. Je relis, je restructure, je garde la main sur l'architecture.",
         },
         {
           title: "Non-régression",
-          body: "L'ancien et le nouveau tournent sur les mêmes données, et on compare les sorties jusqu'à l'iso-résultat. Tant qu'il reste un écart, le lot n'est pas fini.",
+          body: "L'ancien et le nouveau tournent sur les mêmes données. Tant que les sorties diffèrent, le lot n'est pas fini.",
           ai: "Génère des cas de test et aide à expliquer les écarts.",
         },
         {
           title: "Bascule et branchements",
-          body: "Mise en production, puis arrêt de l'ancien traitement. Une fois en Python, il peut être appelé par une API, une automatisation ou un agent IA.",
+          body: "Mise en production, arrêt de l'ancien traitement. En Python, il peut ensuite être appelé par une API, une automatisation ou un agent IA.",
           ai: "Des agents peuvent s'y brancher. Au support, par exemple : répondre au client sur un ticket, ou préparer la procédure de correction pour les développeurs.",
         },
       ],
