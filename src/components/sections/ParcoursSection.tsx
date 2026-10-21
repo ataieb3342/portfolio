@@ -88,7 +88,7 @@ export const ParcoursSection: React.FC = () => (
     tone="cyan"
     eyebrow="parcours"
     title="Avant Tradim"
-    lead="Un SI décisionnel et une migration SAS, puis plus de deux ans entre pipeline Spark et interfaces métier."
+    lead="Plus de deux ans au Crédit Agricole, entre pipeline Spark et interfaces métier, puis un SI décisionnel et une migration SAS chez Hara."
   >
     <RevealGroup>
       <ol className="relative">
