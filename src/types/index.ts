@@ -94,11 +94,21 @@ export interface ApproachData {
   steps: MethodStep[];
 }
 
+/** Le mémoire de fin d'études, rattaché au diplôme. */
+export interface ThesisData {
+  title: string;
+  subtitle: string;
+  date: string;
+  summary: string;
+  points: string[];
+}
+
 export interface EducationData {
   degree: string;
   school: string;
   period: string;
   details?: string;
+  thesis?: ThesisData;
 }
 
 export interface TestimonialData {

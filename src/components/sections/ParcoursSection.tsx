@@ -3,6 +3,7 @@ import { data } from '@/lib/data';
 import type { ExperienceData } from '@/types';
 import { Section } from '../ui/Section';
 import { RevealGroup, RevealItem } from '../ui/Reveal';
+import { Icon } from '../ui/Icon';
 
 const Entry: React.FC<{ experience: ExperienceData }> = ({ experience }) => (
   <>
@@ -114,6 +115,26 @@ export const ParcoursSection: React.FC = () => (
               {edu.school}
               {edu.details && ` · ${edu.details}`}
             </p>
+
+            {edu.thesis && (
+              <div className="tone-violet panel tinted tinted-edge mt-5 p-5 md:p-7">
+                <p className="note text-tone! flex items-center gap-2">
+                  <Icon name="doc" className="h-3.5 w-3.5" />
+                  Mémoire de fin d&apos;études · {edu.thesis.date}
+                </p>
+                <h4 className="text-h3 mt-3 text-balance">{edu.thesis.title}</h4>
+                <p className="text-tone mt-1 text-sm">{edu.thesis.subtitle}</p>
+                <p className="text-muted mt-4 leading-relaxed">{edu.thesis.summary}</p>
+                <ul className="mt-5 space-y-2.5">
+                  {edu.thesis.points.map((point) => (
+                    <li key={point} className="flex gap-3 text-sm leading-relaxed">
+                      <Icon name="check" className="text-tone mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </Row>
         ))}
       </ol>

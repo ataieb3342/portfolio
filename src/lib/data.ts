@@ -109,7 +109,18 @@ export const data: FullData = {
         degree: "Licence puis Master Informatique",
         school: "Université de Franche-Comté",
         period: "2020 - 2025",
-        details: "Master Ingénierie Systèmes & Logiciels, en alternance au Crédit Agricole."
+        details: "Master Ingénierie Systèmes & Logiciels, en alternance au Crédit Agricole.",
+        thesis: {
+          title: "Conception et développement d'un écosystème data bancaire moderne",
+          subtitle: "De la collecte à la valorisation des données clients",
+          date: "Juin 2025",
+          summary: "Le mémoire tiré de l'alternance au Crédit Agricole Franche-Comté : comment transformer les données bancaires en outils d'aide à la décision, pour le Marketing comme pour les conseillers.",
+          points: [
+            "Deux segmentations complémentaires sous Spark : l'une vise la précision, avec le potentiel de chaque client calculé par stratification d'âge puis K-means ; l'autre vise l'interprétation, avec des personas dont le Marketing peut se servir",
+            "Parcours 360° : l'application qui met ces données entre les mains des conseillers, sur une infrastructure héritée (Apache, PHP, SQL Server)",
+            "Un déploiement mesuré dans les journaux d'usage : consultations quotidiennes multipliées par trois une fois les conseillers accompagnés",
+          ],
+        }
       }
     ],
     skills: {
