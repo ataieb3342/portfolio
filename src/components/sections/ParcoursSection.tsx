@@ -133,6 +133,26 @@ export const ParcoursSection: React.FC = () => (
                     </li>
                   ))}
                 </ul>
+                {edu.thesis.url && (
+                  <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <a
+                      href={edu.thesis.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-ghost group"
+                    >
+                      <Icon name="doc" className="h-4 w-4" />
+                      Lire le mémoire
+                      <Icon
+                        name="arrowUpRight"
+                        className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    </a>
+                    <span className="text-faint text-xs">
+                      PDF, 79 pages · version publique, sans données personnelles ni identifiants internes
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </Row>

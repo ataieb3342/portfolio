@@ -101,6 +101,8 @@ export interface ThesisData {
   date: string;
   summary: string;
   points: string[];
+  /** Version publique du mémoire, en PDF. */
+  url?: string;
 }
 
 export interface EducationData {

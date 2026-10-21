@@ -120,6 +120,7 @@ export const data: FullData = {
             "Parcours 360° : l'application qui met ces données entre les mains des conseillers, sur une infrastructure héritée (Apache, PHP, SQL Server)",
             "Un déploiement mesuré dans les journaux d'usage : consultations quotidiennes multipliées par trois une fois les conseillers accompagnés",
           ],
+          url: "/memoire-m2-adam-taieb.pdf",
         }
       }
     ],
