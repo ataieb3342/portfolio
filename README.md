@@ -1,6 +1,6 @@
 # Portfolio — Adam Taïeb
 
-Portfolio d'Adam Taïeb, data engineer chez Tradim : poste actuel, approche, parcours et stack.
+Portfolio d'Adam Taïeb, ingénieur data chez Tradim : poste actuel, méthode, projets, parcours et stack.
 
 **En ligne :** [ataieb-dev.fr](https://www.ataieb-dev.fr)
 
@@ -36,10 +36,10 @@ src/
 **Parti pris graphique :** un poste de travail data, avec du caractère. Fond sombre par
 défaut, clair si le système le demande (`prefers-color-scheme`). Quatre tons — lime,
 violet, cyan, corail — utilisés comme une coloration syntaxique : legacy en corail, IA
-en violet, Python en cyan, ce qui est vivant en lime. Chaque section pose son ton
+en violet, le code migré en cyan, ce qui est vivant en lime. Chaque section pose son ton
 (`tone` sur `Section`, classes `.tone-*`), repris par les pastilles, les cartes teintées
 et les utilitaires `text-tone` / `bg-tone` / `border-tone`. Le hero montre le métier
-en code : un traitement SSIS repris en Python.
+en code : un traitement SSIS converti en .NET par le transpileur.
 
 **Principe technique :** les sections sont des composants serveur. Les seules frontières
 client sont `Reveal`, qui déclenche les animations à l'entrée dans le viewport, et la

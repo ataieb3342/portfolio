@@ -85,8 +85,8 @@ export default async function OpengraphImage() {
             {data.name}
           </div>
           <div style={{ display: 'flex', fontSize: 40, color: MUTED, maxWidth: 980, lineHeight: 1.3 }}>
-            Traitements SSIS et SSRS repris en Python, avec l&apos;IA, et support de la facturation
-            ECOCITO.
+            Je reprends les traitements data legacy pour qu&apos;on puisse enfin y brancher de
+            l&apos;IA.
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default async function OpengraphImage() {
           }}
         >
           <div style={{ display: 'flex', color: FG }}>ataieb-dev.fr</div>
-          <div style={{ display: 'flex' }}>Python · SQL Server · SSIS · SSRS · LLM</div>
+          <div style={{ display: 'flex' }}>Transpileurs · Non-régression · Agents IA</div>
         </div>
       </div>
     ),

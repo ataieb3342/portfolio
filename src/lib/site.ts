@@ -5,10 +5,13 @@
 export const site = {
   url: "https://www.ataieb-dev.fr",
   name: "Adam Taïeb",
-  role: "Data engineer chez Tradim",
+  /** Intitulé, le même que sur LinkedIn. */
+  role: "Ingénieur Data",
+  /** Ce qui distingue le profil, ajouté au titre des pages. */
+  tagline: "Migration de legacy & IA",
   locale: "fr_FR",
   description:
-    "Adam Taïeb, data engineer chez Tradim à Dijon. Support de la facturation ECOCITO et migration des traitements SSIS et SSRS vers Python, avec l'IA. Deux sites associatifs en ligne, qu'il maintient.",
+    "Ingénieur data à Dijon. Transpileurs maison (SAS → Python, SSIS/SSRS → .NET) et non-régression pour moderniser le legacy et y brancher de l'IA.",
 } as const;
 
 /** Nom de domaine d'une URL, sans « www. », pour l'afficher tel quel. */

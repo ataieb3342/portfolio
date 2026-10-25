@@ -2,15 +2,16 @@ import React from 'react';
 
 /** Les mots du métier, en bandeau qui défile, colorés comme une coloration syntaxique. */
 const words: [string, string][] = [
-  ['SSIS → Python', 'text-cyan'],
+  ['SSIS → .NET', 'text-cyan'],
   ['SSRS', 'text-violet'],
-  ['Facturation', 'text-coral'],
+  ['Transpileur', 'text-coral'],
+  ['SAS → Python', 'text-cyan'],
+  ['Non-régression', 'text-accent'],
   ['SQL Server', 'text-fg'],
-  ['LLM', 'text-accent'],
-  ['Non-régression', 'text-cyan'],
-  ['ECOCITO', 'text-violet'],
-  ['Support N2', 'text-coral'],
   ['Agents IA', 'text-violet'],
+  ['Facturation', 'text-coral'],
+  ['LLM', 'text-accent'],
+  ['ECOCITO', 'text-violet'],
   ['APIs', 'text-fg'],
   ['Automatisations', 'text-accent'],
 ];

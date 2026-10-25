@@ -19,10 +19,13 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
+/** « Adam Taïeb — Ingénieur Data · Migration de legacy & IA » : ce que Google affiche. */
+const pageTitle = `${site.name} — ${site.role} · ${site.tagline}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.role}`,
+    default: pageTitle,
     template: `%s — ${site.name}`,
   },
   description: site.description,
@@ -30,16 +33,21 @@ export const metadata: Metadata = {
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
   keywords: [
+    'ingénieur data',
     'data engineer',
-    'Tradim',
-    'ECOCITO',
+    'transpileur',
+    'migration',
+    'non-régression',
+    'SAS',
     'SSIS',
     'SSRS',
     'Python',
-    'migration',
-    'IA',
+    '.NET',
+    'C#',
+    'agents IA',
     'LLM',
     'SQL Server',
+    'Tradim',
     'Dijon',
     'portfolio',
   ],
@@ -49,12 +57,12 @@ export const metadata: Metadata = {
     locale: site.locale,
     url: site.url,
     siteName: `${site.name} — Portfolio`,
-    title: `${site.name} — ${site.role}`,
+    title: pageTitle,
     description: site.description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${site.name} — ${site.role}`,
+    title: pageTitle,
     description: site.description,
   },
   robots: {

@@ -2,34 +2,34 @@ import { FullData } from '@/types';
 
 export const data: FullData = {
     name: "Adam Taïeb",
-    title: "Data engineer",
-    profile: "Data engineer chez Tradim depuis octobre 2026. Je tiens le support de la facturation d'ECOCITO et je reprends en Python les traitements SSIS et les rapports SSRS, avec l'IA pour aller plus vite et pour que d'autres outils puissent ensuite s'y brancher. Avant ça : un SI décisionnel sous Vertica, une migration SAS vers Python, et plus de deux ans au Crédit Agricole, en alternance puis en CDD, entre pipeline Spark et interfaces métier. À côté, je conçois et maintiens deux sites associatifs en ligne, dont des gens se servent.",
+    title: "Ingénieur data",
+    profile: "Ingénieur data chez Tradim depuis octobre 2026. Je reprends les traitements data legacy pour qu'on puisse enfin y brancher de l'IA, des APIs et des automatisations : des transpileurs maison automatisent la conversion (SAS vers Python chez Hara, SSIS et SSRS vers .NET chez Tradim), et un framework de non-régression garantit des résultats identiques. Chez Tradim, je branche aussi des agents IA sur le support de la facturation. Avant ça : un SI décisionnel sous Vertica, et plus de deux ans au Crédit Agricole, en alternance puis en CDD, entre pipeline Spark et interfaces métier. À côté, je conçois et maintiens deux sites associatifs en ligne, dont des gens se servent.",
     now: {
       company: "Tradim",
-      role: "Data engineer",
+      role: "Ingénieur data",
       since: "Depuis oct. 2026",
       place: "Dijon",
       context: "Tradim édite ECOCITO, la suite logicielle qui sert aux collectivités et aux opérateurs à gérer et facturer les services de collecte des déchets, d'eau et d'assainissement. Plus de 1 500 sites l'utilisent. J'y travaille sur deux sujets qui se rejoignent : la facturation, et les traitements de données qui l'alimentent.",
       missions: [
         {
-          icon: "doc",
-          label: "Support N2",
-          title: "Support facturation, niveau 2",
-          body: "Les clients ouvrent des tickets sur la facturation ECOCITO. Quand ça devient technique, c'est pour moi : il faut trouver d'où vient le problème, le réparer et répondre.",
-          points: [
-            "Diagnostic dans les données et les traitements, souvent directement en SQL",
-            "Correction, puis réponse claire au client",
-            "Quand c'est un bug, une procédure précise pour les développeurs",
-          ],
-          tags: ["Support N2", "SQL Server", "SQL", "Facturation"],
-        },
-        {
           icon: "code",
           label: "Migration",
-          title: "SSIS et SSRS vers Python, avec l'IA",
-          body: "Les traitements reposent sur des packages SSIS et des rapports SSRS. Je les reprends en Python, avec l'IA comme outil de migration, pour obtenir du code lisible, testé, et sur lequel on peut brancher de nouveaux usages.",
+          title: "SSIS et SSRS vers .NET, par transpileur",
+          body: "Les traitements reposent sur des packages SSIS et des rapports SSRS. Un transpileur maison les convertit en .NET, intégré à l'architecture existante, et un framework de non-régression vérifie que les sorties restent identiques.",
           link: { href: "#approche", label: "Voir la méthode, étape par étape" },
-          tags: ["Python", "SSIS", "SSRS", "LLM", "Non-régression"],
+          tags: [".NET", "C#", "SSIS", "SSRS", "Transpileur", "Non-régression"],
+        },
+        {
+          icon: "sparkles",
+          label: "Agents IA",
+          title: "Des agents IA sur le support facturation",
+          body: "Les clients ouvrent des tickets sur la facturation ECOCITO. J'outille l'équipe qui les traite : des agents IA préparent le diagnostic, la réponse et la correction, et l'équipe valide.",
+          points: [
+            "Diagnostic accéléré dans les données et les traitements",
+            "Réponse au client préparée par l'agent, relue par l'équipe",
+            "Correction assistée quand c'est possible, sinon une procédure précise pour les développeurs",
+          ],
+          tags: ["Agents IA", "LLM", "SQL Server", "Facturation"],
         },
       ],
     },
@@ -40,10 +40,10 @@ export const data: FullData = {
         company: "Hara",
         period: "Févr. 2026 - Juin 2026",
         contract: "CDI",
-        summary: "Maîtrise d'œuvre sur le SI décisionnel d'un client : datawarehouse et datamart sous Semarchy xDI et Vertica, en build comme en run. Puis la reprise de traitements SAS en Python.",
+        summary: "Maîtrise d'œuvre sur le SI décisionnel d'un client : datawarehouse et datamart sous Semarchy xDI et Vertica, en build comme en run. Puis la migration de traitements SAS vers Python.",
         highlights: [
-          "Outil maison de parsing et de visualisation du code SAS",
-          "Architecture de non-régression, lot par lot",
+          "Transpileur SAS → Python intégré à l'architecture du client",
+          "Framework de non-régression, lot par lot",
         ]
       },
       {
@@ -54,8 +54,8 @@ export const data: FullData = {
         contract: "Alternance puis CDD",
         summary: "La data du marketing bancaire, du modèle Spark jusqu'à l'interface utilisée par les conseillers. Alternance de septembre 2023 à août 2025, puis CDD jusqu'en décembre.",
         highlights: [
-          "Pipeline de segmentation Spark en production",
-          "Interface React ouverte à 400 conseillers",
+          "Segmentation client sous Spark, utilisée par le Marketing pour cibler ses campagnes",
+          "Application de vue client 360° ouverte à 700+ conseillers",
           "Une cinquantaine de personnes du Marketing accompagnées",
         ],
         testimonial: {
@@ -125,8 +125,8 @@ export const data: FullData = {
       }
     ],
     skills: {
-      data: ['Python', 'SQL', 'SQL Server', 'SSIS', 'SSRS', 'Vertica', 'Semarchy xDI', 'Spark', 'Datawarehouse & datamart', 'Migration de traitements'],
-      dev: ['LLM & IA générative', 'APIs REST', 'React', 'Next.js', 'TypeScript', 'PHP', 'C#'],
+      data: ['Python', 'SQL', 'SQL Server', 'SSIS', 'SSRS', 'SAS', 'Vertica', 'Semarchy xDI', 'Spark', 'Datawarehouse & datamart', 'Migration de traitements'],
+      dev: ['C# & .NET', 'LLM & agents IA', 'APIs REST', 'React', 'Next.js', 'TypeScript', 'PHP'],
       tools: ['Git', 'Docker', 'CI/CD', 'Tests de non-régression'],
     },
     contact: {
@@ -137,8 +137,8 @@ export const data: FullData = {
       github: "https://github.com/ataieb3342",
     },
     approach: {
-      title: "L'IA écrit vite. Ce qui compte, c'est de savoir quoi lui faire écrire, et de prouver que c'est juste.",
-      lead: "La méthode que j'ai appliquée chez Hara pour reprendre des traitements SAS en Python, et que je reprends chez Tradim pour SSIS et SSRS. Cinq étapes : l'IA intervient à chacune, mais aucune ne repose seulement sur elle.",
+      title: "Le transpileur convertit. La non-régression prouve.",
+      lead: "La méthode que j'ai appliquée chez Hara pour migrer des traitements SAS vers Python, et que je reprends chez Tradim pour passer SSIS et SSRS en .NET. Cinq étapes, outillées de bout en bout : l'IA intervient à chacune, mais aucune ne repose seulement sur elle.",
       steps: [
         {
           title: "Analyse préalable",
@@ -146,24 +146,24 @@ export const data: FullData = {
           ai: "Résume l'existant et la documentation. Les règles métier, elles, se valident avec les gens qui s'en servent.",
         },
         {
-          title: "Script de parsing",
-          body: "Un package SSIS ou un rapport SSRS, c'est du XML. Un script le lit et en sort une carte des flux, requêtes et dépendances : on sait exactement quoi reproduire.",
+          title: "Parsing",
+          body: "Un package SSIS ou un rapport SSRS, c'est du XML ; un programme SAS, du code à analyser. Le parseur en sort une carte des flux, requêtes et dépendances : on sait exactement quoi convertir.",
           ai: "Aide à écrire le parseur et explique les requêtes les plus touffues.",
         },
         {
-          title: "Réécriture en Python",
-          body: "Lot par lot, à partir de la carte. Du code lisible et versionné, pas une traduction ligne à ligne.",
-          ai: "Propose la réécriture. Je relis, je restructure, je garde la main sur l'architecture.",
+          title: "Transpilation",
+          body: "Le transpileur génère le code cible à partir de la carte : Python pour SAS, .NET pour SSIS et SSRS, intégré à l'architecture en place (accès aux bases, environnement d'exécution). Le même outil traite tous les lots.",
+          ai: "Aide à écrire les règles de conversion et à traiter les cas que le transpileur ne couvre pas encore. Je relis tout ce qu'elle produit.",
         },
         {
           title: "Non-régression",
-          body: "L'ancien et le nouveau tournent sur les mêmes données. Tant que les sorties diffèrent, le lot n'est pas fini.",
+          body: "Le framework fait tourner l'ancien et le nouveau sur les mêmes données et compare les sorties. Tant qu'elles diffèrent, le lot n'est pas fini.",
           ai: "Génère des cas de test et aide à expliquer les écarts.",
         },
         {
           title: "Bascule et branchements",
-          body: "Mise en production, arrêt de l'ancien traitement. En Python, il peut ensuite être appelé par une API, une automatisation ou un agent IA.",
-          ai: "Des agents peuvent s'y brancher. Au support, par exemple : répondre au client sur un ticket, ou préparer la procédure de correction pour les développeurs.",
+          body: "Mise en production, arrêt de l'ancien traitement. Le traitement converti peut ensuite être appelé par une API, une automatisation ou un agent IA.",
+          ai: "Des agents peuvent s'y brancher. Au support, par exemple : préparer la réponse au client sur un ticket, ou la procédure de correction pour les développeurs.",
         },
       ],
     },

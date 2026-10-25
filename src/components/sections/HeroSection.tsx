@@ -21,33 +21,33 @@ const D: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span className="text-coral">{children}</span>
 );
 
-/** Ce que fait le poste, dit en code : un traitement SSIS repris en Python. */
+/** Ce que fait le poste, dit en code : un traitement SSIS converti en .NET par le transpileur. */
 const CodeCard: React.FC = () => (
   <div className="panel relative w-full overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)]">
     <div className="rule-b flex items-center gap-2 px-4 py-3">
       <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
       <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
       <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-      <span className="text-faint ml-3 font-mono text-xs">facturation.py</span>
+      <span className="text-faint ml-3 font-mono text-xs">Facturation.cs</span>
       <span className="tone-violet chip ml-auto h-auto! w-auto! rounded-full! px-2 py-0.5 font-mono text-[0.65rem]">
-        migré depuis SSIS
+        généré depuis SSIS
       </span>
     </div>
     <pre className="overflow-x-auto px-4 py-4 font-mono text-[0.74rem] leading-[1.75] sm:px-5 sm:text-[0.8rem]">
       <code>
-        <C># ex-Facturation.dtsx, réécrit avec l&apos;IA</C>
+        <C>{'// ex-Facturation.dtsx, transpilé'}</C>
         {'\n'}
-        <D>@traitement</D>(source=<S>&quot;ECOCITO&quot;</S>)
+        <D>[Traitement</D>(Source = <S>&quot;ECOCITO&quot;</S>)<D>]</D>
         {'\n'}
-        <K>def</K> <F>facturer</F>(periode):
+        <K>public</K> <F>Factures</F> <F>Facturer</F>(<F>Periode</F> periode)
         {'\n'}
-        {'    '}levees = <F>lire_levees</F>(periode)
+        {'{'}
         {'\n'}
-        {'    '}factures = <F>appliquer_grille</F>(levees)
+        {'    '}<K>var</K> levees = <F>LireLevees</F>(periode);
         {'\n'}
-        {'    '}<K>assert</K> <F>iso_resultat</F>(factures, <S>&quot;v_ssis&quot;</S>)
+        {'    '}<K>return</K> <F>AppliquerGrille</F>(levees);
         {'\n'}
-        {'    '}<K>return</K> factures <C># → API · IA · automatisations</C>
+        {'} '}<C>{'// → API · IA · automatisations'}</C>
       </code>
     </pre>
     <div className="rule-t flex items-center gap-2.5 px-4 py-2.5 font-mono text-[0.7rem] sm:px-5">
@@ -94,10 +94,10 @@ export const HeroSection: React.FC = () => (
 
           <RevealItem>
             <p className="text-h3 text-muted mt-5 max-w-xl font-normal text-balance">
-              Je reprends des traitements de données{' '}
-              <span className="text-coral">legacy</span> en{' '}
-              <span className="text-cyan">Python</span>, et je fais en sorte qu&apos;on puisse y
-              brancher de l&apos;<span className="text-violet">IA</span>.
+              Je reprends les traitements data <span className="text-coral">legacy</span> pour
+              qu&apos;on puisse enfin y brancher de l&apos;<span className="text-violet">IA</span>,
+              des <span className="text-cyan">APIs</span> et des{' '}
+              <span className="text-accent">automatisations</span>.
             </p>
           </RevealItem>
 
