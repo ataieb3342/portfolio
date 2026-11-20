@@ -1,5 +1,8 @@
 import type { IconName } from '@/components/ui/Icon';
 
+/** Les quatre tons du site, posés par les classes `.tone-*`. */
+export type Tone = 'lime' | 'violet' | 'cyan' | 'coral';
+
 export interface ContactData {
   phone: string;
   email: string;
@@ -8,11 +11,77 @@ export interface ContactData {
   github: string;
 }
 
-/** Un volet du poste : un intitulé, une icône et son descriptif. */
-export interface ExperienceAxis {
-  icon: IconName;
+/** Un chiffre, affiché en grand. N'y mettre que ce qui est compté, jamais estimé. */
+export interface Figure {
+  value: string;
   label: string;
+}
+
+export interface NowData {
+  company: string;
+  since: string;
+  place: string;
+  /** Ce que fait l'entreprise, en deux phrases. */
+  context: string;
+  /** Les règles de travail, en titres courts. */
+  principles: string[];
+}
+
+/** Une étape du pipeline de l'étude de cas. */
+export interface PipelineStep {
+  title: string;
+  /** Qui ou quoi fait l'étape. */
+  by: string;
+  detail: string;
+}
+
+/** Un groupe d'étapes du pipeline, selon qui les exécute. */
+export interface PipelineStage {
+  /** `script` : déterministe, sans IA ; `ia` : agents ; `humain` : décision. */
+  kind: 'script' | 'ia' | 'humain';
+  label: string;
+  steps: PipelineStep[];
+}
+
+export interface CaseStudyData {
+  title: string;
+  role: string;
+  problem: string;
+  solution: string;
+  pipeline: PipelineStage[];
+  guardrails: string[];
+  tags: string[];
+}
+
+/** Un projet, en deux phrases. */
+export interface ProjectData {
+  id: string;
+  icon: IconName;
+  tone: Tone;
+  label: string;
+  title: string;
+  /** Statut à afficher en évidence (prototype, non livré…). */
+  status?: string;
   body: string;
+  tags: string[];
+}
+
+/** Un site en ligne que je maintiens. */
+export interface SiteData {
+  id: string;
+  name: string;
+  url: string;
+  body: string;
+  figure: Figure;
+  /** Capture d'écran au format 16:10. */
+  image: string;
+  tags: string[];
+}
+
+export interface TestimonialData {
+  quote: string;
+  author: string;
+  role: string;
 }
 
 export interface ExperienceData {
@@ -20,89 +89,10 @@ export interface ExperienceData {
   title: string;
   company: string;
   period: string;
-  /** Type de contrat, affiché en étiquette. */
   contract?: string;
-  /** Une phrase de cadrage sous l'intitulé. */
+  /** Une ligne. */
   summary: string;
-  axes?: ExperienceAxis[];
-  /** Faits marquants listés sous les volets. */
-  highlights?: string[];
-  /** Identifiant du témoignage rattaché, le cas échéant. */
   testimonial?: TestimonialData;
-}
-
-/** Une mission du poste actuel, détaillée dans la section « Maintenant ». */
-export interface MissionData {
-  icon: IconName;
-  label: string;
-  title: string;
-  body: string;
-  points?: string[];
-  /** Renvoi vers une autre section, à la place des points. */
-  link?: { href: string; label: string };
-  tags: string[];
-}
-
-export interface NowData {
-  company: string;
-  role: string;
-  since: string;
-  place: string;
-  /** Ce que fait l'entreprise, en une ou deux phrases. */
-  context: string;
-  missions: MissionData[];
-}
-
-/** Un chiffre d'usage, affiché en grand. */
-export interface UsageFigure {
-  value: string;
-  label: string;
-}
-
-/** Un site en ligne que je maintiens, avec de quoi montrer qu'il sert. */
-export interface SiteData {
-  id: string;
-  name: string;
-  url: string;
-  /** Pour qui, en une phrase. */
-  context: string;
-  body: string;
-  usage: UsageFigure[];
-  points: string[];
-  /** Capture d'écran au format 16:10. */
-  image: string;
-  tags: string[];
-}
-
-export interface SkillsData {
-  data: string[];
-  dev: string[];
-  tools: string[];
-}
-
-/** Une étape de la méthode de migration. */
-export interface MethodStep {
-  title: string;
-  body: string;
-  /** Ce que fait l'IA à cette étape. */
-  ai: string;
-}
-
-export interface ApproachData {
-  title: string;
-  lead: string;
-  steps: MethodStep[];
-}
-
-/** Le mémoire de fin d'études, rattaché au diplôme. */
-export interface ThesisData {
-  title: string;
-  subtitle: string;
-  date: string;
-  summary: string;
-  points: string[];
-  /** Version publique du mémoire, en PDF. */
-  url?: string;
 }
 
 export interface EducationData {
@@ -110,25 +100,22 @@ export interface EducationData {
   school: string;
   period: string;
   details?: string;
-  thesis?: ThesisData;
-}
-
-export interface TestimonialData {
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
+  /** Mémoire de fin d'études, en lien. */
+  thesis?: { title: string; url: string };
 }
 
 export interface FullData {
   name: string;
-  title: string;
+  /** L'angle du récit, en une phrase. */
+  pitch: string;
+  /** Description longue, pour les moteurs de recherche. */
   profile: string;
   now: NowData;
-  experiences: ExperienceData[];
+  caseStudy: CaseStudyData;
+  projects: ProjectData[];
   sites: SiteData[];
+  experiences: ExperienceData[];
   education: EducationData[];
-  skills: SkillsData;
+  skills: string[];
   contact: ContactData;
-  approach: ApproachData;
 }

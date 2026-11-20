@@ -1,6 +1,7 @@
 # Portfolio — Adam Taïeb
 
-Portfolio d'Adam Taïeb, ingénieur data chez Tradim : poste actuel, méthode, projets, parcours et stack.
+Portfolio d'Adam Taïeb, ingénieur outillage IA & systèmes legacy chez Tradim : poste actuel,
+étude de cas (l'outil de diagnostic des tickets de facturation), projets, parcours et stack.
 
 **En ligne :** [ataieb-dev.fr](https://www.ataieb-dev.fr)
 
@@ -25,21 +26,22 @@ src/
 ├── components/
 │   ├── Nav.tsx              # En-tête translucide, section active, progression de lecture
 │   ├── Footer.tsx
-│   ├── sections/            # Hero, Maintenant, Approche, Parcours, Stack, Contact
+│   ├── sections/            # Hero, Étude de cas (poste actuel), Projets, Parcours, Contact
 │   └── ui/                  # Section, Reveal, Icon
 ├── lib/
-│   ├── data.ts              # Tout le contenu éditorial (poste, approche, expériences…)
+│   ├── data.ts              # Tout le contenu éditorial (poste, étude de cas, projets…)
 │   └── site.ts              # URL canonique, navigation
 └── types/index.ts
 ```
 
-**Parti pris graphique :** un poste de travail data, avec du caractère. Fond sombre par
-défaut, clair si le système le demande (`prefers-color-scheme`). Quatre tons — lime,
-violet, cyan, corail — utilisés comme une coloration syntaxique : legacy en corail, IA
-en violet, le code migré en cyan, ce qui est vivant en lime. Chaque section pose son ton
-(`tone` sur `Section`, classes `.tone-*`), repris par les pastilles, les cartes teintées
-et les utilitaires `text-tone` / `bg-tone` / `border-tone`. Le hero montre le métier
-en code : un traitement SSIS converti en .NET par le transpileur.
+**Parti pris graphique :** un journal d'audit. Sobre : chasse fixe pour les repères,
+filets fins, coins nets, aucun dégradé ni halo. Les sections sont des entrées numérotées
+(`§1`, `§2`… via `index` sur `Section`, classe `.entry`). Fond sombre par défaut, clair si
+le système le demande. La couleur dit qui agit, jamais pour décorer : violet = IA,
+lime = humain / vérifié, cyan = script, corail = legacy (classes `.tone-*`, utilitaires
+`text-tone` / `bg-tone` / `border-tone`). Le hero montre la trace d'un passage de l'outil
+de diagnostic, avec la porte de validation humaine ; l'étude de cas dessine son pipeline,
+où le cadre pointillé marque ce que fait l'IA.
 
 **Principe technique :** les sections sont des composants serveur. Les seules frontières
 client sont `Reveal`, qui déclenche les animations à l'entrée dans le viewport, et la
@@ -48,11 +50,12 @@ barre de navigation.
 ## Modifier le contenu
 
 Tout le texte vit dans [`src/lib/data.ts`](src/lib/data.ts) : profil, poste actuel
-(`now` : contexte et missions), approche, expériences, compétences,
-formation, contact. Aucun contenu n'est codé en
-dur dans les composants.
+(`now`), étude de cas (`caseStudy`), projets, site associatif, expériences, compétences,
+formation, contact. Le haut du fichier rappelle les règles de rédaction : court, une idée
+par bloc ; aucun nom de client ni donnée réelle ; aucun chiffre de gain non mesuré ; la
+migration présentée comme un prototype.
 
-Les icônes des missions et de l'approche se choisissent parmi les clés de
+Les icônes des projets se choisissent parmi les clés de
 [`src/components/ui/Icon.tsx`](src/components/ui/Icon.tsx).
 
 ## Développement

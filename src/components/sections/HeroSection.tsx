@@ -1,141 +1,123 @@
 import Image from 'next/image';
 import React from 'react';
 import { data } from '@/lib/data';
-import { RevealGroup, RevealItem } from '../ui/Reveal';
+import { Reveal } from '../ui/Reveal';
 import { GitHubIcon, Icon, LinkedInIcon } from '../ui/Icon';
 
-/* Coloration syntaxique de la carte de code, sur les tons du site. */
-const K: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="text-violet">{children}</span>
-);
-const F: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="text-cyan">{children}</span>
-);
-const S: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="text-accent">{children}</span>
-);
-const C: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="text-faint">{children}</span>
-);
-const D: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="text-coral">{children}</span>
-);
+type Actor = 'script' | 'ia' | 'humain';
 
-/** Ce que fait le poste, dit en code : un traitement SSIS converti en .NET par le transpileur. */
-const CodeCard: React.FC = () => (
-  <div className="panel relative w-full overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)]">
-    <div className="rule-b flex items-center gap-2 px-4 py-3">
-      <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-      <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-      <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-      <span className="text-faint ml-3 font-mono text-xs">Facturation.cs</span>
-      <span className="tone-violet chip ml-auto h-auto! w-auto! rounded-full! px-2 py-0.5 font-mono text-[0.65rem]">
-        généré depuis SSIS
+/** Une étape de la trace, sans horodatage : on ne suggère aucune durée. */
+const steps: { actor: Actor; step: string; result: string }[] = [
+  { actor: 'script', step: 'ticket', result: 'lu · lecture seule' },
+  { actor: 'script', step: 'dossier', result: 'préparé · sans IA' },
+  { actor: 'ia', step: 'agents', result: 'socle + consignes' },
+  { actor: 'ia', step: 'preuve', result: 'SELECT … ROLLBACK' },
+  { actor: 'ia', step: 'proposition', result: 'avant / après' },
+];
+
+const MARK: Record<Actor, { sign: string; className: string; label: string }> = {
+  script: { sign: '·', className: 'text-cyan', label: 'script' },
+  ia: { sign: '◆', className: 'text-violet', label: 'IA' },
+  humain: { sign: '■', className: 'text-accent', label: 'humain' },
+};
+
+/** La trace d'un passage de l'outil de diagnostic, avec la porte humaine en sortie. */
+const Trace: React.FC = () => (
+  <figure className="panel font-mono text-[0.75rem] leading-relaxed sm:text-[0.8rem]">
+    <figcaption className="rule-b text-faint flex justify-between gap-4 px-4 py-2.5 sm:px-5">
+      <span>trace · diagnostic d&apos;un ticket</span>
+      <span>exemple</span>
+    </figcaption>
+
+    <ol className="px-4 py-3 sm:px-5">
+      {steps.map((s, i) => (
+        <li key={s.step} className="grid grid-cols-[1.75rem_1rem_minmax(0,6.5rem)_minmax(0,1fr)] gap-x-2 py-0.5">
+          <span className="text-faint">{String(i + 1).padStart(2, '0')}</span>
+          <span className={MARK[s.actor].className} aria-label={MARK[s.actor].label}>
+            {MARK[s.actor].sign}
+          </span>
+          <span className="text-fg">{s.step}</span>
+          <span className="text-muted truncate">{s.result}</span>
+        </li>
+      ))}
+    </ol>
+
+    {/* La porte : rien ne sort sans un humain */}
+    <div className="tone-lime border-tone mx-4 mb-3 grid grid-cols-[1.75rem_1rem_minmax(0,6.5rem)_minmax(0,1fr)] gap-x-2 rounded-[3px] border border-dashed px-0 py-2 sm:mx-5">
+      <span className="text-faint pl-2">06</span>
+      <span className="text-tone" aria-label="humain">
+        ■
       </span>
+      <span className="text-tone">HUMAIN</span>
+      <span className="text-fg">relit, décide · 2 clics</span>
     </div>
-    <pre className="overflow-x-auto px-4 py-4 font-mono text-[0.74rem] leading-[1.75] sm:px-5 sm:text-[0.8rem]">
-      <code>
-        <C>{'// ex-Facturation.dtsx, transpilé'}</C>
-        {'\n'}
-        <D>[Traitement</D>(Source = <S>&quot;ECOCITO&quot;</S>)<D>]</D>
-        {'\n'}
-        <K>public</K> <F>Factures</F> <F>Facturer</F>(<F>Periode</F> periode)
-        {'\n'}
-        {'{'}
-        {'\n'}
-        {'    '}<K>var</K> levees = <F>LireLevees</F>(periode);
-        {'\n'}
-        {'    '}<K>return</K> <F>AppliquerGrille</F>(levees);
-        {'\n'}
-        {'} '}<C>{'// → API · IA · automatisations'}</C>
-      </code>
-    </pre>
-    <div className="rule-t flex items-center gap-2.5 px-4 py-2.5 font-mono text-[0.7rem] sm:px-5">
-      <Icon name="check" className="text-accent h-3.5 w-3.5" />
-      <span className="text-muted">
-        non-régression : <span className="text-accent">identique</span> à la sortie SSIS
-      </span>
-    </div>
-  </div>
+
+    <p className="rule-t flex justify-between gap-4 px-4 py-2.5 sm:px-5">
+      <span className="text-muted">écrit en production par l&apos;IA</span>
+      <span className="text-accent">0</span>
+    </p>
+  </figure>
 );
 
 export const HeroSection: React.FC = () => (
-  <section id="top" className="relative overflow-hidden pt-16">
-    <div aria-hidden="true" className="dots pointer-events-none absolute inset-0" />
-    <div aria-hidden="true" className="glow bg-accent -top-24 -left-32 h-[28rem] w-[28rem]" />
-    <div aria-hidden="true" className="glow bg-violet top-40 -right-24 h-[26rem] w-[26rem]" />
+  <section id="top" className="pt-16">
+    <div className="shell grid items-center gap-10 pt-8 pb-10 md:pt-12 md:pb-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-14">
+      <Reveal>
+        <p className="entry">
+          <span className="relative h-6 w-6 shrink-0 overflow-hidden rounded-[3px]">
+            <Image
+              src="/profil.jpg"
+              alt={`Portrait de ${data.name}`}
+              fill
+              sizes="24px"
+              className="object-cover object-[50%_22%]"
+              priority
+            />
+          </span>
+          <span>
+            {data.now.company} · {data.now.place}
+          </span>
+          <span className="pulse" aria-hidden="true" />
+        </p>
 
-    <div className="shell relative pt-12 pb-16 md:pt-20 md:pb-24">
-      <RevealGroup className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-14">
-        <div>
-          <RevealItem>
-            <div className="inline-flex items-center gap-3 rounded-full border border-[color:var(--rule)] bg-surface/60 py-1.5 pr-4 pl-1.5 backdrop-blur">
-              <span className="relative h-8 w-8 overflow-hidden rounded-full">
-                <Image
-                  src="/profil.jpg"
-                  alt={`Portrait de ${data.name}`}
-                  fill
-                  sizes="32px"
-                  className="object-cover object-[50%_22%]"
-                  priority
-                />
-              </span>
-              <span className="text-sm">
-                {data.now.role} chez <span className="text-fg font-medium">{data.now.company}</span>
-                <span className="text-faint"> · {data.now.place}</span>
-              </span>
-              <span className="pulse" aria-hidden="true" />
-            </div>
-          </RevealItem>
+        <h1 className="text-display mt-6">{data.name}</h1>
+        <p className="text-fg mt-4 font-mono text-sm tracking-tight md:text-base">
+          <span className="text-violet">outillage IA</span> &amp; <span className="text-coral">systèmes legacy</span>
+          <span className="text-faint"> · facturation publique</span>
+        </p>
 
-          <RevealItem>
-            <h1 className="text-display text-gradient mt-7 pb-2">{data.name}</h1>
-          </RevealItem>
+        <p className="text-lead text-muted mt-5 max-w-xl">{data.pitch}</p>
+        <p className="text-lead text-fg mt-3 max-w-xl">
+          L&apos;IA <span className="text-violet">propose</span>, l&apos;humain{' '}
+          <span className="text-accent">décide</span>.
+        </p>
 
-          <RevealItem>
-            <p className="text-h3 text-muted mt-5 max-w-xl font-normal text-balance">
-              Je reprends les traitements data <span className="text-coral">legacy</span> pour
-              qu&apos;on puisse enfin y brancher de l&apos;<span className="text-violet">IA</span>,
-              des <span className="text-cyan">APIs</span> et des{' '}
-              <span className="text-accent">automatisations</span>.
-            </p>
-          </RevealItem>
-
-          <RevealItem>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <a href={`mailto:${data.contact.email}`} className="btn btn-accent group">
-                M&apos;écrire
-                <Icon
-                  name="arrowRight"
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
-                />
-              </a>
-              <a
-                href={data.contact.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost"
-              >
-                <LinkedInIcon className="h-4 w-4" />
-                LinkedIn
-              </a>
-              <a
-                href={data.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost"
-              >
-                <GitHubIcon className="h-4 w-4" />
-                GitHub
-              </a>
-            </div>
-          </RevealItem>
+        <div className="mt-7 flex flex-wrap items-center gap-3">
+          <a href="#diagnostic" className="btn btn-primary group">
+            Lire le diagnostic
+            <Icon
+              name="arrowRight"
+              className="h-4 w-4 rotate-90 transition-transform duration-300 group-hover:translate-y-0.5"
+            />
+          </a>
+          <a href={data.contact.linkedin} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+            <LinkedInIcon className="h-4 w-4" />
+            LinkedIn
+          </a>
+          <a href={data.contact.github} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+            <GitHubIcon className="h-4 w-4" />
+            GitHub
+          </a>
         </div>
+      </Reveal>
 
-        <RevealItem className="min-w-0 lg:rotate-[0.6deg]">
-          <CodeCard />
-        </RevealItem>
-      </RevealGroup>
+      <Reveal className="min-w-0">
+        <Trace />
+        <p className="note mt-3 normal-case! tracking-normal!">
+          <span className="text-cyan">·</span> script &nbsp; <span className="text-violet">◆</span> IA, en lecture
+          seule &nbsp; <span className="text-accent">■</span> humain · aucune donnée réelle
+        </p>
+      </Reveal>
     </div>
   </section>
 );

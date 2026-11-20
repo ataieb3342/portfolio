@@ -84,18 +84,19 @@ export const Nav: React.FC = () => {
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => {
+          {navLinks.map((link, index) => {
             const isActive = active === link.href.slice(1);
             return (
               <li key={link.href}>
                 <a
                   href={link.href}
                   aria-current={isActive ? 'true' : undefined}
-                  className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+                  className={`rounded-[4px] px-3 py-1.5 font-mono text-[0.8rem] transition-colors ${
                     isActive ? 'bg-surface-2 text-fg' : 'text-muted hover:text-fg'
                   }`}
                 >
-                  {link.label}
+                  <span className={isActive ? 'text-accent' : 'text-faint'}>§{index + 1}</span>{' '}
+                  {link.label.toLowerCase()}
                 </a>
               </li>
             );
