@@ -1,45 +1,49 @@
 import React from 'react';
+import type { Tone } from '@/types';
 import { Reveal } from './Reveal';
 
 interface SectionProps {
   id: string;
-  /** Repère en chasse fixe au-dessus du titre. */
+  /** Numéro de l'entrée, affiché « §1 ». */
+  index: number;
+  /** Intitulé court de l'entrée, en chasse fixe. */
   eyebrow: string;
   title: React.ReactNode;
   lead?: string;
-  /** Ton de la section : colore le repère, les pastilles et les cartes. */
-  tone?: 'lime' | 'violet' | 'cyan' | 'coral';
+  /** Ton de la section : colore le repère et les marques. */
+  tone?: Tone;
   children: React.ReactNode;
 }
 
-/** Coquille de section : repère, titre, chapô, puis le contenu. */
+/**
+ * Coquille de section, mise en page comme une entrée de journal : un repère
+ * numéroté suivi d'un filet, le titre, le chapô, puis le contenu.
+ */
 export const Section: React.FC<SectionProps> = ({
   id,
+  index,
   eyebrow,
   title,
   lead,
   tone = 'lime',
   children,
 }) => (
-  <section
-    id={id}
-    className={`section-y rule-t tone-${tone} relative overflow-hidden`}
-    aria-labelledby={`${id}-title`}
-  >
-    <div aria-hidden="true" className="glow bg-tone -top-40 -right-40 h-96 w-96 opacity-[0.08]!" />
-    <div className="shell relative">
-      <Reveal className="max-w-3xl">
-        <p className="folio mb-4 flex items-center gap-2.5">
-          <span className="bg-tone h-1.5 w-1.5 rounded-full" aria-hidden="true" />
-          {`// ${eyebrow}`}
+  <section id={id} className={`section-y tone-${tone}`} aria-labelledby={`${id}-title`}>
+    <div className="shell">
+      <Reveal>
+        <p className="entry">
+          <span className="text-tone">§{index}</span>
+          <span>{eyebrow}</span>
         </p>
-        <h2 id={`${id}-title`} className="text-h2 text-balance">
-          {title}
-        </h2>
-        {lead && <p className="text-lead text-muted mt-4">{lead}</p>}
+        <div className="max-w-3xl">
+          <h2 id={`${id}-title`} className="text-h2 mt-4 text-balance">
+            {title}
+          </h2>
+          {lead && <p className="text-lead text-muted mt-3">{lead}</p>}
+        </div>
       </Reveal>
 
-      <div className="mt-10 md:mt-14">{children}</div>
+      <div className="mt-7 md:mt-8">{children}</div>
     </div>
   </section>
 );

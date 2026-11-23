@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
-/** « Adam Taïeb — Ingénieur Data · Migration de legacy & IA » : ce que Google affiche. */
+/** « Adam Taïeb — Ingénieur outillage IA & systèmes legacy · Facturation publique » : ce que Google affiche. */
 const pageTitle = `${site.name} — ${site.role} · ${site.tagline}`;
 
 export const metadata: Metadata = {
@@ -33,20 +33,22 @@ export const metadata: Metadata = {
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
   keywords: [
-    'ingénieur data',
-    'data engineer',
-    'transpileur',
-    'migration',
-    'non-régression',
-    'SAS',
-    'SSIS',
-    'SSRS',
-    'Python',
-    '.NET',
-    'C#',
+    'outillage IA',
     'agents IA',
     'LLM',
+    'Claude Code',
+    'MCP',
+    'systèmes legacy',
+    'migration legacy',
+    'golden master',
+    'non-régression',
+    'SSIS',
+    'SSRS',
     'SQL Server',
+    'Python',
+    '.NET',
+    'facturation publique',
+    'PES Hélios',
     'Tradim',
     'Dijon',
     'portfolio',
@@ -102,7 +104,7 @@ const personJsonLd = {
     '@type': 'EducationalOrganization',
     name: edu.school,
   })),
-  knowsAbout: [...data.skills.data, ...data.skills.dev, ...data.skills.tools],
+  knowsAbout: data.skills,
 };
 
 /**

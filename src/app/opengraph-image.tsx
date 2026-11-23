@@ -77,7 +77,7 @@ export default async function OpengraphImage() {
           }}
         >
           <div style={{ display: 'flex', width: 14, height: 14, borderRadius: 7, background: ACCENT }} />
-          {`${data.now.role} chez ${data.now.company} · ${data.now.place}`}
+          {`${data.now.company} · ${data.now.place}`}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
@@ -85,8 +85,8 @@ export default async function OpengraphImage() {
             {data.name}
           </div>
           <div style={{ display: 'flex', fontSize: 40, color: MUTED, maxWidth: 980, lineHeight: 1.3 }}>
-            Je reprends les traitements data legacy pour qu&apos;on puisse enfin y brancher de
-            l&apos;IA.
+            Outillage IA &amp; systèmes legacy, dans la facturation publique. L&apos;IA propose,
+            l&apos;humain décide.
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default async function OpengraphImage() {
           }}
         >
           <div style={{ display: 'flex', color: FG }}>ataieb-dev.fr</div>
-          <div style={{ display: 'flex' }}>Transpileurs · Non-régression · Agents IA</div>
+          <div style={{ display: 'flex' }}>Agents IA · SSIS / SSRS · Golden master</div>
         </div>
       </div>
     ),

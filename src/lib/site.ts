@@ -5,23 +5,21 @@
 export const site = {
   url: "https://www.ataieb-dev.fr",
   name: "Adam Taïeb",
-  /** Intitulé, le même que sur LinkedIn. */
-  role: "Ingénieur Data",
-  /** Ce qui distingue le profil, ajouté au titre des pages. */
-  tagline: "Migration de legacy & IA",
+  /** Le positionnement, court : titre des pages, pied de page, JSON-LD. */
+  role: "Ingénieur outillage IA & systèmes legacy",
+  /** Ce qui situe le profil, ajouté au titre des pages. */
+  tagline: "Facturation publique",
   locale: "fr_FR",
   description:
-    "Ingénieur data à Dijon. Transpileurs maison (SAS → Python, SSIS/SSRS → .NET) et non-régression pour moderniser le legacy et y brancher de l'IA.",
+    "Ingénieur outillage IA & systèmes legacy à Dijon. Des agents Claude Code sous garde-fous pour diagnostiquer la facturation des collectivités, la rétro-ingénierie de SSIS et SSRS, et un prototype de migration vérifié par golden master.",
 } as const;
 
 /** Nom de domaine d'une URL, sans « www. », pour l'afficher tel quel. */
 export const domaine = (url: string) => new URL(url).host.replace(/^www\./, "");
 
 export const navLinks = [
-  { href: "#maintenant", label: "Maintenant" },
-  { href: "#approche", label: "Méthode" },
+  { href: "#diagnostic", label: "Maintenant" },
   { href: "#projets", label: "Projets" },
   { href: "#parcours", label: "Parcours" },
-  { href: "#stack", label: "Stack" },
   { href: "#contact", label: "Contact" },
 ] as const;

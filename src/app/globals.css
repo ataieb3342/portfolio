@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Parti pris : un poste de travail data, avec du caractère.
+   Parti pris : un journal d'audit. Sobre, en chasse fixe pour
+   tout ce qui est repère, filets fins, coins nets, aucun effet.
+   La couleur n'est jamais décorative, elle dit qui agit :
+   violet = IA, lime = humain / vérifié, cyan = script, corail = legacy.
    Fond sombre par défaut, clair si le système le demande.
-   Quatre tons — lime, violet, cyan, corail — un par section,
-   comme la coloration syntaxique d'un éditeur.
    ============================================================ */
 @theme {
   --color-bg: #0b0c0b;
@@ -145,7 +146,7 @@
   }
 
   .section-y {
-    padding-block: clamp(3.5rem, 7vw, 6.5rem);
+    padding-block: clamp(2.25rem, 4vw, 3.75rem);
   }
 
   .rule-t {
@@ -166,7 +167,23 @@
     line-height: 1.5;
   }
 
-  /* Marqueur de section, façon commentaire de code */
+  /* Repère d'entrée : « §1  intitulé ────────── », le filet court jusqu'au bord */
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+  .entry::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--rule);
+  }
+
+  /* Marqueur de sous-partie, en chasse fixe */
   .folio {
     font-family: var(--font-mono);
     font-size: 0.75rem;
@@ -188,76 +205,38 @@
     --tone: var(--color-coral);
   }
 
-  /* Pastille d'icône teintée */
+  /* Pastille d'icône, au trait */
   .chip {
     display: grid;
     place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 4px;
     color: var(--tone);
-    background-color: color-mix(in srgb, var(--tone) 14%, transparent);
-    border: 1px solid color-mix(in srgb, var(--tone) 30%, transparent);
+    border: 1px solid color-mix(in srgb, var(--tone) 40%, transparent);
   }
 
-  /* Carte teintée : un voile de couleur qui descend du haut */
-  .tinted {
-    background-image: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--tone) 10%, transparent),
-      transparent 55%
-    );
-  }
+  /* Entrée marquée : un filet de couleur sur le bord gauche, rien d'autre */
   .tinted-edge {
     position: relative;
   }
   .tinted-edge::before {
     content: "";
     position: absolute;
-    inset: -1px -1px auto;
-    height: 2px;
-    border-radius: 14px 14px 0 0;
-    background: linear-gradient(90deg, var(--tone), transparent 85%);
-  }
-
-  /* Texte en dégradé, pour le nom */
-  .text-gradient {
-    background-image: linear-gradient(
-      100deg,
-      var(--color-fg) 20%,
-      var(--color-accent) 60%,
-      var(--color-cyan) 95%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Halo flou de couleur, posé en fond */
-  .glow {
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(90px);
-    opacity: 0.22;
-    pointer-events: none;
-  }
-
-  /* Bandeau qui défile */
-  .marquee {
-    display: flex;
-    width: max-content;
-    animation: marquee 40s linear infinite;
-  }
-  .marquee-wrap:hover .marquee {
-    animation-play-state: paused;
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
+    width: 2px;
+    border-radius: 4px 0 0 4px;
+    background-color: var(--tone);
   }
 
   .tag {
     display: inline-flex;
     align-items: center;
-    padding: 0.22rem 0.6rem;
+    padding: 0.2rem 0.5rem;
     border: 1px solid var(--rule);
-    border-radius: 999px;
+    border-radius: 3px;
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--color-muted);
@@ -275,15 +254,15 @@
   .panel {
     background-color: var(--color-surface);
     border: 1px solid var(--rule);
-    border-radius: 14px;
+    border-radius: 4px;
   }
 
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.7rem 1.15rem;
-    border-radius: 999px;
+    padding: 0.65rem 1.05rem;
+    border-radius: 4px;
     font-size: 0.875rem;
     font-weight: 500;
     transition:
@@ -299,22 +278,9 @@
     background-color: var(--color-accent);
     color: var(--color-on-accent);
   }
-  .btn-accent {
-    background-color: var(--color-accent);
-    color: var(--color-on-accent);
-    box-shadow: 0 8px 30px -8px color-mix(in srgb, var(--color-accent) 55%, transparent);
-  }
-  .btn-accent:hover {
-    background-color: var(--color-fg);
-    color: var(--color-bg);
-  }
   .btn-ghost {
     border: 1px solid var(--rule-strong);
     color: var(--color-fg);
-  }
-  .btn-ghost {
-    background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
-    backdrop-filter: blur(8px);
   }
   .btn-ghost:hover {
     border-color: var(--color-accent);
@@ -330,13 +296,6 @@
   }
   .link-rule:hover {
     text-decoration-color: var(--color-accent);
-  }
-
-  /* Trame de points, estompée vers le bas */
-  .dots {
-    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
-    background-size: 22px 22px;
-    mask-image: linear-gradient(to bottom, black 30%, transparent);
   }
 
   /* Point d'état, qui pulse doucement */
@@ -361,12 +320,6 @@
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.03em;
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
   }
 }
 
